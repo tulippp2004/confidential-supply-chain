@@ -1,0 +1,379 @@
+# 🔒 Confidential Supply Chain Compliance Platform
+
+> **Built on [Midnight Network](https://midnight.network/) · Zero-Knowledge Compliance Attestation**
+
+A full-stack Midnight dApp enabling manufacturers, auditors, and logistics partners to privately attest supply chain compliance credentials without revealing sensitive business data on-chain. Audit scores stay confidential — only aggregate compliance statistics are publicly visible.
+
+---
+
+## 📋 Table of Contents
+
+- [Project Overview](#project-overview)
+- [System Setup](#system-setup)
+- [Compile Instructions](#compile-instructions)
+- [Local Deploy Instructions](#local-deploy-instructions)
+- [PreviewPreprod Deployment](#previewpreprod-deployment)
+- [Public State vs Private Witness](#public-state-vs-private-witness)
+- [Privacy Model](#privacy-model)
+- [Product Proposal](#product-proposal)
+- [Frontend](#frontend)
+- [Tests](#tests)
+- [Submission Checklist](#submission-checklist)
+
+---
+
+## Project Overview
+
+The Confidential Supply Chain Compliance Platform allows:
+
+- **Auditors** to attest that a supplier's audit score meets a compliance threshold — without revealing the actual score
+- **Suppliers** to register their credentials privately — only the count is visible on-chain
+- **Compliance managers** to view aggregate statistics (pass rate, total attestations) without seeing individual business data
+- **Administrators** to activate/deactivate the compliance system
+
+The core privacy mechanism is a Compact ZK circuit (`attestCompliance`) that accepts a private `auditScore: Uint<64>` witness and only discloses the pass/fail outcome on the public ledger via `disclose()`.
+
+---
+
+## System Setup
+
+### Prerequisites
+
+| Tool | Required | Notes |
+|------|----------|-------|
+| WSL2 (Ubuntu) | ✅ Required | Use WSL for all Midnight commands |
+| Node.js 22+ | ✅ Required | Via nvm inside WSL |
+| npm 10+ | ✅ Required | Bundled with Node 22 |
+| Compact 0.5.1+ | ✅ Required | Midnight ZK compiler |
+| Docker Desktop | ⚠️ For local devnet | Enable WSL integration in Docker Desktop settings |
+
+### Install Node 22 via nvm
+
+```bash
+# Inside WSL
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+source ~/.bashrc
+nvm install 22
+nvm use 22
+node -v  # → v22.x.x
+```
+
+### Install Compact Compiler
+
+```bash
+# Inside WSL
+curl -fsSL https://midnight.network/install-compact.sh | bash
+source ~/.bashrc
+compact --version  # → compact 0.5.x
+```
+
+### Clone & Install Dependencies
+
+```bash
+# Inside WSL
+git clone https://github.com/tulippp2004/confidential-supply-chain
+cd confidential-supply-chain
+npm install
+npm --prefix frontend install
+```
+
+---
+
+## Compile Instructions
+
+```bash
+# Inside WSL — from project root
+npm run compile
+```
+
+This runs:
+```
+/home/shreya/.local/bin/compact compile contracts/supply-chain.compact contracts/managed/supply-chain
+```
+
+Generated artifacts appear in `contracts/managed/supply-chain/` including:
+- `compiler/contract-info.json` — circuit definitions and ledger fields
+- `compiler/` — proving/verification keys
+- `contract/index.js` — TypeScript-compatible contract module
+
+---
+
+## Local Deploy Instructions
+
+### 1. Start the local devnet (requires Docker Desktop + WSL integration)
+
+```bash
+npm run proof-server:start
+# Wait ~60s for services to be healthy
+docker ps  # verify node, indexer, proof-server are running
+```
+
+### 2. Deploy to local undeployed network
+
+```bash
+npm run setup -- --network undeployed
+```
+
+Expected output:
+```
+✓ Proof server is ready.
+✓ Wallet synced.
+🎉 Deployment Successful!
+  Contract Address: 0x...
+  VITE_CONTRACT_ADDRESS=0x...
+```
+
+### 3. Interactive CLI
+
+```bash
+npm run cli -- --network undeployed
+```
+
+Menu options:
+1. View Public Ledger State
+2. Activate Compliance System
+3. Register New Supplier (private credential)
+4. Attest Supplier Compliance (ZK proof — score stays private)
+5. Deactivate Compliance System
+6. Check Wallet Balance
+
+---
+
+## Preview/Preprod Deployment
+
+### Attempt Preprod Deploy
+
+```bash
+# Check endpoints first
+curl -I https://rpc.preprod.midnight.network
+curl -I https://indexer.preprod.midnight.network/api/v4/graphql
+
+# Deploy — wallet address printed before sync
+npm run setup -- --network preprod
+```
+
+### Fund the Wallet
+
+Copy the `mn_addr_preprod1...` address from the deploy output and fund it at:
+- [Preprod Faucet](https://midnight-tmnight-preprod.nethermind.dev)
+
+> ⚠️ **Do NOT delete `.midnight-state.json` after funding.** The wallet seed is stored there.
+
+### Known Preprod Sync Issue
+
+If sync times out after 120s:
+```
+⚠ Sync blocked/timed out on Preprod.
+⚠ Fund this address via faucet: mn_addr_preprod1...
+⚠ .midnight-state.json preserved — do NOT delete it.
+```
+
+**Status:**
+- ✅ Contract compiles successfully (`npm run compile`)
+- ✅ Local deploy works (`npm run setup -- --network undeployed`)
+- ⚠️ Preprod wallet sync may hang (network congestion documented above)
+- ✅ Faucet funding: use address printed by deploy script
+
+---
+
+## Public State vs Private Witness
+
+### Public Ledger State (visible on-chain)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `totalCertifications` | `Uint<64>` | Total number of compliance attestations |
+| `passCount` | `Uint<64>` | Attestations that met the ≥75 threshold |
+| `supplierCount` | `Uint<64>` | Number of registered suppliers |
+| `isSystemActive` | `Boolean` | Whether the system is accepting attestations |
+
+### Private Witnesses (never on-chain)
+
+| Circuit | Private Input | What Stays Private |
+|---------|--------------|-------------------|
+| `attestCompliance` | `privateAuditScore: Uint<64>` | The actual numerical score (e.g. 87/100) |
+| `attestCompliance` | `passesThreshold: Boolean` | Used only in ZK — outcome `disclose()`d |
+| `registerSupplier` | `supplierCredential: Opaque<"string">` | Supplier identity / registration number |
+
+---
+
+## Privacy Model
+
+### What Observers CAN Learn
+
+- Total number of compliance attestations submitted
+- How many attestations passed vs failed (aggregate only)
+- How many suppliers are registered (count, not identities)
+- Whether the compliance system is active
+
+### What Observers CANNOT Learn
+
+- Individual audit scores (e.g. 87/100 — stays private as ZK witness)
+- Which supplier scored how much
+- Supplier identities or credentials
+- The relationship between an attestor's wallet and their specific score
+
+### What is Disclosed Deliberately
+
+- `disclose(passesThreshold)` inside `attestCompliance()` — reveals pass/fail per transaction to update the public tally counters. This is an intentional design choice: the compliance standard (pass/fail) is public business logic, while the actual score remains confidential.
+- `disclose()` is never called with raw audit scores or supplier credentials.
+
+---
+
+## Product Proposal
+
+**Category: Confidential Credentials**
+
+### Problem
+
+In global supply chains, compliance auditing requires sharing sensitive data:
+- Audit scores expose competitive business intelligence
+- Supplier credentials (certifications, API keys) risk exposure
+- Public blockchain recording creates privacy violations for B2B relationships
+
+Current solutions force a choice between transparency (full data on-chain) or opacity (no verification at all).
+
+### Solution
+
+The Confidential Supply Chain Compliance Platform uses Midnight's Zero-Knowledge proof system to provide **verifiable compliance without data exposure**:
+
+1. **Auditors** submit compliance attestations with private scores — the blockchain proves they meet the threshold without storing the number
+2. **Supply chain managers** see aggregate compliance statistics (pass rate, total count) to assess supplier portfolios
+3. **Regulators** can verify that compliance attestation processes exist and are auditable without accessing raw scores
+4. **Competitors** cannot mine individual supplier performance from the blockchain
+
+### Use Cases
+
+- **ISO 27001 / SOC 2 Compliance** — attest certification without revealing audit report details
+- **Environmental Standards (ESG)** — prove emissions scores meet threshold without disclosing exact numbers
+- **Financial Due Diligence** — confirm credit scores pass minimum bars for vendor onboarding
+- **Drug Supply Chain** — FDA compliance attestation without exposing proprietary batch data
+
+---
+
+## Frontend
+
+### Run Locally
+
+```bash
+# Install frontend deps
+npm --prefix frontend install
+
+# Start dev server
+npm run dev
+# → http://localhost:5173
+```
+
+### Configure
+
+Copy `.env.example` to `.env` in the frontend directory:
+
+```bash
+cp .env.example frontend/.env
+```
+
+Set:
+```env
+VITE_NETWORK=undeployed
+VITE_CONTRACT_ADDRESS=<address from npm run setup>
+VITE_PROOF_SERVER_URL=http://127.0.0.1:6300
+```
+
+### Build for Production
+
+```bash
+npm run build:frontend
+# Output: frontend/dist/
+```
+
+### Deploy to Vercel / Netlify
+
+- Set the build command: `npm --prefix frontend run build`
+- Set the output directory: `frontend/dist`
+- Set env vars: `VITE_NETWORK`, `VITE_CONTRACT_ADDRESS`, `VITE_PROOF_SERVER_URL`
+
+---
+
+## Tests
+
+```bash
+npm test
+```
+
+**Test Suite (6 tests):**
+
+1. ✅ All four circuits compiled: `attestCompliance`, `registerSupplier`, `activateSystem`, `deactivateSystem`
+2. ✅ Public ledger exports: `totalCertifications`, `passCount`, `supplierCount`, `isSystemActive`
+3. ✅ Privacy model: `attestCompliance` has `privateAuditScore: Uint<64>` private witness
+4. ✅ Privacy model: `registerSupplier` has `Opaque<"string">` private witness
+5. ✅ Network config resolves correctly for all three networks
+6. ✅ State file schema validates version and activeNetwork fields
+
+Tests run with plain Node.js ESM (no tsx, no framework dependencies). They require compiled artifacts — run `npm run compile` first.
+
+---
+
+## Submission Checklist
+
+### Level 1 ✅
+
+- [x] Compact contract with public ledger state (`totalCertifications`, `passCount`, `supplierCount`, `isSystemActive`)
+- [x] Private witness inputs (`privateAuditScore`, `supplierCredential`) — never disclosed raw
+- [x] `disclose()` used deliberately only for public pass/fail outcome
+- [x] Contract compiles via `compact compile` → `contracts/managed/` present
+- [x] Local deployment: `npm run setup -- --network undeployed`
+- [x] CLI interaction: `npm run cli`
+- [x] Preprod attempt documented with sync blocker notes
+- [x] README with setup, compile, deploy, privacy model, public vs private state
+
+### Level 2 ✅
+
+- [x] Connect Lace Wallet button
+- [x] Disconnect Wallet button
+- [x] Wallet status display (address, network badge)
+- [x] Network status display (badge in header)
+- [x] Contract address loaded from `VITE_CONTRACT_ADDRESS` env
+- [x] Network loaded from `VITE_NETWORK` env
+- [x] Main circuit (`attestCompliance`) callable from frontend
+- [x] Result and error display (status messages with tx ID + block)
+- [x] Public ledger state shown (compliance stats dashboard)
+- [x] Private audit score masked (password field with toggle)
+- [x] Privacy claim explained in UI and README
+- [x] `.env.example` with `VITE_NETWORK`, `VITE_CONTRACT_ADDRESS`, `VITE_PROOF_SERVER_URL`
+- [x] Vercel/Netlify deployment instructions
+
+### Level 3 ✅
+
+- [x] 6 meaningful tests (contract circuits, ledger fields, privacy model, network config, state schema)
+- [x] GitHub Actions CI: install → compile → test → type-check → build
+- [x] Complete README with privacy model, product proposal, submission checklist
+- [x] Polished frontend with loading, success, error, empty, disconnected states
+- [x] ZK proof animation during proving
+- [x] Score ring visualization
+- [x] Privacy model panel (what can/cannot be seen)
+- [x] Tabbed UI: Dashboard / Attest / Register Supplier / Admin
+- [x] No hardcoded contract addresses
+- [x] 10+ meaningful git commits
+
+---
+
+## Repository
+
+GitHub: [https://github.com/tulippp2004/confidential-supply-chain](https://github.com/tulippp2004/confidential-supply-chain)
+
+---
+
+## Screenshots
+
+Start the frontend with `npm run dev` and visit [http://localhost:5173](http://localhost:5173).
+
+- **Disconnected State**: Hero with feature highlights and wallet connect CTA
+- **Dashboard**: Compliance score ring, pass-rate progress bars, public ledger stats
+- **Attest Tab**: Private score input (masked), ZK proof animation, pass/fail preview
+- **Register Supplier**: Private credential input with commitment privacy explanation
+- **Admin Tab**: System activate/deactivate with on-chain circuit calls
+- **Privacy Panel**: Sidebar showing exactly what observers can and cannot see
+
+---
+
+*Confidential Supply Chain Compliance Platform — Built for the Midnight Network Hackathon*
