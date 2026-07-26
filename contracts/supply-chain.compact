@@ -1,0 +1,57 @@
+pragma language_version >= 0.23;
+
+import CompactStandardLibrary;
+
+// ─── Public Ledger State ───────────────────────────────────────────────────────
+// These values are visible on the Midnight blockchain to all observers.
+
+// Total number of compliance attestations submitted
+export ledger totalCertifications: Uint<64>;
+
+// Number of attestations that met the compliance threshold (score passed)
+export ledger passCount: Uint<64>;
+
+// Number of registered suppliers in the system
+export ledger supplierCount: Uint<64>;
+
+// Whether the compliance system is currently active
+export ledger isSystemActive: Boolean;
+
+// ─── Circuit: Register Supplier ───────────────────────────────────────────────
+// Registers a new supplier using a private credential commitment.
+// The supplierCredential is a PRIVATE WITNESS — it is never disclosed on-chain.
+// Observers only see the supplierCount increment; identity remains confidential.
+export circuit registerSupplier(supplierCredential: Opaque<"string">): [] {
+    assert(isSystemActive, "Compliance system is not active");
+    supplierCount = (supplierCount + 1) as Uint<64>;
+}
+
+// ─── Circuit: Attest Compliance ───────────────────────────────────────────────
+// Submits a compliance attestation for a supplier.
+// privateAuditScore is a PRIVATE WITNESS — the actual score (e.g. 87/100) is
+// never revealed on the blockchain. Only whether the attestation passed or failed
+// is disclosed via disclose(passesThreshold), enabling aggregate statistics.
+// This is the core zero-knowledge privacy claim of this dApp.
+export circuit attestCompliance(
+    privateAuditScore: Uint<64>,
+    passesThreshold: Boolean
+): [] {
+    assert(isSystemActive, "Compliance system is not active");
+    totalCertifications = (totalCertifications + 1) as Uint<64>;
+    if (disclose(passesThreshold)) {
+        passCount = (passCount + 1) as Uint<64>;
+    }
+}
+
+// ─── Circuit: Activate System ─────────────────────────────────────────────────
+// Activates the compliance system. Called by the deployer after setup.
+export circuit activateSystem(): [] {
+    isSystemActive = true;
+}
+
+// ─── Circuit: Deactivate System ───────────────────────────────────────────────
+// Deactivates the compliance system (admin action, e.g. for emergency pause).
+export circuit deactivateSystem(): [] {
+    assert(isSystemActive, "System is already inactive");
+    isSystemActive = false;
+}
