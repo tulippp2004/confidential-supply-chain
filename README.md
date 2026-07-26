@@ -364,16 +364,30 @@ GitHub: [https://github.com/tulippp2004/confidential-supply-chain](https://githu
 
 ---
 
-## Screenshots
+## 🎬 Video Demo & Screenshots
 
-Start the frontend with `npm run dev` and visit [http://localhost:5173](http://localhost:5173).
+### Video Demonstration
+> 🎥 **YouTube Demo Link**: [Watch 1-Minute Project Demo on YouTube](https://youtube.com) *(Update with your video link)*
 
-- **Disconnected State**: Hero with feature highlights and wallet connect CTA
-- **Dashboard**: Compliance score ring, pass-rate progress bars, public ledger stats
-- **Attest Tab**: Private score input (masked), ZK proof animation, pass/fail preview
-- **Register Supplier**: Private credential input with commitment privacy explanation
-- **Admin Tab**: System activate/deactivate with on-chain circuit calls
-- **Privacy Panel**: Sidebar showing exactly what observers can and cannot see
+---
+
+### Application Screenshots
+
+#### 1. Compliance Dashboard
+![Compliance Dashboard](docs/screenshots/dashboard.png)
+*Public ledger state showing pass rate (83%), registered suppliers (9), total attestations (24), and active system status.*
+
+#### 2. Confidential ZK Attestation
+![Confidential ZK Attestation](docs/screenshots/attest.png)
+*Audit scores are entered as private witness inputs to the Compact ZK circuit. Audit scores stay private — only pass/fail is disclosed.*
+
+#### 3. Register Supplier (Private Credential)
+![Register Supplier](docs/screenshots/register.png)
+*Suppliers register credentials as private witness commitments. Only aggregate count increases publicly.*
+
+#### 4. Admin Controls
+![Admin Controls](docs/screenshots/admin.png)
+*Admin lifecycle controls to activate or deactivate the compliance system on-chain.*
 
 ---
 
