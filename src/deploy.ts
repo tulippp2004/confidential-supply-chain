@@ -77,8 +77,8 @@ async function deploy(opts: DeployOptions): Promise<void> {
   // Dynamic import after artifact check
   const SupplyChain = await import('../contracts/managed/supply-chain/contract/index.js');
 
-  const compiledContract = CompiledContract.make('supply-chain', (SupplyChain as any).Contract).pipe(
-    CompiledContract.withWitnesses({}),
+  const compiledContract = (CompiledContract as any).make('supply-chain', (SupplyChain as any).Contract).pipe(
+    (CompiledContract as any).withWitnesses({}),
   );
 
   // 3. Wallet creation and sync
@@ -175,10 +175,11 @@ async function deploy(opts: DeployOptions): Promise<void> {
   console.log('  Submitting deploy transaction to Midnight network...');
   const deployStart = Date.now();
 
-  const deployed: any = await deployContract(providers, {
+  const deployed: any = await (deployContract as any)(providers, {
     compiledContract: compiledContract as any,
     privateStateId: PRIVATE_STATE_ID,
     initialPrivateState: {},
+    args: [],
   });
 
   const duration = Math.round((Date.now() - deployStart) / 1000);

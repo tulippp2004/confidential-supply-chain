@@ -8,7 +8,7 @@ on:
 
 jobs:
   build-and-test:
-    name: Compile · Test · Build
+    name: Compile Contract · Test · Build Frontend
     runs-on: ubuntu-latest
 
     steps:
@@ -27,8 +27,7 @@ jobs:
       - name: Install Compact compiler
         run: |
           curl -fsSL https://midnight.network/install-compact.sh | bash || true
-          export PATH="$HOME/.local/bin:$PATH"
-          compact --version || echo "Compact install attempted — version check"
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       # ── Backend Dependencies ────────────────────────────────────────────────
       - name: Install root dependencies
@@ -42,19 +41,13 @@ jobs:
             compact compile contracts/supply-chain.compact contracts/managed/supply-chain
             echo "✅ Contract compiled successfully"
           else
-            echo "⚠ compact not available in CI — skipping compile step"
-            echo "  Contract source is at contracts/supply-chain.compact"
+            echo "⚠ compact installation check"
+            PATH="$HOME/.local/bin:$PATH" compact compile contracts/supply-chain.compact contracts/managed/supply-chain || true
           fi
 
       # ── Run Tests ───────────────────────────────────────────────────────────
       - name: Run test suite
-        run: |
-          if [ -f "contracts/managed/supply-chain/compiler/contract-info.json" ]; then
-            npm test
-          else
-            echo "⚠ Compiled artifacts missing — running schema-only tests"
-            node tests/supply-chain.test.mjs || true
-          fi
+        run: npm test
 
       # ── Frontend Dependencies ───────────────────────────────────────────────
       - name: Install frontend dependencies
@@ -64,7 +57,7 @@ jobs:
       # ── TypeScript Type-Check ───────────────────────────────────────────────
       - name: TypeScript type-check (frontend)
         working-directory: frontend
-        run: npx tsc --noEmit
+        run: npx tsc -b
 
       # ── Build Frontend ──────────────────────────────────────────────────────
       - name: Build frontend

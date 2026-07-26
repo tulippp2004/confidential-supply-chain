@@ -9,8 +9,7 @@ frontend/dist/
 # Compact generated artifacts (large binary files)
 contracts/managed/
 
-# Midnight local state (contains wallet seed — keep for funded wallets!)
-# Uncomment to ignore: .midnight-state.json
+.midnight-state.json
 .midnight-wallet-state/
 
 # LevelDB private state storage

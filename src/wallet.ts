@@ -41,7 +41,7 @@ export async function createWallet(opts: CreateWalletOptions): Promise<WalletCon
   const { network, networkConfig, seed } = opts;
 
   // Dynamically import wallet SDK to allow tree-shaking
-  const { WalletBuilder } = await import('@midnight-ntwrk/wallet-sdk');
+  const { WalletBuilder } = (await import('@midnight-ntwrk/wallet-sdk')) as any;
 
   const stateDir = ensureWalletStateDir(network);
 

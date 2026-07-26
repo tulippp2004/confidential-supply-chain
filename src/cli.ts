@@ -16,7 +16,8 @@ import { levelPrivateStateProvider } from '@midnight-ntwrk/midnight-js-level-pri
 import { indexerPublicDataProvider } from '@midnight-ntwrk/midnight-js-indexer-public-data-provider';
 import { NodeZkConfigProvider } from '@midnight-ntwrk/midnight-js-node-zk-config-provider';
 import { httpClientProofProvider } from '@midnight-ntwrk/midnight-js-http-client-proof-provider';
-import { CompiledContract, findDeployedContract } from '@midnight-ntwrk/midnight-js-contracts';
+import { findDeployedContract } from '@midnight-ntwrk/midnight-js-contracts';
+import { CompiledContract } from '@midnight-ntwrk/midnight-js-protocol/compact-js';
 
 import { createWallet, persistWalletState } from './wallet.js';
 import { getNetworkConfig, getDeployment, parseNetworkFlag, GENESIS_SEED } from './network.js';
@@ -99,8 +100,8 @@ async function main() {
 
     // Dynamic import after artifacts are confirmed to exist
     const SupplyChain = await import('../contracts/managed/supply-chain/contract/index.js');
-    const compiledContract = CompiledContract.make('supply-chain', (SupplyChain as any).Contract).pipe(
-      CompiledContract.withWitnesses({}),
+    const compiledContract = (CompiledContract as any).make('supply-chain', (SupplyChain as any).Contract).pipe(
+      (CompiledContract as any).withWitnesses({}),
     );
 
     const deployed: any = await findDeployedContract(providers, {

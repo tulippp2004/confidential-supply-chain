@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "npm --prefix frontend run dev",
     "build:frontend": "npm --prefix frontend run build",
-    "compile": "/home/shreya/.local/bin/compact compile contracts/supply-chain.compact contracts/managed/supply-chain",
+    "compile": "PATH=\"/home/shreya/.local/bin:$HOME/.local/bin:$PATH\" compact compile contracts/supply-chain.compact contracts/managed/supply-chain",
     "build": "npx tsc --noEmit || true",
     "setup": "npx tsx src/setup.ts",
     "deploy": "npx tsx src/deploy.ts",

@@ -168,11 +168,12 @@ If sync times out after 120s:
 ⚠ .midnight-state.json preserved — do NOT delete it.
 ```
 
-**Status:**
+**Status & Mentor Guidance:**
 - ✅ Contract compiles successfully (`npm run compile`)
 - ✅ Local deploy works (`npm run setup -- --network undeployed`)
-- ⚠️ Preprod wallet sync may hang (network congestion documented above)
-- ✅ Faucet funding: use address printed by deploy script
+- ⚠️ Preprod wallet sync may hang or time out due to indexer/network congestion.
+- 💡 **Mentor Guidance:** Per hackathon mentor instructions: *"If Preview/Preprod deployment is blocked or unable to complete, do not block the project. Build the full-stack dApp, document the blocker honestly, and submit."*
+- ✅ Faucet funding address printed by `npm run setup -- --network preprod` is preserved in `.midnight-state.json`.
 
 ---
 
