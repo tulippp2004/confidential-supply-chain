@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+
+# Build artifacts
+dist/
+frontend/dist/
+
+# Compact generated artifacts (large binary files)
+contracts/managed/
+
+# Midnight local state (contains wallet seed — keep for funded wallets!)
+# Uncomment to ignore: .midnight-state.json
+.midnight-wallet-state/
+
+# LevelDB private state storage
+*-state/
+*.ldb
+
+# Environment secrets
+.env
+.env.local
+.env.*.local
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# TypeScript build info
+*.tsbuildinfo
