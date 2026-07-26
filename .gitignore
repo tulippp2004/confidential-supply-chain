@@ -6,9 +6,6 @@ frontend/node_modules/
 dist/
 frontend/dist/
 
-# Compact generated artifacts (large binary files)
-contracts/managed/
-
 .midnight-state.json
 .midnight-wallet-state/
 

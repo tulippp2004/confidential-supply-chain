@@ -1,0 +1,8 @@
+{
+  "version": 3,
+  "file": "index.js",
+  "sourceRoot": "../../../../",
+  "sources": ["contracts/supply-chain.compact"],
+  "names": [],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;EAAA;;;;;;;;;;MAuBA,AAAA,gBAGC;;;;;cAH+B,oBAAoC;;;;;;;;;;;yCAApC,oBAAoC;;;;;;;;;kDAApC,oBAAoC;;;OAGnE;MAQD,AAAA,gBASC;;;;;cARG,mBAA2B;cAC3B,iBAAwB;;;;;;;;;;;;;;;;;;;;;;;;;yCADxB,mBAA2B,+BAC3B,iBAAwB;;;;;;;;;kDADxB,mBAA2B;kDAC3B,iBAAwB;;;OAO3B;MAID,AAAA,cAEC;;;;;;;;;;;;;;;;;;;;;;OAAA;MAID,AAAA,gBAGC;;;;;;;;;;;;;;;;;;;;;;OAAA;;;;;;;;;;;;;;GACA;EAzDD;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;IAQA;;;;;;;;;yEAA4C;IAG5C;;;;;;;;;yEAAkC;IAGlC;;;;;;;;;yEAAsC;IAGtC;;;;;;;;;yEAAsC;;;;;;;GAwCrC;EAlCD,AAAA,mBAGC,4BAH+B,oBAAoC;oDACzD;;;;;;;;;;;yHAAc;;UACrB,KAAa;;;;;6CAAI;;;;;;;;;;;kHAAa;;;IAA9B;;;;;;;2HAAA,KAAa;;yEAAA;;GAChB;EAQD,AAAA,mBASC;;sBARG,mBAA2B;sBAC3B,iBAAwB;;oDAEjB;;;;;;;;;;;yHAAc;;UACrB,KAAmB;;;;;6CAAI;;;;;;;;;;;kHAAmB;;;IAA1C;;;;;;;2HAAA,KAAmB;;yEAAA;QACN,iBAAe;YACxB,KAAS;;;;;+CAAI;;;;;;;;;;;oHAAS;;;MAAtB;;;;;;;6HAAA,KAAS;;2EAAA;;;GAEhB;EAID,AAAA,iBAEC;IADG;;;;;;;;;yEAAc;;GACjB;EAID,AAAA,mBAGC;oDAFU;;;;;;;;;;;yHAAc;;IACrB;;;;;;;;;yEAAc;;GACjB;;;;;;;;;;;;;;;;IAhDD;qCAAA;;;;;;;;;;;0GAA4C;KAAA;IAG5C;qCAAA;;;;;;;;;;;0GAAkC;KAAA;IAGlC;qCAAA;;;;;;;;;;;0GAAsC;KAAA;IAGtC;qCAAA;;;;;;;;;;;0GAAsC;KAAA;;;;;;;;;;"
+}
