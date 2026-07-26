@@ -367,7 +367,7 @@ GitHub: [https://github.com/tulippp2004/confidential-supply-chain](https://githu
 ## 🎬 Video Demo & Screenshots
 
 ### Video Demonstration
-> 🎥 **YouTube Demo Link**: [Watch 1-Minute Project Demo on YouTube](https://youtube.com) *(Update with your video link)*
+> 🎥 **YouTube Demo Link**: [Watch 1-Minute Project Demo on YouTube](https://youtu.be/KttUale4iK0)
 
 ---
 
