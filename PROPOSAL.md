@@ -1,6 +1,7 @@
 # 📄 Product Proposal: Confidential Supply Chain Compliance Platform
 
 [![CI](https://github.com/tulippp2004/confidential-supply-chain/actions/workflows/ci.yml/badge.svg)](https://github.com/tulippp2004/confidential-supply-chain/actions/workflows/ci.yml)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-confidential--supply--chain.vercel.app-success.svg)](https://confidential-supply-chain.vercel.app)
 [![Midnight Network](https://img.shields.io/badge/Midnight-Network-purple.svg)](https://midnight.network)
 [![Level 3 Category](https://img.shields.io/badge/Level%203-Confidential%20Credentials-blue.svg)](https://midnight.network)
 

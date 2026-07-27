@@ -13,10 +13,10 @@ A full-stack Midnight dApp enabling manufacturers, auditors, and logistics partn
 
 ## 🚀 Live Demo & Quick Links
 
+- 🌐 **Live Web Application (Vercel)**: **[confidential-supply-chain.vercel.app](https://confidential-supply-chain.vercel.app)**
 - 🎥 **YouTube Video Demo**: **[Watch 1-Minute Demo on YouTube](https://youtu.be/KttUale4iK0)**
 - 📄 **Level 3 Product Proposal**: **[Read PROPOSAL.md](./PROPOSAL.md)**
 - 🐙 **GitHub Repository**: **[github.com/tulippp2004/confidential-supply-chain](https://github.com/tulippp2004/confidential-supply-chain)**
-- 💻 **Local App Preview**: Start with `npm run dev` ➔ **`http://localhost:5173`**
 - 📍 **Local Devnet Genesis Contract Address**: `0x0000000000000000000000000000000000000000000000000000000000000000`
 
 ---
