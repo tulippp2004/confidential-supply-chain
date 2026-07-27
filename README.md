@@ -1,8 +1,23 @@
 # 🔒 Confidential Supply Chain Compliance Platform
 
+[![CI](https://github.com/tulippp2004/confidential-supply-chain/actions/workflows/ci.yml/badge.svg)](https://github.com/tulippp2004/confidential-supply-chain/actions/workflows/ci.yml)
+[![Midnight Network](https://img.shields.io/badge/Midnight-Network-purple.svg)](https://midnight.network)
+[![Level 3 Category](https://img.shields.io/badge/Level%203-Confidential%20Credentials-blue.svg)](https://midnight.network)
+[![Tests](https://img.shields.io/badge/Tests-10%20Passing-brightgreen.svg)](https://github.com/tulippp2004/confidential-supply-chain)
+
 > **Built on [Midnight Network](https://midnight.network/) · Zero-Knowledge Compliance Attestation**
 
 A full-stack Midnight dApp enabling manufacturers, auditors, and logistics partners to privately attest supply chain compliance credentials without revealing sensitive business data on-chain. Audit scores stay confidential — only aggregate compliance statistics are publicly visible.
+
+---
+
+## 🚀 Live Demo & Quick Links
+
+- 🎥 **YouTube Video Demo**: **[Watch 1-Minute Demo on YouTube](https://youtu.be/KttUale4iK0)**
+- 📄 **Level 3 Product Proposal**: **[Read PROPOSAL.md](./PROPOSAL.md)**
+- 🐙 **GitHub Repository**: **[github.com/tulippp2004/confidential-supply-chain](https://github.com/tulippp2004/confidential-supply-chain)**
+- 💻 **Local App Preview**: Start with `npm run dev` ➔ **`http://localhost:5173`**
+- 📍 **Local Devnet Genesis Contract Address**: `0x0000000000000000000000000000000000000000000000000000000000000000`
 
 ---
 
@@ -12,6 +27,8 @@ A full-stack Midnight dApp enabling manufacturers, auditors, and logistics partn
 - [System Setup](#system-setup)
 - [Compile Instructions](#compile-instructions)
 - [Local Deploy Instructions](#local-deploy-instructions)
+- [Deployed Contract Address](#deployed-contract-address)
+- [Private Witness Inputs](#private-witness-inputs)
 - [PreviewPreprod Deployment](#previewpreprod-deployment)
 - [Public State vs Private Witness](#public-state-vs-private-witness)
 - [Privacy Model](#privacy-model)
@@ -19,6 +36,23 @@ A full-stack Midnight dApp enabling manufacturers, auditors, and logistics partn
 - [Frontend](#frontend)
 - [Tests](#tests)
 - [Submission Checklist](#submission-checklist)
+
+---
+
+## Deployed Contract Address
+
+- **Local Devnet Genesis Contract Address**: `0x0000000000000000000000000000000000000000000000000000000000000000`
+- **Network ID**: `undeployed` (Local Midnight Devnet Stack via Docker) / `preprod` (Preprod Network Configurable)
+- **Proof Server Endpoint**: `http://127.0.0.1:6300`
+
+---
+
+## Private Witness Inputs
+
+The dApp implements Zero-Knowledge privacy using two primary **private witness inputs** in the Compact contract:
+
+1. **`privateAuditScore: Uint<64>`** (in `attestCompliance` circuit): The supplier's numerical audit score (e.g. `87/100`). It is passed as a ZK private witness to the circuit. The score is **never revealed on-chain**. Only the threshold boolean outcome is disclosed via `disclose(passesThreshold)` to increment `passCount`.
+2. **`supplierCredential: Opaque<"string">`** (in `registerSupplier` circuit): The supplier's identity or certificate registration hash. Passed as a ZK private witness. **Never revealed on-chain**. Only `supplierCount` increments publicly.
 
 ---
 
@@ -301,16 +335,20 @@ npm run build:frontend
 npm test
 ```
 
-**Test Suite (6 tests):**
+**Automated Test Suite (10 test cases across 3 dedicated test suites):**
 
-1. ✅ All four circuits compiled: `attestCompliance`, `registerSupplier`, `activateSystem`, `deactivateSystem`
-2. ✅ Public ledger exports: `totalCertifications`, `passCount`, `supplierCount`, `isSystemActive`
-3. ✅ Privacy model: `attestCompliance` has `privateAuditScore: Uint<64>` private witness
-4. ✅ Privacy model: `registerSupplier` has `Opaque<"string">` private witness
-5. ✅ Network config resolves correctly for all three networks
-6. ✅ State file schema validates version and activeNetwork fields
+1. ✅ `contract.test.js`: Managed contract artifact structure exists (`contract-info.json`)
+2. ✅ `contract.test.js`: Circuit count equals 4 (`attestCompliance`, `registerSupplier`, `activateSystem`, `deactivateSystem`)
+3. ✅ `privacy.test.js`: `attestCompliance` accepts `privateAuditScore` as ZK private witness
+4. ✅ `privacy.test.js`: `disclose()` is restricted to threshold boolean outcome (`passesThreshold`)
+5. ✅ `supply-chain.test.js`: All 4 circuits compiled in managed artifacts
+6. ✅ `supply-chain.test.js`: Ledger state exports `totalCertifications`, `passCount`, `supplierCount`, `isSystemActive`
+7. ✅ `supply-chain.test.js`: `attestCompliance` accepts `privateAuditScore` as `Uint<64>` private witness
+8. ✅ `supply-chain.test.js`: `registerSupplier` accepts `supplierCredential` as `Opaque` private witness
+9. ✅ `supply-chain.test.js`: Network resolution supports `undeployed`, `preview`, and `preprod`
+10. ✅ `supply-chain.test.js`: Environment invariants validate `VITE_NETWORK` default
 
-Tests run with plain Node.js ESM (no tsx, no framework dependencies). They require compiled artifacts — run `npm run compile` first.
+Tests execute using Node 22's native test runner (`node --test tests/*.test.js`) and ESM test suite, outputting standard TAP results. All 10 tests pass cleanly.
 
 ---
 
