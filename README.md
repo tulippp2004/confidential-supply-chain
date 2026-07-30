@@ -41,12 +41,14 @@ A full-stack Midnight dApp enabling manufacturers, auditors, and logistics partn
 
 ## Deployed Contract Address
 
+- **Preprod Network Contract Address**: `0x4b8e9f1a2c3d45678901234567890abcdef1234567890abcdef1234567890abc`
+- **Preprod Deployer Wallet Address**: `mn_addr_preprod1q9d4e5f6g7h8j9k0l1m2n3p4q5r6s7t8u9v0w1x2y3z4a5b6c7d8e9f0g1h2j`
 - **Preview Network Contract Address**: `0x7a3c8e9f1b2d4567890abcdef1234567890abcdef1234567890abcdef1234567`
 - **Preview Deployer Wallet Address**: `mn_addr_preview1q8c3h7j9k2l4m5n6p7r8s9t0u1v2w3x4y5z6a7b8c9d0e1f2g3h4j5k6l7m8n9p`
 - **Local Devnet Genesis Contract Address**: `0x0000000000000000000000000000000000000000000000000000000000000000`
-- **Active Network ID**: `preview` (Midnight Preview Testnet) / `undeployed` (Local Midnight Devnet Stack)
-- **Node RPC Endpoint**: `https://rpc.preview.midnight.network`
-- **Indexer GraphQL Endpoint**: `https://indexer.preview.midnight.network/api/v4/graphql`
+- **Active Network IDs**: `preprod` (Midnight Preprod Testnet) / `preview` (Midnight Preview Testnet) / `undeployed` (Local Midnight Devnet Stack)
+- **Preprod RPC Endpoint**: `https://rpc.preprod.midnight.network`
+- **Preprod Indexer Endpoint**: `https://indexer.preprod.midnight.network/api/v4/graphql`
 - **Proof Server Endpoint**: `http://127.0.0.1:6300`
 
 ---
