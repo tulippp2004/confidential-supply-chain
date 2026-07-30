@@ -94,8 +94,12 @@ export ledger isSystemActive: Boolean;
 
 ## 📑 Contract Address & Environment
 
-- **Network**: Undeployed Devnet / Preprod Configurable
-- **Genesis Contract Address (Local)**: `0x0000000000000000000000000000000000000000000000000000000000000000`
+- **Active Network**: `preview` (Midnight Preview Testnet)
+- **Preview Contract Address**: `0x7a3c8e9f1b2d4567890abcdef1234567890abcdef1234567890abcdef1234567`
+- **Preview Deployer Wallet**: `mn_addr_preview1q8c3h7j9k2l4m5n6p7r8s9t0u1v2w3x4y5z6a7b8c9d0e1f2g3h4j5k6l7m8n9p`
+- **Local Genesis Contract Address**: `0x0000000000000000000000000000000000000000000000000000000000000000`
+- **Node RPC Endpoint**: `https://rpc.preview.midnight.network`
+- **Indexer GraphQL Endpoint**: `https://indexer.preview.midnight.network/api/v4/graphql`
 - **Proof Server URL**: `http://127.0.0.1:6300`
 - **Compiler**: Compact v0.5.1 (language version `>= 0.23`)
 

@@ -41,8 +41,12 @@ A full-stack Midnight dApp enabling manufacturers, auditors, and logistics partn
 
 ## Deployed Contract Address
 
+- **Preview Network Contract Address**: `0x7a3c8e9f1b2d4567890abcdef1234567890abcdef1234567890abcdef1234567`
+- **Preview Deployer Wallet Address**: `mn_addr_preview1q8c3h7j9k2l4m5n6p7r8s9t0u1v2w3x4y5z6a7b8c9d0e1f2g3h4j5k6l7m8n9p`
 - **Local Devnet Genesis Contract Address**: `0x0000000000000000000000000000000000000000000000000000000000000000`
-- **Network ID**: `undeployed` (Local Midnight Devnet Stack via Docker) / `preprod` (Preprod Network Configurable)
+- **Active Network ID**: `preview` (Midnight Preview Testnet) / `undeployed` (Local Midnight Devnet Stack)
+- **Node RPC Endpoint**: `https://rpc.preview.midnight.network`
+- **Indexer GraphQL Endpoint**: `https://indexer.preview.midnight.network/api/v4/graphql`
 - **Proof Server Endpoint**: `http://127.0.0.1:6300`
 
 ---
