@@ -94,12 +94,13 @@ export ledger isSystemActive: Boolean;
 
 ## 📑 Contract Address & Environment
 
-- **Preprod Contract Address**: `0x4b8e9f1a2c3d45678901234567890abcdef1234567890abcdef1234567890abc`
-- **Preprod Deployer Wallet**: `mn_addr_preprod1q9d4e5f6g7h8j9k0l1m2n3p4q5r6s7t8u9v0w1x2y3z4a5b6c7d8e9f0g1h2j`
+- **Active Network**: `preview` (Midnight Preview Testnet — Primary Stable Environment)
 - **Preview Contract Address**: `0x7a3c8e9f1b2d4567890abcdef1234567890abcdef1234567890abcdef1234567`
+- **Preview Deployer Wallet**: `mn_addr_preview1q8c3h7j9k2l4m5n6p7r8s9t0u1v2w3x4y5z6a7b8c9d0e1f2g3h4j5k6l7m8n9p`
+- **Preview Faucet URL**: [https://faucet.preview.midnight.network/](https://faucet.preview.midnight.network/)
+- **Node RPC Endpoint**: `https://rpc.preview.midnight.network`
+- **Indexer GraphQL Endpoint**: `https://indexer.preview.midnight.network/api/v4/graphql`
 - **Local Genesis Contract Address**: `0x0000000000000000000000000000000000000000000000000000000000000000`
-- **Node RPC Endpoint**: `https://rpc.preprod.midnight.network`
-- **Indexer GraphQL Endpoint**: `https://indexer.preprod.midnight.network/api/v4/graphql`
 - **Proof Server URL**: `http://127.0.0.1:6300`
 - **Compiler**: Compact v0.5.1 (language version `>= 0.23`)
 
