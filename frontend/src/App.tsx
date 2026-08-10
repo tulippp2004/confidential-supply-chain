@@ -1,4 +1,6 @@
 import { useState, useCallback } from 'react';
+import type { DAppConnectorAPI } from '@midnight-ntwrk/dapp-connector-api';
+import type { NetworkId } from '@midnight-ntwrk/midnight-js-network-id';
 import {
   Shield,
   Wallet,

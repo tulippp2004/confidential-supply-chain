@@ -70,3 +70,26 @@ test('6. Environment Invariants: VITE_NETWORK defaults to undeployed', () => {
   const defaultNetwork = process.env.VITE_NETWORK || 'undeployed';
   assert.equal(defaultNetwork, 'undeployed');
 });
+
+// ─── Test 7: Midnight SDK Packages in Dependencies ────────────────────────────
+test('7. Midnight.js SDK: @midnight-ntwrk/dapp-connector-api and midnight-js-network-provider present in dependencies', () => {
+  const rootPkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf-8'));
+  const frontPkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'frontend', 'package.json'), 'utf-8'));
+
+  assert.ok(rootPkg.dependencies['@midnight-ntwrk/dapp-connector-api'], 'Root package.json missing @midnight-ntwrk/dapp-connector-api');
+  assert.ok(rootPkg.dependencies['@midnight-ntwrk/midnight-js-network-provider'], 'Root package.json missing @midnight-ntwrk/midnight-js-network-provider');
+  assert.ok(frontPkg.dependencies['@midnight-ntwrk/dapp-connector-api'], 'Frontend package.json missing @midnight-ntwrk/dapp-connector-api');
+  assert.ok(frontPkg.dependencies['@midnight-ntwrk/midnight-js-network-provider'], 'Frontend package.json missing @midnight-ntwrk/midnight-js-network-provider');
+});
+
+// ─── Test 8: Preview Deployed Contract Address Invariant ──────────────────────
+test('8. Preview Deployment: Contract address is valid 66-character hex string starting with 0x', () => {
+  const statePath = path.join(ROOT, '.midnight-state.json');
+  assert.ok(fs.existsSync(statePath), '.midnight-state.json missing');
+  const state = JSON.parse(fs.readFileSync(statePath, 'utf-8'));
+  assert.ok(state.deployments?.preview?.address, 'Preview deployment address missing in .midnight-state.json');
+
+  const addr = state.deployments.preview.address;
+  assert.ok(addr.startsWith('0x'), `Expected address starting with 0x, got ${addr}`);
+  assert.equal(addr.length, 66, `Expected 66 character address (0x + 64 hex), got length ${addr.length}`);
+});
