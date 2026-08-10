@@ -72,14 +72,14 @@ test('6. Environment Invariants: VITE_NETWORK defaults to undeployed', () => {
 });
 
 // ─── Test 7: Midnight SDK Packages in Dependencies ────────────────────────────
-test('7. Midnight.js SDK: @midnight-ntwrk/dapp-connector-api and midnight-js-network-provider present in dependencies', () => {
+test('7. Midnight.js SDK: @midnight-ntwrk/dapp-connector-api and midnight-js-network-id present in dependencies', () => {
   const rootPkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf-8'));
   const frontPkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'frontend', 'package.json'), 'utf-8'));
 
   assert.ok(rootPkg.dependencies['@midnight-ntwrk/dapp-connector-api'], 'Root package.json missing @midnight-ntwrk/dapp-connector-api');
-  assert.ok(rootPkg.dependencies['@midnight-ntwrk/midnight-js-network-provider'], 'Root package.json missing @midnight-ntwrk/midnight-js-network-provider');
+  assert.ok(rootPkg.dependencies['@midnight-ntwrk/midnight-js-network-id'], 'Root package.json missing @midnight-ntwrk/midnight-js-network-id');
   assert.ok(frontPkg.dependencies['@midnight-ntwrk/dapp-connector-api'], 'Frontend package.json missing @midnight-ntwrk/dapp-connector-api');
-  assert.ok(frontPkg.dependencies['@midnight-ntwrk/midnight-js-network-provider'], 'Frontend package.json missing @midnight-ntwrk/midnight-js-network-provider');
+  assert.ok(frontPkg.dependencies['@midnight-ntwrk/midnight-js-network-id'], 'Frontend package.json missing @midnight-ntwrk/midnight-js-network-id');
 });
 
 // ─── Test 8: Preview Deployed Contract Address Invariant ──────────────────────
