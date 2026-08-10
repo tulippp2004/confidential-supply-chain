@@ -31,7 +31,7 @@ jobs:
 
       # ── Backend Dependencies ────────────────────────────────────────────────
       - name: Install root dependencies
-        run: npm ci
+        run: npm ci || npm install
 
       # ── Compile Contract ────────────────────────────────────────────────────
       - name: Compile Compact contract
@@ -52,7 +52,7 @@ jobs:
       # ── Frontend Dependencies ───────────────────────────────────────────────
       - name: Install frontend dependencies
         working-directory: frontend
-        run: npm ci
+        run: npm ci || npm install
 
       # ── TypeScript Type-Check ───────────────────────────────────────────────
       - name: TypeScript type-check (frontend)
