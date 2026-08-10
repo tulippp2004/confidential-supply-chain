@@ -381,7 +381,7 @@ Tests execute using Node 22's native test runner (`node --test tests/*.test.js`)
 - [x] Contract compiles via `compact compile` → `contracts/managed/` present
 - [x] Local deployment: `npm run setup -- --network undeployed`
 - [x] CLI interaction: `npm run cli`
-- [x] Preprod attempt documented with sync blocker notes
+- [x] Preview & Preprod deployment documented with contract address & deployer wallet
 - [x] README with setup, compile, deploy, privacy model, public vs private state
 
 ### Level 2 ✅
