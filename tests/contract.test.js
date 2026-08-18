@@ -16,7 +16,24 @@ test('Contract Test: Managed contract artifact structure exists', () => {
   assert.ok(Array.isArray(info.ledger));
 });
 
-test('Contract Test: Circuit count equals 4', () => {
+test('Contract Test: Circuit count equals 5 (August Upgrade)', () => {
   const info = JSON.parse(fs.readFileSync(CONTRACT_INFO_PATH, 'utf-8'));
-  assert.equal(info.circuits.length, 4);
+  assert.equal(info.circuits.length, 5);
+  const circuitNames = info.circuits.map(c => c.name);
+  assert.ok(circuitNames.includes('registerSupplier'));
+  assert.ok(circuitNames.includes('attestCompliance'));
+  assert.ok(circuitNames.includes('updateComplianceThreshold'));
+  assert.ok(circuitNames.includes('activateSystem'));
+  assert.ok(circuitNames.includes('deactivateSystem'));
+});
+
+test('Contract Test: Ledger fields include complianceThreshold and verifiedTierCount', () => {
+  const info = JSON.parse(fs.readFileSync(CONTRACT_INFO_PATH, 'utf-8'));
+  const ledgerFields = info.ledger.map(l => l.name);
+  assert.ok(ledgerFields.includes('totalCertifications'));
+  assert.ok(ledgerFields.includes('passCount'));
+  assert.ok(ledgerFields.includes('supplierCount'));
+  assert.ok(ledgerFields.includes('isSystemActive'));
+  assert.ok(ledgerFields.includes('complianceThreshold'));
+  assert.ok(ledgerFields.includes('verifiedTierCount'));
 });

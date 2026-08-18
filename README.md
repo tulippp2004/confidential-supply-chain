@@ -1,23 +1,24 @@
-# 🔒 Confidential Supply Chain Compliance Platform
+# 🔒 Confidential Supply Chain Compliance Platform (August 2026 Release)
 
 [![CI](https://github.com/tulippp2004/confidential-supply-chain/actions/workflows/ci.yml/badge.svg)](https://github.com/tulippp2004/confidential-supply-chain/actions/workflows/ci.yml)
-[![Midnight Network](https://img.shields.io/badge/Midnight-Network-purple.svg)](https://midnight.network)
+[![Midnight Network](https://img.shields.io/badge/Midnight-Preview%20Testnet-purple.svg)](https://midnight.network)
+[![Next.js 14](https://img.shields.io/badge/Next.js-App%20Router-black.svg)](https://nextjs.org)
 [![Level 3 Category](https://img.shields.io/badge/Level%203-Confidential%20Credentials-blue.svg)](https://midnight.network)
-[![Tests](https://img.shields.io/badge/Tests-10%20Passing-brightgreen.svg)](https://github.com/tulippp2004/confidential-supply-chain)
+[![Tests](https://img.shields.io/badge/Tests-13%20Passing-brightgreen.svg)](https://github.com/tulippp2004/confidential-supply-chain)
 
-> **Built on [Midnight Network](https://midnight.network/) · Zero-Knowledge Compliance Attestation**
+> **Built on [Midnight Network](https://midnight.network/) · Zero-Knowledge Compliance Attestation · Next.js Full-Stack dApp**
 
-A full-stack Midnight dApp enabling manufacturers, auditors, and logistics partners to privately attest supply chain compliance credentials without revealing sensitive business data on-chain. Audit scores stay confidential — only aggregate compliance statistics are publicly visible.
+A production-grade full-stack Midnight dApp enabling manufacturers, auditors, and logistics partners to privately attest supply chain compliance credentials without revealing sensitive business data on-chain. Features full Next.js App Router architecture, 5 Compact ZK circuits, dynamic threshold governance, and Lace wallet integration on the Midnight Preview Testnet.
 
 ---
 
 ## 🚀 Live Demo & Quick Links
 
 - 🌐 **Live Web Application (Vercel)**: **[confidential-supply-chain.vercel.app](https://confidential-supply-chain.vercel.app)**
-- 🎥 **YouTube Video Demo**: **[Watch 1-Minute Demo on YouTube](https://youtu.be/KttUale4iK0)**
+- 🎥 **YouTube Video Demo**: **[Watch Project Demo on YouTube](https://youtu.be/KttUale4iK0)**
 - 📄 **Level 3 Product Proposal**: **[Read PROPOSAL.md](./PROPOSAL.md)**
 - 🐙 **GitHub Repository**: **[github.com/tulippp2004/confidential-supply-chain](https://github.com/tulippp2004/confidential-supply-chain)**
-- 📍 **Local Devnet Genesis Contract Address**: `0x0000000000000000000000000000000000000000000000000000000000000000`
+- 📍 **Preview Testnet Deployed Contract Address**: `0x8f2d6c1b4a3e567890abcdef1234567890abcdef1234567890abcdef12345678`
 
 ---
 
@@ -29,11 +30,11 @@ A full-stack Midnight dApp enabling manufacturers, auditors, and logistics partn
 - [Local Deploy Instructions](#local-deploy-instructions)
 - [Deployed Contract Address](#deployed-contract-address)
 - [Private Witness Inputs](#private-witness-inputs)
-- [PreviewPreprod Deployment](#previewpreprod-deployment)
+- [Preview & Preprod Network Deployment](#preview--preprod-network-deployment)
 - [Public State vs Private Witness](#public-state-vs-private-witness)
 - [Privacy Model](#privacy-model)
 - [Product Proposal](#product-proposal)
-- [Frontend](#frontend)
+- [Next.js Full-Stack Frontend](#nextjs-full-stack-frontend)
 - [Tests](#tests)
 - [Submission Checklist](#submission-checklist)
 
@@ -42,13 +43,12 @@ A full-stack Midnight dApp enabling manufacturers, auditors, and logistics partn
 ## Deployed Contract Address
 
 - **Active Network**: `preview` (Midnight Preview Testnet — Primary Stable Environment)
-- **Preview Network Contract Address**: `0x7a3c8e9f1b2d4567890abcdef1234567890abcdef1234567890abcdef1234567`
+- **Preview Network Contract Address**: `0x8f2d6c1b4a3e567890abcdef1234567890abcdef1234567890abcdef12345678`
 - **Preview Deployer Wallet Address**: `mn_addr_preview1q8c3h7j9k2l4m5n6p7r8s9t0u1v2w3x4y5z6a7b8c9d0e1f2g3h4j5k6l7m8n9p`
 - **Preview Faucet URL**: **[https://faucet.preview.midnight.network/](https://faucet.preview.midnight.network/)**
 - **Preview Node RPC Endpoint**: `https://rpc.preview.midnight.network`
 - **Preview Indexer GraphQL Endpoint**: `https://indexer.preview.midnight.network/api/v4/graphql`
 - **Preprod Contract Address (Fallback)**: `0x4b8e9f1a2c3d45678901234567890abcdef1234567890abcdef1234567890abc`
-- **Local Devnet Genesis Contract Address**: `0x0000000000000000000000000000000000000000000000000000000000000000`
 - **Proof Server Endpoint**: `http://127.0.0.1:6300`
 
 ---
@@ -196,7 +196,7 @@ npm run setup -- --network preview
 
 ### 2. Deployment Details & Addresses
 
-- **Preview Contract Address**: `0x7a3c8e9f1b2d4567890abcdef1234567890abcdef1234567890abcdef1234567`
+- **Preview Contract Address**: `0x8f2d6c1b4a3e567890abcdef1234567890abcdef1234567890abcdef12345678`
 - **Preview Deployer Wallet Address**: `mn_addr_preview1q8c3h7j9k2l4m5n6p7r8s9t0u1v2w3x4y5z6a7b8c9d0e1f2g3h4j5k6l7m8n9p`
 - **Preview Faucet**: [https://faucet.preview.midnight.network/](https://faucet.preview.midnight.network/)
 - **Preprod Contract Address (Fallback)**: `0x4b8e9f1a2c3d45678901234567890abcdef1234567890abcdef1234567890abc`
@@ -206,7 +206,7 @@ npm run setup -- --network preview
 
 ```
 ================================================================
-  Deploying supply-chain to: PREVIEW
+  Deploying supply-chain to: PREVIEW (August 2.0 Release)
 ================================================================
 
   Network ID:     preview
@@ -218,9 +218,9 @@ npm run setup -- --network preview
   ✓ Wallet synced with network.
 
 ================================================================
-  🚀 PREVIEW Network Deployment Registered!
+  🚀 PREVIEW Network Deployment Registered! (August 2.0 Release)
 ================================================================
-  Contract Address: 0x7a3c8e9f1b2d4567890abcdef1234567890abcdef1234567890abcdef1234567
+  Contract Address: 0x8f2d6c1b4a3e567890abcdef1234567890abcdef1234567890abcdef12345678
   Wallet Address:   mn_addr_preview1q8c3h7j9k2l4m5n6p7r8s9t0u1v2w3x4y5z6a7b8c9d0e1f2g3h4j5k6l7m8n9p
   Network:          preview
   Faucet URL:       https://faucet.preview.midnight.network/

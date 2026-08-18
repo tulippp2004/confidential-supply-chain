@@ -9,6 +9,8 @@ export type ImpureCircuits<PS> = {
   attestCompliance(context: __compactRuntime.CircuitContext<PS>,
                    privateAuditScore_0: bigint,
                    passesThreshold_0: boolean): __compactRuntime.CircuitResults<PS, []>;
+  updateComplianceThreshold(context: __compactRuntime.CircuitContext<PS>,
+                            newThreshold_0: bigint): __compactRuntime.CircuitResults<PS, []>;
   activateSystem(context: __compactRuntime.CircuitContext<PS>): __compactRuntime.CircuitResults<PS, []>;
   deactivateSystem(context: __compactRuntime.CircuitContext<PS>): __compactRuntime.CircuitResults<PS, []>;
 }
@@ -19,6 +21,8 @@ export type ProvableCircuits<PS> = {
   attestCompliance(context: __compactRuntime.CircuitContext<PS>,
                    privateAuditScore_0: bigint,
                    passesThreshold_0: boolean): __compactRuntime.CircuitResults<PS, []>;
+  updateComplianceThreshold(context: __compactRuntime.CircuitContext<PS>,
+                            newThreshold_0: bigint): __compactRuntime.CircuitResults<PS, []>;
   activateSystem(context: __compactRuntime.CircuitContext<PS>): __compactRuntime.CircuitResults<PS, []>;
   deactivateSystem(context: __compactRuntime.CircuitContext<PS>): __compactRuntime.CircuitResults<PS, []>;
 }
@@ -32,6 +36,8 @@ export type Circuits<PS> = {
   attestCompliance(context: __compactRuntime.CircuitContext<PS>,
                    privateAuditScore_0: bigint,
                    passesThreshold_0: boolean): __compactRuntime.CircuitResults<PS, []>;
+  updateComplianceThreshold(context: __compactRuntime.CircuitContext<PS>,
+                            newThreshold_0: bigint): __compactRuntime.CircuitResults<PS, []>;
   activateSystem(context: __compactRuntime.CircuitContext<PS>): __compactRuntime.CircuitResults<PS, []>;
   deactivateSystem(context: __compactRuntime.CircuitContext<PS>): __compactRuntime.CircuitResults<PS, []>;
 }
@@ -41,6 +47,8 @@ export type Ledger = {
   readonly passCount: bigint;
   readonly supplierCount: bigint;
   readonly isSystemActive: boolean;
+  readonly complianceThreshold: bigint;
+  readonly verifiedTierCount: bigint;
 }
 
 export type ContractReferenceLocations = any;

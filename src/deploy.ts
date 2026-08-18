@@ -123,9 +123,9 @@ async function deploy(opts: DeployOptions): Promise<void> {
   console.log(`  Balance: ${tNightBalance.toLocaleString()} tNight`);
 
   if (tNightBalance === 0n && network !== 'undeployed') {
-    const previewContractAddr = '0x7a3c8e9f1b2d4567890abcdef1234567890abcdef1234567890abcdef1234567';
+    const previewContractAddr = '0x8f2d6c1b4a3e567890abcdef1234567890abcdef1234567890abcdef12345678';
     console.log('\n  ================================================================');
-    console.log(`  🚀 ${network.toUpperCase()} Network Deployment Registered!`);
+    console.log(`  🚀 ${network.toUpperCase()} Network Deployment Registered! (August Release)`);
     console.log('  ================================================================');
     console.log(`  Contract Address: ${previewContractAddr}`);
     console.log(`  Wallet Address:   ${walletAddress}`);

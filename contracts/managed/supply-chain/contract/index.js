@@ -68,7 +68,7 @@ export class Contract {
         if (!(typeof(contextOrig_0) === 'object' && contextOrig_0.currentQueryContext != undefined)) {
           __compactRuntime.typeError('registerSupplier',
                                      'argument 1 (as invoked from Typescript)',
-                                     'supply-chain.compact line 24 char 1',
+                                     'supply-chain.compact line 30 char 1',
                                      'CircuitContext',
                                      contextOrig_0)
         }
@@ -98,21 +98,21 @@ export class Contract {
         if (!(typeof(contextOrig_0) === 'object' && contextOrig_0.currentQueryContext != undefined)) {
           __compactRuntime.typeError('attestCompliance',
                                      'argument 1 (as invoked from Typescript)',
-                                     'supply-chain.compact line 35 char 1',
+                                     'supply-chain.compact line 41 char 1',
                                      'CircuitContext',
                                      contextOrig_0)
         }
         if (!(typeof(privateAuditScore_0) === 'bigint' && privateAuditScore_0 >= 0n && privateAuditScore_0 <= 18446744073709551615n)) {
           __compactRuntime.typeError('attestCompliance',
                                      'argument 1 (argument 2 as invoked from Typescript)',
-                                     'supply-chain.compact line 35 char 1',
+                                     'supply-chain.compact line 41 char 1',
                                      'Uint<0..18446744073709551616>',
                                      privateAuditScore_0)
         }
         if (!(typeof(passesThreshold_0) === 'boolean')) {
           __compactRuntime.typeError('attestCompliance',
                                      'argument 2 (argument 3 as invoked from Typescript)',
-                                     'supply-chain.compact line 35 char 1',
+                                     'supply-chain.compact line 41 char 1',
                                      'Boolean',
                                      passesThreshold_0)
         }
@@ -133,6 +133,42 @@ export class Contract {
         partialProofData.output = { value: [], alignment: [] };
         return { result: result_0, context: context, proofData: partialProofData, gasCost: context.gasCost };
       },
+      updateComplianceThreshold: (...args_1) => {
+        if (args_1.length !== 2) {
+          throw new __compactRuntime.CompactError(`updateComplianceThreshold: expected 2 arguments (as invoked from Typescript), received ${args_1.length}`);
+        }
+        const contextOrig_0 = args_1[0];
+        const newThreshold_0 = args_1[1];
+        if (!(typeof(contextOrig_0) === 'object' && contextOrig_0.currentQueryContext != undefined)) {
+          __compactRuntime.typeError('updateComplianceThreshold',
+                                     'argument 1 (as invoked from Typescript)',
+                                     'supply-chain.compact line 58 char 1',
+                                     'CircuitContext',
+                                     contextOrig_0)
+        }
+        if (!(typeof(newThreshold_0) === 'bigint' && newThreshold_0 >= 0n && newThreshold_0 <= 18446744073709551615n)) {
+          __compactRuntime.typeError('updateComplianceThreshold',
+                                     'argument 1 (argument 2 as invoked from Typescript)',
+                                     'supply-chain.compact line 58 char 1',
+                                     'Uint<0..18446744073709551616>',
+                                     newThreshold_0)
+        }
+        const context = { ...contextOrig_0, gasCost: __compactRuntime.emptyRunningCost() };
+        const partialProofData = {
+          input: {
+            value: _descriptor_1.toValue(newThreshold_0),
+            alignment: _descriptor_1.alignment()
+          },
+          output: undefined,
+          publicTranscript: [],
+          privateTranscriptOutputs: []
+        };
+        const result_0 = this._updateComplianceThreshold_0(context,
+                                                           partialProofData,
+                                                           newThreshold_0);
+        partialProofData.output = { value: [], alignment: [] };
+        return { result: result_0, context: context, proofData: partialProofData, gasCost: context.gasCost };
+      },
       activateSystem: (...args_1) => {
         if (args_1.length !== 1) {
           throw new __compactRuntime.CompactError(`activateSystem: expected 1 argument (as invoked from Typescript), received ${args_1.length}`);
@@ -141,7 +177,7 @@ export class Contract {
         if (!(typeof(contextOrig_0) === 'object' && contextOrig_0.currentQueryContext != undefined)) {
           __compactRuntime.typeError('activateSystem',
                                      'argument 1 (as invoked from Typescript)',
-                                     'supply-chain.compact line 48 char 1',
+                                     'supply-chain.compact line 66 char 1',
                                      'CircuitContext',
                                      contextOrig_0)
         }
@@ -164,7 +200,7 @@ export class Contract {
         if (!(typeof(contextOrig_0) === 'object' && contextOrig_0.currentQueryContext != undefined)) {
           __compactRuntime.typeError('deactivateSystem',
                                      'argument 1 (as invoked from Typescript)',
-                                     'supply-chain.compact line 54 char 1',
+                                     'supply-chain.compact line 73 char 1',
                                      'CircuitContext',
                                      contextOrig_0)
         }
@@ -183,12 +219,14 @@ export class Contract {
     this.impureCircuits = {
       registerSupplier: this.circuits.registerSupplier,
       attestCompliance: this.circuits.attestCompliance,
+      updateComplianceThreshold: this.circuits.updateComplianceThreshold,
       activateSystem: this.circuits.activateSystem,
       deactivateSystem: this.circuits.deactivateSystem
     };
     this.provableCircuits = {
       registerSupplier: this.circuits.registerSupplier,
       attestCompliance: this.circuits.attestCompliance,
+      updateComplianceThreshold: this.circuits.updateComplianceThreshold,
       activateSystem: this.circuits.activateSystem,
       deactivateSystem: this.circuits.deactivateSystem
     };
@@ -213,9 +251,12 @@ export class Contract {
     stateValue_0 = stateValue_0.arrayPush(__compactRuntime.StateValue.newNull());
     stateValue_0 = stateValue_0.arrayPush(__compactRuntime.StateValue.newNull());
     stateValue_0 = stateValue_0.arrayPush(__compactRuntime.StateValue.newNull());
+    stateValue_0 = stateValue_0.arrayPush(__compactRuntime.StateValue.newNull());
+    stateValue_0 = stateValue_0.arrayPush(__compactRuntime.StateValue.newNull());
     state_0.data = new __compactRuntime.ChargedState(stateValue_0);
     state_0.setOperation('registerSupplier', new __compactRuntime.ContractOperation());
     state_0.setOperation('attestCompliance', new __compactRuntime.ContractOperation());
+    state_0.setOperation('updateComplianceThreshold', new __compactRuntime.ContractOperation());
     state_0.setOperation('activateSystem', new __compactRuntime.ContractOperation());
     state_0.setOperation('deactivateSystem', new __compactRuntime.ContractOperation());
     const context = __compactRuntime.createCircuitContext(__compactRuntime.dummyContractAddress(), constructorContext_0.initialZswapLocalState.coinPublicKey, state_0.data, constructorContext_0.initialPrivateState);
@@ -265,6 +306,26 @@ export class Contract {
                                                  value: __compactRuntime.StateValue.newCell({ value: _descriptor_0.toValue(false),
                                                                                               alignment: _descriptor_0.alignment() }).encode() } },
                                        { ins: { cached: false, n: 1 } }]);
+    __compactRuntime.queryLedgerState(context,
+                                      partialProofData,
+                                      [
+                                       { push: { storage: false,
+                                                 value: __compactRuntime.StateValue.newCell({ value: _descriptor_7.toValue(4n),
+                                                                                              alignment: _descriptor_7.alignment() }).encode() } },
+                                       { push: { storage: true,
+                                                 value: __compactRuntime.StateValue.newCell({ value: _descriptor_1.toValue(0n),
+                                                                                              alignment: _descriptor_1.alignment() }).encode() } },
+                                       { ins: { cached: false, n: 1 } }]);
+    __compactRuntime.queryLedgerState(context,
+                                      partialProofData,
+                                      [
+                                       { push: { storage: false,
+                                                 value: __compactRuntime.StateValue.newCell({ value: _descriptor_7.toValue(5n),
+                                                                                              alignment: _descriptor_7.alignment() }).encode() } },
+                                       { push: { storage: true,
+                                                 value: __compactRuntime.StateValue.newCell({ value: _descriptor_1.toValue(0n),
+                                                                                              alignment: _descriptor_1.alignment() }).encode() } },
+                                       { ins: { cached: false, n: 1 } }]);
     state_0.data = new __compactRuntime.ChargedState(context.currentQueryContext.state.state);
     return {
       currentContractState: state_0,
@@ -288,7 +349,7 @@ export class Contract {
                             'Compliance system is not active');
     const tmp_0 = ((t1) => {
                     if (t1 > 18446744073709551615n) {
-                      throw new __compactRuntime.CompactError('supply-chain.compact line 26 char 21: cast from Field or Uint value to smaller Uint value failed: ' + t1 + ' is greater than 18446744073709551615');
+                      throw new __compactRuntime.CompactError('supply-chain.compact line 32 char 21: cast from Field or Uint value to smaller Uint value failed: ' + t1 + ' is greater than 18446744073709551615');
                     }
                     return t1;
                   })(_descriptor_1.fromValue(__compactRuntime.queryLedgerState(context,
@@ -335,9 +396,11 @@ export class Contract {
                                                                                        { popeq: { cached: false,
                                                                                                   result: undefined } }]).value),
                             'Compliance system is not active');
+    __compactRuntime.assert(privateAuditScore_0 <= 100n,
+                            'Audit score cannot exceed 100');
     const tmp_0 = ((t1) => {
                     if (t1 > 18446744073709551615n) {
-                      throw new __compactRuntime.CompactError('supply-chain.compact line 40 char 27: cast from Field or Uint value to smaller Uint value failed: ' + t1 + ' is greater than 18446744073709551615');
+                      throw new __compactRuntime.CompactError('supply-chain.compact line 47 char 27: cast from Field or Uint value to smaller Uint value failed: ' + t1 + ' is greater than 18446744073709551615');
                     }
                     return t1;
                   })(_descriptor_1.fromValue(__compactRuntime.queryLedgerState(context,
@@ -367,7 +430,7 @@ export class Contract {
     if (passesThreshold_0) {
       const tmp_1 = ((t1) => {
                       if (t1 > 18446744073709551615n) {
-                        throw new __compactRuntime.CompactError('supply-chain.compact line 42 char 21: cast from Field or Uint value to smaller Uint value failed: ' + t1 + ' is greater than 18446744073709551615');
+                        throw new __compactRuntime.CompactError('supply-chain.compact line 49 char 21: cast from Field or Uint value to smaller Uint value failed: ' + t1 + ' is greater than 18446744073709551615');
                       }
                       return t1;
                     })(_descriptor_1.fromValue(__compactRuntime.queryLedgerState(context,
@@ -394,7 +457,66 @@ export class Contract {
                                                    value: __compactRuntime.StateValue.newCell({ value: _descriptor_1.toValue(tmp_1),
                                                                                                 alignment: _descriptor_1.alignment() }).encode() } },
                                          { ins: { cached: false, n: 1 } }]);
+      if (privateAuditScore_0 >= 90n) {
+        const tmp_2 = ((t1) => {
+                        if (t1 > 18446744073709551615n) {
+                          throw new __compactRuntime.CompactError('supply-chain.compact line 51 char 33: cast from Field or Uint value to smaller Uint value failed: ' + t1 + ' is greater than 18446744073709551615');
+                        }
+                        return t1;
+                      })(_descriptor_1.fromValue(__compactRuntime.queryLedgerState(context,
+                                                                                   partialProofData,
+                                                                                   [
+                                                                                    { dup: { n: 0 } },
+                                                                                    { idx: { cached: false,
+                                                                                             pushPath: false,
+                                                                                             path: [
+                                                                                                    { tag: 'value',
+                                                                                                      value: { value: _descriptor_7.toValue(5n),
+                                                                                                               alignment: _descriptor_7.alignment() } }] } },
+                                                                                    { popeq: { cached: false,
+                                                                                               result: undefined } }]).value)
+                         +
+                         1n);
+        __compactRuntime.queryLedgerState(context,
+                                          partialProofData,
+                                          [
+                                           { push: { storage: false,
+                                                     value: __compactRuntime.StateValue.newCell({ value: _descriptor_7.toValue(5n),
+                                                                                                  alignment: _descriptor_7.alignment() }).encode() } },
+                                           { push: { storage: true,
+                                                     value: __compactRuntime.StateValue.newCell({ value: _descriptor_1.toValue(tmp_2),
+                                                                                                  alignment: _descriptor_1.alignment() }).encode() } },
+                                           { ins: { cached: false, n: 1 } }]);
+      }
     }
+    return [];
+  }
+  _updateComplianceThreshold_0(context, partialProofData, newThreshold_0) {
+    __compactRuntime.assert(_descriptor_0.fromValue(__compactRuntime.queryLedgerState(context,
+                                                                                      partialProofData,
+                                                                                      [
+                                                                                       { dup: { n: 0 } },
+                                                                                       { idx: { cached: false,
+                                                                                                pushPath: false,
+                                                                                                path: [
+                                                                                                       { tag: 'value',
+                                                                                                         value: { value: _descriptor_7.toValue(3n),
+                                                                                                                  alignment: _descriptor_7.alignment() } }] } },
+                                                                                       { popeq: { cached: false,
+                                                                                                  result: undefined } }]).value),
+                            'Compliance system is not active');
+    __compactRuntime.assert(newThreshold_0 >= 50n && newThreshold_0 <= 95n,
+                            'Threshold must be between 50 and 95');
+    __compactRuntime.queryLedgerState(context,
+                                      partialProofData,
+                                      [
+                                       { push: { storage: false,
+                                                 value: __compactRuntime.StateValue.newCell({ value: _descriptor_7.toValue(4n),
+                                                                                              alignment: _descriptor_7.alignment() }).encode() } },
+                                       { push: { storage: true,
+                                                 value: __compactRuntime.StateValue.newCell({ value: _descriptor_1.toValue(newThreshold_0),
+                                                                                              alignment: _descriptor_1.alignment() }).encode() } },
+                                       { ins: { cached: false, n: 1 } }]);
     return [];
   }
   _activateSystem_0(context, partialProofData) {
@@ -407,6 +529,17 @@ export class Contract {
                                        { push: { storage: true,
                                                  value: __compactRuntime.StateValue.newCell({ value: _descriptor_0.toValue(true),
                                                                                               alignment: _descriptor_0.alignment() }).encode() } },
+                                       { ins: { cached: false, n: 1 } }]);
+    const tmp_0 = 75n;
+    __compactRuntime.queryLedgerState(context,
+                                      partialProofData,
+                                      [
+                                       { push: { storage: false,
+                                                 value: __compactRuntime.StateValue.newCell({ value: _descriptor_7.toValue(4n),
+                                                                                              alignment: _descriptor_7.alignment() }).encode() } },
+                                       { push: { storage: true,
+                                                 value: __compactRuntime.StateValue.newCell({ value: _descriptor_1.toValue(tmp_0),
+                                                                                              alignment: _descriptor_1.alignment() }).encode() } },
                                        { ins: { cached: false, n: 1 } }]);
     return [];
   }
@@ -503,6 +636,34 @@ export function ledger(stateOrChargedState) {
                                                                                  path: [
                                                                                         { tag: 'value',
                                                                                           value: { value: _descriptor_7.toValue(3n),
+                                                                                                   alignment: _descriptor_7.alignment() } }] } },
+                                                                        { popeq: { cached: false,
+                                                                                   result: undefined } }]).value);
+    },
+    get complianceThreshold() {
+      return _descriptor_1.fromValue(__compactRuntime.queryLedgerState(context,
+                                                                       partialProofData,
+                                                                       [
+                                                                        { dup: { n: 0 } },
+                                                                        { idx: { cached: false,
+                                                                                 pushPath: false,
+                                                                                 path: [
+                                                                                        { tag: 'value',
+                                                                                          value: { value: _descriptor_7.toValue(4n),
+                                                                                                   alignment: _descriptor_7.alignment() } }] } },
+                                                                        { popeq: { cached: false,
+                                                                                   result: undefined } }]).value);
+    },
+    get verifiedTierCount() {
+      return _descriptor_1.fromValue(__compactRuntime.queryLedgerState(context,
+                                                                       partialProofData,
+                                                                       [
+                                                                        { dup: { n: 0 } },
+                                                                        { idx: { cached: false,
+                                                                                 pushPath: false,
+                                                                                 path: [
+                                                                                        { tag: 'value',
+                                                                                          value: { value: _descriptor_7.toValue(5n),
                                                                                                    alignment: _descriptor_7.alignment() } }] } },
                                                                         { popeq: { cached: false,
                                                                                    result: undefined } }]).value);

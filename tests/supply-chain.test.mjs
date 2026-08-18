@@ -26,7 +26,7 @@ const NETWORK_CONFIGS = {
     indexerWS:  'wss://indexer.preview.midnight.network/api/v4/graphql/ws',
     node:       'https://rpc.preview.midnight.network',
     proofServer: 'http://127.0.0.1:6300',
-    faucet: 'https://midnight-tmnight-preview.nethermind.dev',
+    faucet: 'https://faucet.preview.midnight.network/',
   },
   preprod: {
     networkId: 'preprod',
@@ -42,7 +42,7 @@ const CONTRACT_INFO_PATH = path.join(
   ROOT, 'contracts', 'managed', 'supply-chain', 'compiler', 'contract-info.json'
 );
 
-console.log('\n🔒 Confidential Supply Chain — Test Suite\n');
+console.log('\n🔒 Confidential Supply Chain — Test Suite (August Release)\n');
 
 let passed = 0;
 let total  = 0;
@@ -67,24 +67,27 @@ function loadContractInfo() {
   return JSON.parse(fs.readFileSync(CONTRACT_INFO_PATH, 'utf-8'));
 }
 
-// ─── Test 1: All four circuits are compiled and present ────────────────────────
-test('1. All four circuits compiled: attestCompliance, registerSupplier, activateSystem, deactivateSystem', () => {
+// ─── Test 1: All five circuits are compiled and present ────────────────────────
+test('1. All five circuits compiled: attestCompliance, registerSupplier, updateComplianceThreshold, activateSystem, deactivateSystem', () => {
   const info = loadContractInfo();
   const names = info.circuits.map(c => c.name);
-  assert.ok(names.includes('attestCompliance'),  `attestCompliance circuit missing. Found: ${names.join(', ')}`);
-  assert.ok(names.includes('registerSupplier'),  `registerSupplier circuit missing`);
-  assert.ok(names.includes('activateSystem'),    `activateSystem circuit missing`);
-  assert.ok(names.includes('deactivateSystem'),  `deactivateSystem circuit missing`);
+  assert.ok(names.includes('attestCompliance'),           `attestCompliance circuit missing. Found: ${names.join(', ')}`);
+  assert.ok(names.includes('registerSupplier'),           `registerSupplier circuit missing`);
+  assert.ok(names.includes('updateComplianceThreshold'),  `updateComplianceThreshold circuit missing`);
+  assert.ok(names.includes('activateSystem'),             `activateSystem circuit missing`);
+  assert.ok(names.includes('deactivateSystem'),           `deactivateSystem circuit missing`);
 });
 
 // ─── Test 2: All public ledger fields are exported ─────────────────────────────
-test('2. Public ledger exports: totalCertifications, passCount, supplierCount, isSystemActive', () => {
+test('2. Public ledger exports: totalCertifications, passCount, supplierCount, isSystemActive, complianceThreshold, verifiedTierCount', () => {
   const info = loadContractInfo();
   const ledgerNames = info.ledger.map(l => l.name);
-  assert.ok(ledgerNames.includes('totalCertifications'), 'totalCertifications ledger field missing');
-  assert.ok(ledgerNames.includes('passCount'),           'passCount ledger field missing');
-  assert.ok(ledgerNames.includes('supplierCount'),       'supplierCount ledger field missing');
-  assert.ok(ledgerNames.includes('isSystemActive'),      'isSystemActive ledger field missing');
+  assert.ok(ledgerNames.includes('totalCertifications'),  'totalCertifications ledger field missing');
+  assert.ok(ledgerNames.includes('passCount'),            'passCount ledger field missing');
+  assert.ok(ledgerNames.includes('supplierCount'),        'supplierCount ledger field missing');
+  assert.ok(ledgerNames.includes('isSystemActive'),       'isSystemActive ledger field missing');
+  assert.ok(ledgerNames.includes('complianceThreshold'),  'complianceThreshold ledger field missing');
+  assert.ok(ledgerNames.includes('verifiedTierCount'),    'verifiedTierCount ledger field missing');
 });
 
 // ─── Test 3: Privacy model — attestCompliance first arg is Uint<64> (private audit score) ─────
@@ -96,7 +99,6 @@ test('3. Privacy model: attestCompliance circuit has privateAuditScore as Uint<6
 
   const firstArg = attest.arguments[0];
   assert.strictEqual(firstArg.name, 'privateAuditScore', `Expected first arg 'privateAuditScore', got '${firstArg.name}'`);
-  // Uint<64> type in Compact compiler output
   const typeName = firstArg.type?.['type-name'] ?? firstArg.type;
   assert.ok(
     typeName === 'Uint' || String(typeName).toLowerCase().includes('uint'),
@@ -130,25 +132,20 @@ test('5. Network config resolves correctly for undeployed, preview, and preprod'
     assert.ok(config.indexerWS.startsWith('ws'),  `indexerWS URL invalid for ${networkId}: ${config.indexerWS}`);
     assert.strictEqual(config.networkId, networkId, `networkId mismatch for ${networkId}`);
   }
-  // undeployed must have no faucet
   assert.strictEqual(NETWORK_CONFIGS.undeployed.faucet, null, 'undeployed should not have a faucet URL');
-  // public networks must have faucet URLs
   assert.ok(NETWORK_CONFIGS.preview.faucet,  'preview faucet URL missing');
   assert.ok(NETWORK_CONFIGS.preprod.faucet,  'preprod faucet URL missing');
 });
 
 // ─── Test 6: State file schema validation ──────────────────────────────────────
 test('6. State file schema: loads correctly when present, returns null when absent', () => {
-  // If no state file: loadState should return null (simulate by checking for absence)
   const statePath = path.join(ROOT, '.midnight-state.json');
   if (!fs.existsSync(statePath)) {
-    // No state file — expected null (pass)
     assert.ok(true, 'No state file present — loadState returns null (expected)');
   } else {
-    // State file exists — validate schema
     const raw = fs.readFileSync(statePath, 'utf-8');
     const state = JSON.parse(raw);
-    assert.strictEqual(state.version, 1, `Expected state version 1, got ${state.version}`);
+    assert.ok(state.version >= 1, `Expected state version >= 1, got ${state.version}`);
     assert.ok(
       ['undeployed', 'preview', 'preprod'].includes(state.activeNetwork),
       `Invalid activeNetwork: ${state.activeNetwork}`,

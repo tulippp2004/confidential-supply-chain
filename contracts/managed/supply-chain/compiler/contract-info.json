@@ -48,6 +48,25 @@
       }
     },
     {
+      "name": "updateComplianceThreshold",
+      "pure": false,
+      "proof": true,
+      "arguments": [
+        {
+          "name": "newThreshold",
+          "type": {
+            "type-name": "Uint",
+            "maxval": 18446744073709551615
+          }
+        }
+      ],
+      "result-type": {
+        "type-name": "Tuple",
+        "types": [
+        ]
+      }
+    },
+    {
       "name": "activateSystem",
       "pure": false,
       "proof": true,
@@ -114,6 +133,26 @@
       "storage": "Cell",
       "type": {
         "type-name": "Boolean"
+      }
+    },
+    {
+      "name": "complianceThreshold",
+      "index": 4,
+      "exported": true,
+      "storage": "Cell",
+      "type": {
+        "type-name": "Uint",
+        "maxval": 18446744073709551615
+      }
+    },
+    {
+      "name": "verifiedTierCount",
+      "index": 5,
+      "exported": true,
+      "storage": "Cell",
+      "type": {
+        "type-name": "Uint",
+        "maxval": 18446744073709551615
       }
     }
   ]

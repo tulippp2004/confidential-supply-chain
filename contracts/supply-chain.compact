@@ -17,6 +17,12 @@ export ledger supplierCount: Uint<64>;
 // Whether the compliance system is currently active
 export ledger isSystemActive: Boolean;
 
+// Minimum audit score required to achieve compliance (configurable on-chain)
+export ledger complianceThreshold: Uint<64>;
+
+// Number of enterprise high-tier verified certifications
+export ledger verifiedTierCount: Uint<64>;
+
 // ─── Circuit: Register Supplier ───────────────────────────────────────────────
 // Registers a new supplier using a private credential commitment.
 // The supplierCredential is a PRIVATE WITNESS — it is never disclosed on-chain.
@@ -37,16 +43,29 @@ export circuit attestCompliance(
     passesThreshold: Boolean
 ): [] {
     assert(isSystemActive, "Compliance system is not active");
+    assert(privateAuditScore <= 100, "Audit score cannot exceed 100");
     totalCertifications = (totalCertifications + 1) as Uint<64>;
     if (disclose(passesThreshold)) {
         passCount = (passCount + 1) as Uint<64>;
+        if (disclose(privateAuditScore >= 90)) {
+            verifiedTierCount = (verifiedTierCount + 1) as Uint<64>;
+        }
     }
 }
 
+// ─── Circuit: Update Compliance Threshold ─────────────────────────────────────
+// Admin/governance circuit to update the minimum passing compliance threshold.
+export circuit updateComplianceThreshold(newThreshold: Uint<64>): [] {
+    assert(isSystemActive, "Compliance system is not active");
+    assert(newThreshold >= 50 && newThreshold <= 95, "Threshold must be between 50 and 95");
+    complianceThreshold = disclose(newThreshold);
+}
+
 // ─── Circuit: Activate System ─────────────────────────────────────────────────
-// Activates the compliance system. Called by the deployer after setup.
+// Activates the compliance system.
 export circuit activateSystem(): [] {
     isSystemActive = true;
+    complianceThreshold = 75;
 }
 
 // ─── Circuit: Deactivate System ───────────────────────────────────────────────
