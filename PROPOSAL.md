@@ -9,9 +9,45 @@
 
 ---
 
-## 🎯 Executive Summary
+## 🎯 What is the product, and who uses it?
 
 The **Confidential Supply Chain Compliance Platform** is a full-stack **Next.js App Router** Midnight dApp operating in the **Confidential Credentials** category. It allows B2B supply chain participants—manufacturers, certified auditors, logistics providers, and regulatory oversight bodies—to privately attest to supply chain compliance credentials (such as SOC 2 certification, ESG emissions ratings, ISO 27001 audits, and FDA drug origin proofs) **without revealing sensitive audit scores or corporate identities on-chain**.
+
+---
+
+## 🔒 Why Midnight specifically?
+
+Traditional transparent blockchains (like Ethereum or Cardano mainnet) force enterprise supply chains into an impossible choice: either expose trade secrets (raw audit scores, supplier DIDs, vendor pricing) to all competitors on a public ledger, or remain completely opaque off-chain where compliance cannot be trustlessly verified.
+
+Midnight specifically solves this using the **Compact ZK programming language**:
+- **Zero-Knowledge Witness Binding**: Provers execute circuit logic locally to prove `privateAuditScore >= complianceThreshold` without ever revealing the raw numerical score on-chain.
+- **Dual-State Model**: Public state (`totalCertifications`, `passCount`, `supplierCount`) tracks macro compliance health, while private witnesses preserve enterprise confidentiality.
+- **Regulatory Auditability**: Enables B2B partners to verify compliance without violating strict privacy laws (GDPR, CCPA).
+
+---
+
+## 📊 Data Model
+
+| Data Point | Type | Disclosed To |
+|------------|------|--------------|
+| `totalCertifications` | Public ledger (`Uint<64>`) | Everyone (On-chain observers & smart contract) |
+| `passCount` | Public ledger (`Uint<64>`) | Everyone (On-chain observers & smart contract) |
+| `supplierCount` | Public ledger (`Uint<64>`) | Everyone (On-chain observers & smart contract) |
+| `isSystemActive` | Public ledger (`Boolean`) | Everyone (On-chain observers & smart contract) |
+| `complianceThreshold` | Public ledger (`Uint<64>`) | Everyone (On-chain observers & smart contract) |
+| `verifiedTierCount` | Public ledger (`Uint<64>`) | Everyone (On-chain observers & smart contract) |
+| `privateAuditScore` | Private witness (`Uint<64>`) | No one (Evaluated locally in ZK circuit prover memory) |
+| `supplierCredential` | Private witness (`Opaque<"string">`) | No one (Hashed locally as private ZK witness) |
+| `passesThreshold` | Circuit witness (`Boolean`) | Disclosed via `disclose()` only as pass/fail boolean |
+
+---
+
+## 🚀 Mainnet Feasibility
+
+This dApp is fully feasible for production deployment on Midnight Mainnet:
+- **Low Gas & Proof Overhead**: The Compact circuits use lightweight ZK arithmetic circuits (`attestCompliance`, `registerSupplier`, `updateComplianceThreshold`).
+- **Lace Wallet Integration**: Uses standard Midnight DApp Connector API (`@midnight-ntwrk/dapp-connector-api`).
+- **Production Stack**: Built with full-stack Next.js App Router for Vercel/Netlify hosting.
 
 ---
 

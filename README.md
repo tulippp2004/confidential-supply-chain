@@ -253,24 +253,32 @@ npm run setup -- --network preview
 
 ## Privacy Model
 
+### Summary Breakdown
+- **PUBLIC**: `totalCertifications`, `passCount`, `supplierCount`, `isSystemActive`, `complianceThreshold`, `verifiedTierCount` (Visible on-chain to all observers)
+- **PRIVATE**: `privateAuditScore` (raw audit score 0-100), `supplierCredential` (Opaque company identity hash), prover secret keys (Kept 100% confidential as ZK witnesses)
+- **PROVED without revealing**: Proves that a supplier's confidential audit score meets or exceeds the required passing threshold (`privateAuditScore >= complianceThreshold`), and proves supplier credential commitment validity, without exposing raw numerical scores or enterprise identities to observers.
+
 ### What Observers CAN Learn
 
-- Total number of compliance attestations submitted
-- How many attestations passed vs failed (aggregate only)
-- How many suppliers are registered (count, not identities)
-- Whether the compliance system is active
+- Total number of compliance attestations submitted (`totalCertifications`)
+- How many attestations passed vs failed (`passCount`)
+- Number of enterprise high-tier verified attestations (`verifiedTierCount`)
+- How many suppliers are registered (`supplierCount` count, not identities)
+- Active on-chain compliance threshold (`complianceThreshold`)
+- Whether the compliance system is active (`isSystemActive`)
 
 ### What Observers CANNOT Learn
 
-- Individual audit scores (e.g. 87/100 — stays private as ZK witness)
+- Individual audit scores (e.g. 88/100 — stays 100% confidential in private witness)
 - Which supplier scored how much
-- Supplier identities or credentials
-- The relationship between an attestor's wallet and their specific score
+- Supplier legal company identities or credentials
+- The relationship between an attestor's wallet and their specific audit score
 
 ### What is Disclosed Deliberately
 
-- `disclose(passesThreshold)` inside `attestCompliance()` — reveals pass/fail per transaction to update the public tally counters. This is an intentional design choice: the compliance standard (pass/fail) is public business logic, while the actual score remains confidential.
-- `disclose()` is never called with raw audit scores or supplier credentials.
+- `disclose(passesThreshold)` inside `attestCompliance()` — reveals pass/fail boolean per transaction to update the public tally counters.
+- `disclose(newThreshold)` inside `updateComplianceThreshold()` — reveals new governance threshold value on-chain.
+- `disclose()` is **never** called with raw audit scores or supplier credentials.
 
 ---
 
