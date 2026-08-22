@@ -450,6 +450,10 @@ GitHub: [https://github.com/tulippp2004/confidential-supply-chain](https://githu
 ![On-Chain Governance Controls](docs/screenshots/governance-controls.png)
 *Authorized governance controls to adjust passing score thresholds dynamically on-chain using the `updateComplianceThreshold` circuit.*
 
+#### 4. Public Observer Ledger
+![Public Observer Ledger](docs/screenshots/public-observer-ledger.png)
+*Public ledger analytics showing macro compliance counters, verified enterprise gold tier metrics, and Zero-Knowledge privacy architecture storage layer breakdown.*
+
 ---
 
 *Confidential Supply Chain Compliance Platform — Built for the Midnight Network Hackathon*
