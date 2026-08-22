@@ -442,9 +442,9 @@ GitHub: [https://github.com/tulippp2004/confidential-supply-chain](https://githu
 ![Auditor Attestation Studio](docs/screenshots/auditor-attestation-studio.png)
 *Interactive ZK compliance attestation studio with numerical score input, ZK secret score masking toggle, enterprise preset selection, and 4-stage ZK proving pipeline visualizer.*
 
-#### 2. Confidential ZK Attestation
-![Confidential ZK Attestation](docs/screenshots/attest.png)
-*Audit scores are entered as private witness inputs to the Compact ZK circuit. Audit scores stay private — only pass/fail is disclosed.*
+#### 2. Supplier Credential Vault
+![Supplier Credential Vault](docs/screenshots/supplier-credential-vault.png)
+*Confidential supplier registration using `Opaque<"string">` private witness commitments. Raw credential details and company identities remain hidden on-chain.*
 
 #### 3. Register Supplier (Private Credential)
 ![Register Supplier](docs/screenshots/register.png)
