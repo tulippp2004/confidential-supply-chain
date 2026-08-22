@@ -446,13 +446,9 @@ GitHub: [https://github.com/tulippp2004/confidential-supply-chain](https://githu
 ![Supplier Credential Vault](docs/screenshots/supplier-credential-vault.png)
 *Confidential supplier registration using `Opaque<"string">` private witness commitments. Raw credential details and company identities remain hidden on-chain.*
 
-#### 3. Register Supplier (Private Credential)
-![Register Supplier](docs/screenshots/register.png)
-*Suppliers register credentials as private witness commitments. Only aggregate count increases publicly.*
-
-#### 4. Admin Controls
-![Admin Controls](docs/screenshots/admin.png)
-*Admin lifecycle controls to activate or deactivate the compliance system on-chain.*
+#### 3. On-Chain Governance Controls
+![On-Chain Governance Controls](docs/screenshots/governance-controls.png)
+*Authorized governance controls to adjust passing score thresholds dynamically on-chain using the `updateComplianceThreshold` circuit.*
 
 ---
 
