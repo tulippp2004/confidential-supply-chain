@@ -438,9 +438,9 @@ GitHub: [https://github.com/tulippp2004/confidential-supply-chain](https://githu
 
 ### Application Screenshots
 
-#### 1. Compliance Dashboard
-![Compliance Dashboard](docs/screenshots/dashboard.png)
-*Public ledger state showing pass rate (83%), registered suppliers (9), total attestations (24), and active system status.*
+#### 1. Auditor Attestation Studio
+![Auditor Attestation Studio](docs/screenshots/auditor-attestation-studio.png)
+*Interactive ZK compliance attestation studio with numerical score input, ZK secret score masking toggle, enterprise preset selection, and 4-stage ZK proving pipeline visualizer.*
 
 #### 2. Confidential ZK Attestation
 ![Confidential ZK Attestation](docs/screenshots/attest.png)
