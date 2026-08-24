@@ -1,22 +1,27 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 :root {
-  --bg-main: #0b0f19;
-  --bg-card: #111827;
-  --bg-card-hover: #1f2937;
+  --bg-obsidian: #090d16;
+  --bg-space: #0f172a;
+  --bg-card: rgba(17, 24, 39, 0.75);
+  --bg-card-hover: rgba(31, 41, 55, 0.85);
   --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-accent: rgba(56, 189, 248, 0.3);
+  --border-glow-cyan: rgba(56, 189, 248, 0.35);
+  --border-glow-purple: rgba(168, 85, 247, 0.35);
+  --border-glow-amber: rgba(245, 158, 11, 0.35);
   
-  --primary-cyan: #38bdf8;
-  --primary-glow: rgba(56, 189, 248, 0.2);
+  --cyan-bright: #38bdf8;
+  --cyan-glow: rgba(56, 189, 248, 0.2);
   --purple-zk: #a855f7;
+  --purple-glow: rgba(168, 85, 247, 0.2);
   --emerald-pass: #10b981;
-  --rose-fail: #ef4444;
+  --emerald-glow: rgba(16, 185, 129, 0.2);
   --amber-warn: #f59e0b;
+  --rose-fail: #ef4444;
   
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
 }
 
 * {
@@ -26,110 +31,166 @@
 }
 
 body {
-  background-color: var(--bg-main);
-  color: var(--text-primary);
+  background: radial-gradient(circle at 50% 0%, #0f172a 0%, #090d16 70%, #030712 100%);
+  color: var(--text-main);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-.font-mono {
+.font-mono-code {
   font-family: 'JetBrains Mono', monospace;
 }
 
-/* Minimalist Clean Cards */
-.clean-card {
+/* Glassmorphism Cards */
+.glass-card {
   background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-subtle);
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 24px;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.25s ease-in-out;
 }
 
-.clean-card:hover {
-  border-color: rgba(255, 255, 255, 0.15);
+.glass-card:hover {
+  border-color: rgba(255, 255, 255, 0.18);
 }
 
-.clean-card-accent {
-  border: 1px solid var(--border-accent);
-  box-shadow: 0 0 20px var(--primary-glow);
+.glass-card-cyan {
+  border: 1px solid var(--border-glow-cyan);
+  box-shadow: 0 0 25px var(--cyan-glow);
 }
 
-/* Minimalist Buttons */
-.btn-primary {
-  background: var(--primary-cyan);
+.glass-card-purple {
+  border: 1px solid var(--border-glow-purple);
+  box-shadow: 0 0 25px var(--purple-glow);
+}
+
+.glass-card-amber {
+  border: 1px solid var(--border-glow-amber);
+  box-shadow: 0 0 25px rgba(245, 158, 11, 0.15);
+}
+
+/* Glowing Action Buttons */
+.btn-cyan {
+  background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
   color: #090d16;
-  font-weight: 600;
+  font-weight: 700;
   border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
+  border-radius: 10px;
+  padding: 12px 24px;
   cursor: pointer;
   transition: all 0.2s ease;
-  font-size: 14px;
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
 }
 
-.btn-primary:hover {
-  background: #7dd3fc;
-  box-shadow: 0 0 15px var(--primary-glow);
+.btn-cyan:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(56, 189, 248, 0.5);
 }
 
-.btn-secondary {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text-primary);
+.btn-purple {
+  background: linear-gradient(135deg, #c084fc 0%, #9333ea 100%);
+  color: #ffffff;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+}
+
+.btn-purple:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(168, 85, 247, 0.5);
+}
+
+.btn-amber {
+  background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+  color: #090d16;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+}
+
+.btn-amber:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(245, 158, 11, 0.5);
+}
+
+.btn-ghost {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-main);
   border: 1px solid var(--border-subtle);
-  font-weight: 500;
-  border-radius: 8px;
+  font-weight: 600;
+  border-radius: 10px;
   padding: 8px 16px;
   cursor: pointer;
   transition: all 0.2s ease;
-  font-size: 13px;
 }
 
-.btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.1);
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.08);
   border-color: rgba(255, 255, 255, 0.2);
 }
 
+/* Custom Badges */
 .badge-cyan {
-  background: rgba(56, 189, 248, 0.1);
-  color: var(--primary-cyan);
-  border: 1px solid rgba(56, 189, 248, 0.25);
-  padding: 4px 10px;
+  background: rgba(56, 189, 248, 0.12);
+  color: var(--cyan-bright);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  padding: 4px 12px;
   border-radius: 20px;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .badge-purple {
-  background: rgba(168, 85, 247, 0.1);
+  background: rgba(168, 85, 247, 0.12);
   color: var(--purple-zk);
-  border: 1px solid rgba(168, 85, 247, 0.25);
-  padding: 4px 10px;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  padding: 4px 12px;
   border-radius: 20px;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
+}
+
+.badge-amber {
+  background: rgba(245, 158, 11, 0.12);
+  color: var(--amber-warn);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .badge-emerald {
-  background: rgba(16, 185, 129, 0.1);
+  background: rgba(16, 185, 129, 0.12);
   color: var(--emerald-pass);
-  border: 1px solid rgba(16, 185, 129, 0.25);
-  padding: 4px 10px;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 4px 12px;
   border-radius: 20px;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg-main);
+  background: var(--bg-obsidian);
 }
 ::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.15);
-  border-radius: 3px;
+  border-radius: 4px;
 }
