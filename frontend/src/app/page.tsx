@@ -9,29 +9,30 @@ import {
   Cpu, 
   CheckCircle2, 
   XCircle, 
-  Sliders, 
   Building2, 
   Activity, 
   Copy, 
   Award, 
-  Download
+  Download,
+  ExternalLink,
+  Layers
 } from 'lucide-react';
 
-const PRESET_STANDARDS = [
+const PRESETS = [
   { id: 'iso27001', name: 'ISO 27001 Security', minScore: 80, icon: '🛡️', category: 'Cybersecurity' },
-  { id: 'esg', name: 'ESG Carbon Emissions', minScore: 75, icon: '🌿', category: 'Sustainability' },
+  { id: 'esg', name: 'ESG Carbon Rating', minScore: 75, icon: '🌿', category: 'Sustainability' },
   { id: 'fda', name: 'FDA Pharma Origin', minScore: 90, icon: '💊', category: 'Healthcare' },
   { id: 'iso9001', name: 'ISO 9001 Quality', minScore: 85, icon: '📦', category: 'Manufacturing' },
 ];
 
-export default function MidnightSupplyChainApp() {
-  const [activeRole, setActiveRole] = useState<'auditor' | 'supplier' | 'governance' | 'observer'>('auditor');
+export default function CleanMidnightApp() {
+  const [activeTab, setActiveTab] = useState<'attest' | 'supplier' | 'ledger'>('attest');
   
-  const [walletConnected, setWalletConnected] = useState(false);
-  const [walletAddress, setWalletAddress] = useState<string | null>(null);
-  const [walletBalance] = useState<string>('245.50');
-  
-  const [selectedPreset, setSelectedPreset] = useState(PRESET_STANDARDS[0]);
+  const [walletConnected, setWalletConnected] = useState(true);
+  const [walletAddress] = useState('mn_addr_preview1q8c3h7j9k2l4m5n6p7r8s9t0u1v2w3x4y5z6a7b8c9d0e1f2g3h4j5k6l7m8n9p');
+  const [walletBalance] = useState('245.50');
+
+  const [selectedPreset, setSelectedPreset] = useState(PRESETS[0]);
   const [auditScore, setAuditScore] = useState<number>(88);
   const [maskScore, setMaskScore] = useState<boolean>(true);
   const [provingStage, setProvingStage] = useState<number>(0);
@@ -42,16 +43,11 @@ export default function MidnightSupplyChainApp() {
   const [isRegisteringSupplier, setIsRegisteringSupplier] = useState<boolean>(false);
   const [registeredSuccess, setRegisteredSuccess] = useState<boolean>(false);
 
-  const [complianceThreshold, setComplianceThreshold] = useState<number>(75);
-  const [isSystemActive] = useState<boolean>(true);
-  const [updatingThreshold, setUpdatingThreshold] = useState<boolean>(false);
-
   const [stats, setStats] = useState({
     totalCertifications: 42,
     passCount: 38,
     supplierCount: 19,
     verifiedTierCount: 16,
-    isSystemActive: true,
     complianceThreshold: 75,
   });
 
@@ -63,27 +59,15 @@ export default function MidnightSupplyChainApp() {
     ? Math.round((stats.passCount / stats.totalCertifications) * 100) 
     : 100;
 
-  const toggleWallet = () => {
-    if (walletConnected) {
-      setWalletConnected(false);
-      setWalletAddress(null);
-    } else {
-      setWalletConnected(true);
-      setWalletAddress('mn_addr_preview1q8c3h7j9k2l4m5n6p7r8s9t0u1v2w3x4y5z6a7b8c9d0e1f2g3h4j5k6l7m8n9p');
-    }
-  };
-
   const runAttestCompliance = () => {
-    if (!isSystemActive) return;
     setProvingStage(1);
-    
     setTimeout(() => {
       setProvingStage(2);
       setTimeout(() => {
         setProvingStage(3);
         setTimeout(() => {
           setProvingStage(4);
-          const isPass = auditScore >= complianceThreshold;
+          const isPass = auditScore >= stats.complianceThreshold;
           
           setStats((prev) => ({
             ...prev,
@@ -110,14 +94,6 @@ export default function MidnightSupplyChainApp() {
       setRegisteredSuccess(true);
       setStats(prev => ({ ...prev, supplierCount: prev.supplierCount + 1 }));
       setTimeout(() => setRegisteredSuccess(false), 4000);
-    }, 1800);
-  };
-
-  const runUpdateThreshold = () => {
-    setUpdatingThreshold(true);
-    setTimeout(() => {
-      setUpdatingThreshold(false);
-      setStats(prev => ({ ...prev, complianceThreshold }));
     }, 1500);
   };
 
@@ -130,174 +106,138 @@ export default function MidnightSupplyChainApp() {
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       
-      {/* Header */}
-      <header className="glass-panel" style={{ borderRadius: 0, borderTop: 'none', borderLeft: 'none', borderRight: 'none', padding: '16px 28px' }}>
-        <div style={{ maxWidth: 1300, margin: '0 auto', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
+      {/* ─── Header ────────────────────────────────────────────────────────── */}
+      <header style={{ borderBottom: '1px solid var(--border-subtle)', background: 'rgba(17, 24, 39, 0.6)', backdropFilter: 'blur(12px)', padding: '16px 24px', position: 'sticky', top: 0, zIndex: 100 }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
           
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <div style={{ width: 44, height: 44, borderRadius: 12, background: 'linear-gradient(135deg, #00f2fe 0%, #8b5cf6 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 20px rgba(0, 242, 254, 0.4)' }}>
-              <ShieldCheck size={26} color="#020617" />
+          {/* Logo */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{ width: 36, height: 36, borderRadius: 8, background: 'rgba(56, 189, 248, 0.15)', border: '1px solid var(--border-accent)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <ShieldCheck size={20} color="var(--primary-cyan)" />
             </div>
             <div>
-              <div style={{ fontSize: 18, fontWeight: 800, letterSpacing: '-0.02em', display: 'flex', alignItems: 'center', gap: 8 }}>
-                Confidential Supply Chain <span className="font-mono-code" style={{ fontSize: 11, background: 'rgba(0, 242, 254, 0.15)', color: 'var(--cyan-bright)', padding: '2px 8px', borderRadius: 20, border: '1px solid rgba(0, 242, 254, 0.3)' }}>v2.0 August</span>
+              <div style={{ fontSize: 16, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 8 }}>
+                Confidential Supply Chain <span className="badge-cyan">v2.0 August</span>
               </div>
-              <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>
-                Zero-Knowledge Compliance Attestation on <span style={{ color: 'var(--violet-bright)', fontWeight: 600 }}>Midnight Network</span>
+              <div style={{ fontSize: 12, color: 'var(--text-secondary)' }}>
+                Powered by <span style={{ color: 'var(--purple-zk)', fontWeight: 500 }}>Midnight Network ZK Circuits</span>
               </div>
             </div>
           </div>
 
+          {/* Network & Wallet Controls */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
-            <div style={{ background: 'rgba(15, 23, 42, 0.8)', border: '1px solid var(--border-glass)', padding: '6px 14px', borderRadius: 20, display: 'flex', alignItems: 'center', gap: 8, fontSize: 12 }}>
-              <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--emerald-pass)', boxShadow: '0 0 10px var(--emerald-pass)' }}></span>
-              <span style={{ color: 'var(--text-muted)' }}>Network:</span>
-              <span className="font-mono-code" style={{ fontWeight: 600, color: 'var(--cyan-bright)' }}>Preview Testnet</span>
+            
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, background: 'rgba(16, 185, 129, 0.08)', border: '1px solid rgba(16, 185, 129, 0.2)', padding: '5px 12px', borderRadius: 20 }}>
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--emerald-pass)' }}></span>
+              <span style={{ color: 'var(--emerald-pass)', fontWeight: 500 }}>Midnight Preview</span>
             </div>
 
             <div 
               onClick={() => copyToClipboard(CONTRACT_ADDR)}
-              style={{ background: 'rgba(139, 92, 246, 0.1)', border: '1px solid rgba(139, 92, 246, 0.3)', padding: '6px 14px', borderRadius: 20, display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', fontSize: 12, transition: 'all 0.2s' }}
+              style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, background: 'rgba(255, 255, 255, 0.04)', border: '1px solid var(--border-subtle)', padding: '5px 12px', borderRadius: 20, cursor: 'pointer' }}
               title="Click to copy contract address"
             >
-              <Lock size={13} color="var(--violet-bright)" />
-              <span className="font-mono-code" style={{ color: 'var(--text-muted)' }}>
+              <Lock size={12} color="var(--purple-zk)" />
+              <span className="font-mono" style={{ color: 'var(--text-secondary)' }}>
                 {CONTRACT_ADDR.substring(0, 8)}...{CONTRACT_ADDR.substring(CONTRACT_ADDR.length - 6)}
               </span>
-              <Copy size={13} color="var(--text-muted)" />
-              {copiedContract && <span style={{ fontSize: 10, color: 'var(--emerald-pass)', fontWeight: 700 }}>COPIED!</span>}
+              <Copy size={12} color="var(--text-muted)" />
+              {copiedContract && <span style={{ fontSize: 10, color: 'var(--emerald-pass)', fontWeight: 600 }}>COPIED!</span>}
             </div>
 
             <button 
-              onClick={toggleWallet}
-              className={walletConnected ? 'btn-outline' : 'btn-cyan'}
-              style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13 }}
+              onClick={() => setWalletConnected(!walletConnected)}
+              className="btn-secondary"
+              style={{ display: 'flex', alignItems: 'center', gap: 6 }}
             >
-              <Cpu size={16} />
-              {walletConnected ? (
-                <span>
-                  {walletAddress?.substring(0, 10)}... <span style={{ color: 'var(--cyan-bright)', marginLeft: 4 }}>({walletBalance} tNIGHT)</span>
-                </span>
-              ) : (
-                'Connect Lace Wallet'
-              )}
+              <Cpu size={14} color="var(--primary-cyan)" />
+              <span className="font-mono" style={{ fontSize: 12 }}>
+                {walletAddress.substring(0, 10)}... <span style={{ color: 'var(--primary-cyan)', marginLeft: 4 }}>({walletBalance} tNIGHT)</span>
+              </span>
             </button>
           </div>
+
         </div>
       </header>
 
-      {/* Role Navigation Switcher */}
-      <nav style={{ background: 'rgba(2, 4, 10, 0.6)', borderBottom: '1px solid var(--border-glass)', padding: '12px 28px' }}>
-        <div style={{ maxWidth: 1300, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, flexWrap: 'wrap' }}>
+      {/* ─── Segmented Navigation ─────────────────────────────────────────── */}
+      <div style={{ borderBottom: '1px solid var(--border-subtle)', background: '#090d16', padding: '12px 24px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
           
           <button 
-            onClick={() => setActiveRole('auditor')}
-            style={{
-              padding: '10px 20px',
-              borderRadius: 12,
-              border: activeRole === 'auditor' ? '1px solid var(--cyan-bright)' : '1px solid transparent',
-              background: activeRole === 'auditor' ? 'rgba(0, 242, 254, 0.12)' : 'transparent',
-              color: activeRole === 'auditor' ? 'var(--cyan-bright)' : 'var(--text-muted)',
-              fontWeight: 600,
-              fontSize: 13,
+            onClick={() => setActiveTab('attest')}
+            className="btn-secondary"
+            style={{ 
+              background: activeTab === 'attest' ? 'rgba(56, 189, 248, 0.12)' : 'transparent',
+              borderColor: activeTab === 'attest' ? 'var(--primary-cyan)' : 'transparent',
+              color: activeTab === 'attest' ? 'var(--primary-cyan)' : 'var(--text-secondary)',
               display: 'flex',
               alignItems: 'center',
               gap: 8,
-              cursor: 'pointer',
-              transition: 'all 0.2s'
+              padding: '8px 18px'
             }}
           >
-            <ShieldCheck size={16} />
-            Auditor Attestation Studio
+            <ShieldCheck size={16} /> Attestation Studio
           </button>
 
           <button 
-            onClick={() => setActiveRole('supplier')}
-            style={{
-              padding: '10px 20px',
-              borderRadius: 12,
-              border: activeRole === 'supplier' ? '1px solid var(--violet-bright)' : '1px solid transparent',
-              background: activeRole === 'supplier' ? 'rgba(139, 92, 246, 0.12)' : 'transparent',
-              color: activeRole === 'supplier' ? 'var(--violet-bright)' : 'var(--text-muted)',
-              fontWeight: 600,
-              fontSize: 13,
+            onClick={() => setActiveTab('supplier')}
+            className="btn-secondary"
+            style={{ 
+              background: activeTab === 'supplier' ? 'rgba(168, 85, 247, 0.12)' : 'transparent',
+              borderColor: activeTab === 'supplier' ? 'var(--purple-zk)' : 'transparent',
+              color: activeTab === 'supplier' ? 'var(--purple-zk)' : 'var(--text-secondary)',
               display: 'flex',
               alignItems: 'center',
               gap: 8,
-              cursor: 'pointer',
-              transition: 'all 0.2s'
+              padding: '8px 18px'
             }}
           >
-            <Building2 size={16} />
-            Supplier Credential Vault
+            <Building2 size={16} /> Supplier Vault
           </button>
 
           <button 
-            onClick={() => setActiveRole('governance')}
-            style={{
-              padding: '10px 20px',
-              borderRadius: 12,
-              border: activeRole === 'governance' ? '1px solid var(--amber-warn)' : '1px solid transparent',
-              background: activeRole === 'governance' ? 'rgba(245, 158, 11, 0.12)' : 'transparent',
-              color: activeRole === 'governance' ? 'var(--amber-warn)' : 'var(--text-muted)',
-              fontWeight: 600,
-              fontSize: 13,
+            onClick={() => setActiveTab('ledger')}
+            className="btn-secondary"
+            style={{ 
+              background: activeTab === 'ledger' ? 'rgba(16, 185, 129, 0.12)' : 'transparent',
+              borderColor: activeTab === 'ledger' ? 'var(--emerald-pass)' : 'transparent',
+              color: activeTab === 'ledger' ? 'var(--emerald-pass)' : 'var(--text-secondary)',
               display: 'flex',
               alignItems: 'center',
               gap: 8,
-              cursor: 'pointer',
-              transition: 'all 0.2s'
+              padding: '8px 18px'
             }}
           >
-            <Sliders size={16} />
-            Governance Controls
-          </button>
-
-          <button 
-            onClick={() => setActiveRole('observer')}
-            style={{
-              padding: '10px 20px',
-              borderRadius: 12,
-              border: activeRole === 'observer' ? '1px solid var(--emerald-pass)' : '1px solid transparent',
-              background: activeRole === 'observer' ? 'rgba(16, 185, 129, 0.12)' : 'transparent',
-              color: activeRole === 'observer' ? 'var(--emerald-pass)' : 'var(--text-muted)',
-              fontWeight: 600,
-              fontSize: 13,
-              display: 'flex',
-              alignItems: 'center',
-              gap: 8,
-              cursor: 'pointer',
-              transition: 'all 0.2s'
-            }}
-          >
-            <Activity size={16} />
-            Public Observer Ledger
+            <Activity size={16} /> Public Ledger State
           </button>
 
         </div>
-      </nav>
+      </div>
 
-      {/* Main Container */}
-      <main style={{ maxWidth: 1300, width: '100%', margin: '0 auto', padding: '32px 28px', flex: 1 }}>
+      {/* ─── Main Content ─────────────────────────────────────────────────── */}
+      <main style={{ maxWidth: 1100, width: '100%', margin: '0 auto', padding: '32px 24px', flex: 1 }}>
 
-        {/* ROLE 1: AUDITOR WORKSPACE */}
-        {activeRole === 'auditor' && (
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 28 }}>
+        {/* TAB 1: ATTESTATION STUDIO */}
+        {activeTab === 'attest' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
             
-            <div className="glass-panel glass-panel-glow" style={{ padding: 28 }}>
+            {/* Title Section */}
+            <div className="clean-card clean-card-accent">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16 }}>
                 <div>
-                  <h2 style={{ fontSize: 22, fontWeight: 800, color: '#ffffff', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 10 }}>
-                    Zero-Knowledge Compliance Attestation Studio
+                  <h2 style={{ fontSize: 20, fontWeight: 700, color: '#ffffff', marginBottom: 6 }}>
+                    Confidential Compliance Attestation
                   </h2>
-                  <p style={{ color: 'var(--text-muted)', fontSize: 14, maxWidth: 800, lineHeight: 1.6 }}>
-                    Attest to supplier compliance scores using Midnight Compact ZK circuit. Numerical audit scores remain <span style={{ color: 'var(--violet-bright)', fontWeight: 600 }}>100% confidential in local prover memory</span> — only the boolean pass/fail criteria is disclosed on-chain.
+                  <p style={{ fontSize: 13, color: 'var(--text-secondary)', maxWidth: 700, lineHeight: 1.6 }}>
+                    Submit audit evaluation scores via Midnight's Zero-Knowledge Compact circuit. Numerical scores are evaluated in <span style={{ color: 'var(--purple-zk)', fontWeight: 600 }}>local prover memory</span> and are never published on-chain.
                   </p>
                 </div>
-                <div style={{ background: 'rgba(0, 242, 254, 0.08)', border: '1px solid rgba(0, 242, 254, 0.2)', padding: '10px 16px', borderRadius: 12, textAlign: 'right' }}>
-                  <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>Required Threshold</div>
-                  <div className="font-mono-code" style={{ fontSize: 20, fontWeight: 800, color: 'var(--cyan-bright)' }}>
-                    &gt;= {complianceThreshold} / 100
+                <div style={{ background: 'rgba(56, 189, 248, 0.06)', border: '1px solid var(--border-accent)', padding: '8px 14px', borderRadius: 8, textAlign: 'right' }}>
+                  <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>Compliance Threshold</div>
+                  <div className="font-mono" style={{ fontSize: 18, fontWeight: 700, color: 'var(--primary-cyan)' }}>
+                    &gt;= {stats.complianceThreshold} / 100
                   </div>
                 </div>
               </div>
@@ -305,139 +245,136 @@ export default function MidnightSupplyChainApp() {
 
             {/* Enterprise Presets */}
             <div>
-              <div style={{ fontSize: 13, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)', marginBottom: 12, fontWeight: 700 }}>
-                1. Select Enterprise Compliance Preset
+              <div style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)', marginBottom: 12, fontWeight: 600 }}>
+                Select Enterprise Compliance Standard
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
-                {PRESET_STANDARDS.map((preset) => (
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: 12 }}>
+                {PRESETS.map((preset) => (
                   <div 
                     key={preset.id}
                     onClick={() => {
                       setSelectedPreset(preset);
                       setAuditScore(preset.minScore + 5);
                     }}
-                    className="glass-panel"
+                    className="clean-card"
                     style={{ 
-                      padding: 20, 
+                      padding: 16, 
                       cursor: 'pointer', 
-                      borderColor: selectedPreset.id === preset.id ? 'var(--cyan-bright)' : 'var(--border-glass)',
-                      background: selectedPreset.id === preset.id ? 'rgba(0, 242, 254, 0.08)' : 'var(--bg-card)',
+                      borderColor: selectedPreset.id === preset.id ? 'var(--primary-cyan)' : 'var(--border-subtle)',
+                      background: selectedPreset.id === preset.id ? 'rgba(56, 189, 248, 0.06)' : 'var(--bg-card)'
                     }}
                   >
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                      <span style={{ fontSize: 24 }}>{preset.icon}</span>
-                      <span className="font-mono-code" style={{ fontSize: 11, background: 'rgba(255, 255, 255, 0.08)', padding: '2px 8px', borderRadius: 10, color: 'var(--text-muted)' }}>
-                        Req: &gt;={preset.minScore}
-                      </span>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                      <span style={{ fontSize: 20 }}>{preset.icon}</span>
+                      <span className="font-mono" style={{ fontSize: 11, color: 'var(--text-muted)' }}>Req: &gt;={preset.minScore}</span>
                     </div>
-                    <div style={{ fontSize: 15, fontWeight: 700, color: '#ffffff', marginBottom: 4 }}>{preset.name}</div>
-                    <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>{preset.category}</div>
+                    <div style={{ fontSize: 14, fontWeight: 600, color: '#ffffff', marginBottom: 2 }}>{preset.name}</div>
+                    <div style={{ fontSize: 12, color: 'var(--text-secondary)' }}>{preset.category}</div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Audit Input Form */}
-            <div className="glass-panel" style={{ padding: 28 }}>
-              <div style={{ fontSize: 13, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)', marginBottom: 16, fontWeight: 700 }}>
-                2. Input Numerical Audit Score (Private Witness)
+            {/* Input Form */}
+            <div className="clean-card">
+              <div style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)', marginBottom: 16, fontWeight: 600 }}>
+                Audit Score Evaluation Input
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32, alignItems: 'center' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, alignItems: 'center' }}>
                 
                 <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                    <label style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-main)' }}>
-                      Evaluated Audit Score:
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+                    <label style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)' }}>
+                      Numerical Audit Score:
                     </label>
                     <button 
                       onClick={() => setMaskScore(!maskScore)}
-                      style={{ background: 'rgba(139, 92, 246, 0.15)', border: '1px solid rgba(139, 92, 246, 0.3)', color: 'var(--violet-bright)', borderRadius: 8, padding: '4px 10px', fontSize: 12, display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer' }}
+                      className="btn-secondary"
+                      style={{ padding: '4px 10px', fontSize: 11, display: 'flex', alignItems: 'center', gap: 4 }}
                     >
-                      {maskScore ? <EyeOff size={14} /> : <Eye size={14} />}
-                      {maskScore ? 'ZK Masked Secret' : 'Show Score'}
+                      {maskScore ? <EyeOff size={12} /> : <Eye size={12} />}
+                      {maskScore ? 'ZK Secret Masked' : 'Show Score'}
                     </button>
                   </div>
 
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16 }}>
                     <input 
                       type="range" 
                       min="0" 
                       max="100" 
                       value={auditScore} 
                       onChange={(e) => setAuditScore(parseInt(e.target.value))}
-                      style={{ flex: 1, accentColor: 'var(--cyan-bright)', cursor: 'pointer' }}
+                      style={{ flex: 1, accentColor: 'var(--primary-cyan)', cursor: 'pointer' }}
                     />
-                    <div className="font-mono-code" style={{ fontSize: 28, fontWeight: 800, width: 80, textAlign: 'center', background: 'rgba(255, 255, 255, 0.05)', padding: '6px 12px', borderRadius: 10, border: '1px solid var(--border-glass)', color: auditScore >= complianceThreshold ? 'var(--emerald-pass)' : 'var(--rose-fail)' }}>
+                    <div className="font-mono" style={{ fontSize: 22, fontWeight: 700, width: 70, textAlign: 'center', background: 'rgba(255, 255, 255, 0.03)', padding: '4px 8px', borderRadius: 8, border: '1px solid var(--border-subtle)', color: auditScore >= stats.complianceThreshold ? 'var(--emerald-pass)' : 'var(--rose-fail)' }}>
                       {maskScore ? '***' : auditScore}
                     </div>
                   </div>
 
-                  <div style={{ background: 'rgba(139, 92, 246, 0.08)', border: '1px solid rgba(139, 92, 246, 0.2)', padding: 14, borderRadius: 12, display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 13, color: 'var(--text-muted)' }}>
-                    <Lock size={18} color="var(--violet-bright)" style={{ flexShrink: 0, marginTop: 2 }} />
+                  <div style={{ background: 'rgba(168, 85, 247, 0.06)', border: '1px solid rgba(168, 85, 247, 0.2)', padding: 12, borderRadius: 8, display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 12, color: 'var(--text-secondary)' }}>
+                    <Lock size={14} color="var(--purple-zk)" style={{ flexShrink: 0, marginTop: 2 }} />
                     <div>
-                      <strong style={{ color: 'var(--violet-bright)' }}>Privacy Guarantee:</strong> Score <span className="font-mono-code" style={{ color: '#ffffff' }}>{maskScore ? '***' : auditScore}</span> is evaluated locally via ZK Compact circuit witness. Observers on Midnight blockchain can never see this numerical value.
+                      <strong style={{ color: 'var(--purple-zk)' }}>Privacy Invariant:</strong> Raw score <span className="font-mono" style={{ color: '#ffffff' }}>{maskScore ? '***' : auditScore}</span> is evaluated locally as a ZK private witness. Observers on Midnight blockchain can never deduce this score.
                     </div>
                   </div>
                 </div>
 
-                <div style={{ background: 'rgba(2, 4, 10, 0.5)', border: '1px solid var(--border-glass)', padding: 24, borderRadius: 16, textAlign: 'center' }}>
-                  <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 8 }}>Circuit Outcome Evaluation</div>
+                <div style={{ background: 'rgba(0, 0, 0, 0.3)', border: '1px solid var(--border-subtle)', padding: 20, borderRadius: 10, textAlign: 'center' }}>
+                  <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 8 }}>Circuit Disclose Outcome</div>
                   
-                  {auditScore >= complianceThreshold ? (
-                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'var(--emerald-pass)', fontSize: 18, fontWeight: 800, marginBottom: 16 }}>
-                      <CheckCircle2 size={22} /> SATISFIES THRESHOLD (PASS)
+                  {auditScore >= stats.complianceThreshold ? (
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--emerald-pass)', fontSize: 16, fontWeight: 700, marginBottom: 14 }}>
+                      <CheckCircle2 size={18} /> THRESHOLD SATISFIED (PASS)
                     </div>
                   ) : (
-                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'var(--rose-fail)', fontSize: 18, fontWeight: 800, marginBottom: 16 }}>
-                      <XCircle size={22} /> BELOW THRESHOLD (FAIL)
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--rose-fail)', fontSize: 16, fontWeight: 700, marginBottom: 14 }}>
+                      <XCircle size={18} /> BELOW THRESHOLD (FAIL)
                     </div>
                   )}
 
-                  <div>
-                    <button 
-                      onClick={runAttestCompliance}
-                      disabled={provingStage > 0 && provingStage < 4}
-                      className="btn-cyan"
-                      style={{ width: '100%', padding: '16px 24px', fontSize: 15, opacity: (provingStage > 0 && provingStage < 4) ? 0.6 : 1 }}
-                    >
-                      {provingStage > 0 && provingStage < 4 ? 'Generating ZK Proof...' : 'Attest Compliance via ZK Circuit'}
-                    </button>
-                  </div>
+                  <button 
+                    onClick={runAttestCompliance}
+                    disabled={provingStage > 0 && provingStage < 4}
+                    className="btn-primary"
+                    style={{ width: '100%', opacity: (provingStage > 0 && provingStage < 4) ? 0.6 : 1 }}
+                  >
+                    {provingStage > 0 && provingStage < 4 ? 'Generating ZK Proof...' : 'Attest Compliance via ZK Circuit'}
+                  </button>
                 </div>
 
               </div>
             </div>
 
-            {/* ZK Pipeline */}
-            <div className="glass-panel glass-panel-violet" style={{ padding: 28 }}>
-              <div style={{ fontSize: 13, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)', marginBottom: 20, fontWeight: 700 }}>
-                3. Live Compact Zero-Knowledge Proving Pipeline
+            {/* ZK Proving Pipeline Progress */}
+            <div className="clean-card" style={{ borderColor: 'rgba(168, 85, 247, 0.3)' }}>
+              <div style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)', marginBottom: 16, fontWeight: 600 }}>
+                Compact ZK Proving Pipeline Progress
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16, position: 'relative' }}>
-                <div style={{ background: provingStage >= 1 ? 'rgba(0, 242, 254, 0.12)' : 'rgba(15, 23, 42, 0.6)', border: provingStage >= 1 ? '1px solid var(--cyan-bright)' : '1px solid var(--border-glass)', padding: 18, borderRadius: 14, transition: 'all 0.3s' }}>
-                  <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 4 }}>STAGE 1</div>
-                  <div style={{ fontSize: 14, fontWeight: 700, color: '#ffffff', marginBottom: 6 }}>Private Witness</div>
-                  <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>Score {maskScore ? '***' : auditScore} loaded into prover memory</div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 12 }}>
+                <div style={{ background: provingStage >= 1 ? 'rgba(56, 189, 248, 0.1)' : 'rgba(255, 255, 255, 0.02)', border: provingStage >= 1 ? '1px solid var(--primary-cyan)' : '1px solid var(--border-subtle)', padding: 14, borderRadius: 8 }}>
+                  <div style={{ fontSize: 10, color: 'var(--text-muted)', marginBottom: 2 }}>STEP 1</div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: '#ffffff', marginBottom: 4 }}>Private Witness</div>
+                  <div style={{ fontSize: 11, color: 'var(--text-secondary)' }}>Score {maskScore ? '***' : auditScore} loaded into prover</div>
                 </div>
 
-                <div style={{ background: provingStage >= 2 ? 'rgba(139, 92, 246, 0.15)' : 'rgba(15, 23, 42, 0.6)', border: provingStage >= 2 ? '1px solid var(--violet-bright)' : '1px solid var(--border-glass)', padding: 18, borderRadius: 14, transition: 'all 0.3s' }}>
-                  <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 4 }}>STAGE 2</div>
-                  <div style={{ fontSize: 14, fontWeight: 700, color: '#ffffff', marginBottom: 6 }}>ZK SNARK Proof</div>
-                  <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>Executing arithmetic bounds check circuit</div>
+                <div style={{ background: provingStage >= 2 ? 'rgba(168, 85, 247, 0.1)' : 'rgba(255, 255, 255, 0.02)', border: provingStage >= 2 ? '1px solid var(--purple-zk)' : '1px solid var(--border-subtle)', padding: 14, borderRadius: 8 }}>
+                  <div style={{ fontSize: 10, color: 'var(--text-muted)', marginBottom: 2 }}>STEP 2</div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: '#ffffff', marginBottom: 4 }}>ZK Proof Generation</div>
+                  <div style={{ fontSize: 11, color: 'var(--text-secondary)' }}>Executing Compact circuit</div>
                 </div>
 
-                <div style={{ background: provingStage >= 3 ? 'rgba(245, 158, 11, 0.15)' : 'rgba(15, 23, 42, 0.6)', border: provingStage >= 3 ? '1px solid var(--amber-warn)' : '1px solid var(--border-glass)', padding: 18, borderRadius: 14, transition: 'all 0.3s' }}>
-                  <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 4 }}>STAGE 3</div>
-                  <div style={{ fontSize: 14, fontWeight: 700, color: '#ffffff', marginBottom: 6 }}>Ledger Disclose</div>
-                  <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>disclose(passesThreshold) outcome</div>
+                <div style={{ background: provingStage >= 3 ? 'rgba(245, 158, 11, 0.1)' : 'rgba(255, 255, 255, 0.02)', border: provingStage >= 3 ? '1px solid var(--amber-warn)' : '1px solid var(--border-subtle)', padding: 14, borderRadius: 8 }}>
+                  <div style={{ fontSize: 10, color: 'var(--text-muted)', marginBottom: 2 }}>STEP 3</div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: '#ffffff', marginBottom: 4 }}>Ledger Disclose</div>
+                  <div style={{ fontSize: 11, color: 'var(--text-secondary)' }}>disclose(passesThreshold)</div>
                 </div>
 
-                <div style={{ background: provingStage >= 4 ? 'rgba(16, 185, 129, 0.15)' : 'rgba(15, 23, 42, 0.6)', border: provingStage >= 4 ? '1px solid var(--emerald-pass)' : '1px solid var(--border-glass)', padding: 18, borderRadius: 14, transition: 'all 0.3s' }}>
-                  <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 4 }}>STAGE 4</div>
-                  <div style={{ fontSize: 14, fontWeight: 700, color: '#ffffff', marginBottom: 6 }}>On-Chain State</div>
-                  <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>Increment passCount &amp; verifiedTier</div>
+                <div style={{ background: provingStage >= 4 ? 'rgba(16, 185, 129, 0.1)' : 'rgba(255, 255, 255, 0.02)', border: provingStage >= 4 ? '1px solid var(--emerald-pass)' : '1px solid var(--border-subtle)', padding: 14, borderRadius: 8 }}>
+                  <div style={{ fontSize: 10, color: 'var(--text-muted)', marginBottom: 2 }}>STEP 4</div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: '#ffffff', marginBottom: 4 }}>On-Chain State</div>
+                  <div style={{ fontSize: 11, color: 'var(--text-secondary)' }}>passCount incremented</div>
                 </div>
               </div>
             </div>
@@ -445,44 +382,44 @@ export default function MidnightSupplyChainApp() {
           </div>
         )}
 
-        {/* ROLE 2: SUPPLIER VAULT */}
-        {activeRole === 'supplier' && (
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 28 }}>
-            <div className="glass-panel glass-panel-violet" style={{ padding: 28 }}>
-              <h2 style={{ fontSize: 22, fontWeight: 800, color: '#ffffff', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 10 }}>
-                Confidential Supplier Credential Vault
+        {/* TAB 2: SUPPLIER VAULT */}
+        {activeTab === 'supplier' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+            <div className="clean-card" style={{ borderColor: 'rgba(168, 85, 247, 0.3)' }}>
+              <h2 style={{ fontSize: 18, fontWeight: 700, color: '#ffffff', marginBottom: 6 }}>
+                Supplier Credential Vault
               </h2>
-              <p style={{ color: 'var(--text-muted)', fontSize: 14, maxWidth: 800, lineHeight: 1.6 }}>
-                Register enterprise supplier credentials (DIDs, ISO certificates) into Midnight ledger using private witness commitments. Raw credential details are never published on-chain.
+              <p style={{ fontSize: 13, color: 'var(--text-secondary)', maxWidth: 700, lineHeight: 1.6 }}>
+                Register supplier DIDs and ISO certificates using <span className="font-mono" style={{ color: 'var(--purple-zk)' }}>Opaque&lt;"string"&gt;</span> private witness commitments. Raw credential details are never published on-chain.
               </p>
             </div>
 
-            <div className="glass-panel" style={{ padding: 28 }}>
-              <div style={{ maxWidth: 650 }}>
-                <label style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-main)', display: 'block', marginBottom: 8 }}>
+            <div className="clean-card">
+              <div style={{ maxWidth: 600 }}>
+                <label style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)', display: 'block', marginBottom: 8 }}>
                   Supplier Identity Hash / Certificate DID:
                 </label>
-                <div style={{ display: 'flex', gap: 12, marginBottom: 16 }}>
+                <div style={{ display: 'flex', gap: 10, marginBottom: 16 }}>
                   <input 
                     type="text" 
                     value={supplierDID} 
                     onChange={(e) => setSupplierDID(e.target.value)}
-                    className="font-mono-code"
-                    style={{ flex: 1, background: 'rgba(2, 4, 10, 0.6)', border: '1px solid var(--border-glass)', color: '#ffffff', padding: '12px 16px', borderRadius: 12, fontSize: 13 }}
+                    className="font-mono"
+                    style={{ flex: 1, background: 'rgba(0, 0, 0, 0.3)', border: '1px solid var(--border-subtle)', color: '#ffffff', padding: '10px 14px', borderRadius: 8, fontSize: 12 }}
                   />
                   <button 
                     onClick={runRegisterSupplier}
                     disabled={isRegisteringSupplier}
-                    className="btn-violet"
-                    style={{ whiteSpace: 'nowrap' }}
+                    className="btn-primary"
+                    style={{ background: 'var(--purple-zk)', color: '#ffffff' }}
                   >
-                    {isRegisteringSupplier ? 'Committing...' : 'Register Supplier Privately'}
+                    {isRegisteringSupplier ? 'Registering...' : 'Register Privately'}
                   </button>
                 </div>
 
                 {registeredSuccess && (
-                  <div style={{ background: 'rgba(16, 185, 129, 0.15)', border: '1px solid var(--emerald-pass)', padding: 14, borderRadius: 12, color: 'var(--emerald-pass)', fontSize: 13, display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <CheckCircle2 size={18} /> Supplier credential commitment registered! Total suppliers: <strong>{stats.supplierCount}</strong>
+                  <div style={{ background: 'rgba(16, 185, 129, 0.1)', border: '1px solid var(--emerald-pass)', padding: 12, borderRadius: 8, color: 'var(--emerald-pass)', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <CheckCircle2 size={16} /> Supplier credential registered! Total suppliers: <strong>{stats.supplierCount}</strong>
                   </div>
                 )}
               </div>
@@ -490,120 +427,75 @@ export default function MidnightSupplyChainApp() {
           </div>
         )}
 
-        {/* ROLE 3: GOVERNANCE CONTROLS */}
-        {activeRole === 'governance' && (
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 28 }}>
-            <div className="glass-panel" style={{ padding: 28, borderColor: 'rgba(245, 158, 11, 0.3)' }}>
-              <h2 style={{ fontSize: 22, fontWeight: 800, color: '#ffffff', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 10 }}>
-                On-Chain Governance Controls
-              </h2>
-              <p style={{ color: 'var(--text-muted)', fontSize: 14, maxWidth: 800, lineHeight: 1.6 }}>
-                Authorized compliance officers can adjust the minimum passing score dynamically using the updateComplianceThreshold circuit.
-              </p>
-            </div>
-
-            <div className="glass-panel" style={{ padding: 28 }}>
-              <div style={{ maxWidth: 650 }}>
-                <label style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-main)', display: 'block', marginBottom: 12 }}>
-                  Set New Passing Threshold (50 to 95):
-                </label>
-                
-                <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20 }}>
-                  <input 
-                    type="range" 
-                    min="50" 
-                    max="95" 
-                    value={complianceThreshold} 
-                    onChange={(e) => setComplianceThreshold(parseInt(e.target.value))}
-                    style={{ flex: 1, accentColor: 'var(--amber-warn)', cursor: 'pointer' }}
-                  />
-                  <div className="font-mono-code" style={{ fontSize: 24, fontWeight: 800, width: 70, textAlign: 'center', background: 'rgba(255, 255, 255, 0.05)', padding: '6px 12px', borderRadius: 10, border: '1px solid var(--border-glass)', color: 'var(--amber-warn)' }}>
-                    {complianceThreshold}
-                  </div>
-                </div>
-
-                <button 
-                  onClick={runUpdateThreshold}
-                  disabled={updatingThreshold}
-                  className="btn-cyan"
-                  style={{ background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)', color: '#020617' }}
-                >
-                  {updatingThreshold ? 'Updating Threshold...' : 'Update On-Chain Threshold'}
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ROLE 4: PUBLIC OBSERVER LEDGER */}
-        {activeRole === 'observer' && (
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 28 }}>
+        {/* TAB 3: PUBLIC LEDGER STATE */}
+        {activeTab === 'ledger' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
             
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16 }}>
-              <div className="glass-panel" style={{ padding: 20 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
+              <div className="clean-card">
                 <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 4 }}>Total Attestations</div>
-                <div className="font-mono-code" style={{ fontSize: 32, fontWeight: 800, color: 'var(--cyan-bright)' }}>{stats.totalCertifications}</div>
-                <div style={{ fontSize: 11, color: 'var(--text-dim)', marginTop: 4 }}>Public Ledger Counter</div>
+                <div className="font-mono" style={{ fontSize: 28, fontWeight: 700, color: 'var(--primary-cyan)' }}>{stats.totalCertifications}</div>
+                <div style={{ fontSize: 11, color: 'var(--text-secondary)', marginTop: 2 }}>Public Ledger State</div>
               </div>
 
-              <div className="glass-panel" style={{ padding: 20 }}>
+              <div className="clean-card">
                 <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 4 }}>Passing Attestations</div>
-                <div className="font-mono-code" style={{ fontSize: 32, fontWeight: 800, color: 'var(--emerald-pass)' }}>{stats.passCount}</div>
-                <div style={{ fontSize: 11, color: 'var(--text-dim)', marginTop: 4 }}>Pass Rate: {passRate}%</div>
+                <div className="font-mono" style={{ fontSize: 28, fontWeight: 700, color: 'var(--emerald-pass)' }}>{stats.passCount}</div>
+                <div style={{ fontSize: 11, color: 'var(--text-secondary)', marginTop: 2 }}>Pass Rate: {passRate}%</div>
               </div>
 
-              <div className="glass-panel" style={{ padding: 20 }}>
-                <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 4 }}>Verified Top Tier (&gt;=90)</div>
-                <div className="font-mono-code" style={{ fontSize: 32, fontWeight: 800, color: 'var(--violet-bright)' }}>{stats.verifiedTierCount}</div>
-                <div style={{ fontSize: 11, color: 'var(--text-dim)', marginTop: 4 }}>Enterprise Gold Tier</div>
+              <div className="clean-card">
+                <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 4 }}>Verified Gold Tier (≥90)</div>
+                <div className="font-mono" style={{ fontSize: 28, fontWeight: 700, color: 'var(--purple-zk)' }}>{stats.verifiedTierCount}</div>
+                <div style={{ fontSize: 11, color: 'var(--text-secondary)', marginTop: 2 }}>Enterprise Tier</div>
               </div>
 
-              <div className="glass-panel" style={{ padding: 20 }}>
+              <div className="clean-card">
                 <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 4 }}>Registered Suppliers</div>
-                <div className="font-mono-code" style={{ fontSize: 32, fontWeight: 800, color: 'var(--amber-warn)' }}>{stats.supplierCount}</div>
-                <div style={{ fontSize: 11, color: 'var(--text-dim)', marginTop: 4 }}>Confidential Identities</div>
+                <div className="font-mono" style={{ fontSize: 28, fontWeight: 700, color: 'var(--amber-warn)' }}>{stats.supplierCount}</div>
+                <div style={{ fontSize: 11, color: 'var(--text-secondary)', marginTop: 2 }}>Confidential Count</div>
               </div>
             </div>
 
-            <div className="glass-panel" style={{ padding: 28 }}>
-              <h3 style={{ fontSize: 18, fontWeight: 700, color: '#ffffff', marginBottom: 16 }}>
-                Zero-Knowledge Privacy Architecture Comparison
+            <div className="clean-card">
+              <h3 style={{ fontSize: 16, fontWeight: 600, color: '#ffffff', marginBottom: 14 }}>
+                Zero-Knowledge Privacy Model Breakdown
               </h3>
               
               <div style={{ overflowX: 'auto' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13, textAlign: 'left' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12, textAlign: 'left' }}>
                   <thead>
-                    <tr style={{ borderBottom: '1px solid var(--border-glass)', color: 'var(--text-muted)' }}>
-                      <th style={{ padding: 12 }}>Data Point</th>
-                      <th style={{ padding: 12 }}>Storage Layer</th>
-                      <th style={{ padding: 12 }}>Disclosed To</th>
-                      <th style={{ padding: 12 }}>Privacy Guarantee</th>
+                    <tr style={{ borderBottom: '1px solid var(--border-subtle)', color: 'var(--text-muted)' }}>
+                      <th style={{ padding: 10 }}>Data Point</th>
+                      <th style={{ padding: 10 }}>Storage Layer</th>
+                      <th style={{ padding: 10 }}>Disclosed To</th>
+                      <th style={{ padding: 10 }}>Privacy Guarantee</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr style={{ borderBottom: '1px solid var(--border-glass)' }}>
-                      <td style={{ padding: 12, fontWeight: 600, color: 'var(--cyan-bright)' }}>totalCertifications</td>
-                      <td style={{ padding: 12 }}>Public Ledger</td>
-                      <td style={{ padding: 12 }}>Everyone</td>
-                      <td style={{ padding: 12, color: 'var(--text-muted)' }}>Macro compliance tracking</td>
+                    <tr style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+                      <td style={{ padding: 10, fontWeight: 600, color: 'var(--primary-cyan)' }}>totalCertifications</td>
+                      <td style={{ padding: 10 }}>Public Ledger</td>
+                      <td style={{ padding: 10 }}>Everyone</td>
+                      <td style={{ padding: 10, color: 'var(--text-secondary)' }}>Macro compliance tracking</td>
                     </tr>
-                    <tr style={{ borderBottom: '1px solid var(--border-glass)' }}>
-                      <td style={{ padding: 12, fontWeight: 600, color: 'var(--emerald-pass)' }}>passCount</td>
-                      <td style={{ padding: 12 }}>Public Ledger</td>
-                      <td style={{ padding: 12 }}>Everyone</td>
-                      <td style={{ padding: 12, color: 'var(--text-muted)' }}>Aggregate pass rate metric</td>
+                    <tr style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+                      <td style={{ padding: 10, fontWeight: 600, color: 'var(--emerald-pass)' }}>passCount</td>
+                      <td style={{ padding: 10 }}>Public Ledger</td>
+                      <td style={{ padding: 10 }}>Everyone</td>
+                      <td style={{ padding: 10, color: 'var(--text-secondary)' }}>Aggregate pass rate metric</td>
                     </tr>
-                    <tr style={{ borderBottom: '1px solid var(--border-glass)' }}>
-                      <td style={{ padding: 12, fontWeight: 600, color: 'var(--violet-bright)' }}>privateAuditScore</td>
-                      <td style={{ padding: 12, color: 'var(--violet-bright)' }}>Private Witness</td>
-                      <td style={{ padding: 12, color: 'var(--rose-fail)', fontWeight: 700 }}>NO ONE (HIDDEN)</td>
-                      <td style={{ padding: 12, color: 'var(--emerald-pass)', fontWeight: 600 }}>100% Confidential ZK Secret</td>
+                    <tr style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+                      <td style={{ padding: 10, fontWeight: 600, color: 'var(--purple-zk)' }}>privateAuditScore</td>
+                      <td style={{ padding: 10, color: 'var(--purple-zk)' }}>Private Witness</td>
+                      <td style={{ padding: 10, color: 'var(--rose-fail)', fontWeight: 600 }}>NO ONE (HIDDEN)</td>
+                      <td style={{ padding: 10, color: 'var(--emerald-pass)', fontWeight: 500 }}>100% Confidential ZK Secret</td>
                     </tr>
                     <tr>
-                      <td style={{ padding: 12, fontWeight: 600, color: 'var(--amber-warn)' }}>supplierCredential</td>
-                      <td style={{ padding: 12, color: 'var(--amber-warn)' }}>Private Witness</td>
-                      <td style={{ padding: 12, color: 'var(--rose-fail)', fontWeight: 700 }}>NO ONE (HIDDEN)</td>
-                      <td style={{ padding: 12, color: 'var(--emerald-pass)', fontWeight: 600 }}>Supplier DID Privacy</td>
+                      <td style={{ padding: 10, fontWeight: 600, color: 'var(--amber-warn)' }}>supplierCredential</td>
+                      <td style={{ padding: 10, color: 'var(--amber-warn)' }}>Private Witness</td>
+                      <td style={{ padding: 10, color: 'var(--rose-fail)', fontWeight: 600 }}>NO ONE (HIDDEN)</td>
+                      <td style={{ padding: 10, color: 'var(--emerald-pass)', fontWeight: 500 }}>Supplier Identity Privacy</td>
                     </tr>
                   </tbody>
                 </table>
@@ -615,62 +507,62 @@ export default function MidnightSupplyChainApp() {
 
       </main>
 
-      {/* CERTIFICATE MODAL */}
+      {/* ─── CERTIFICATE MODAL ────────────────────────────────────────────── */}
       {showCertModal && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(2, 4, 10, 0.85)', backdropFilter: 'blur(12px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: 20 }}>
-          <div className="glass-panel glass-panel-glow" style={{ maxWidth: 540, width: '100%', padding: 32, position: 'relative', textAlign: 'center' }}>
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0, 0, 0, 0.8)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: 20 }}>
+          <div className="clean-card clean-card-accent" style={{ maxWidth: 480, width: '100%', padding: 28, position: 'relative', textAlign: 'center' }}>
             
             <button 
               onClick={() => setShowCertModal(false)}
-              style={{ position: 'absolute', top: 16, right: 16, background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: 18 }}
+              style={{ position: 'absolute', top: 14, right: 14, background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: 16 }}
             >
-              X
+              ✕
             </button>
 
-            <div style={{ width: 64, height: 64, borderRadius: '50%', background: 'rgba(16, 185, 129, 0.2)', border: '2px solid var(--emerald-pass)', margin: '0 auto 16px auto', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Award size={36} color="var(--emerald-pass)" />
+            <div style={{ width: 52, height: 52, borderRadius: '50%', background: 'rgba(16, 185, 129, 0.15)', border: '1px solid var(--emerald-pass)', margin: '0 auto 14px auto', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Award size={28} color="var(--emerald-pass)" />
             </div>
 
-            <h3 style={{ fontSize: 22, fontWeight: 800, color: '#ffffff', marginBottom: 6 }}>
+            <h3 style={{ fontSize: 18, fontWeight: 700, color: '#ffffff', marginBottom: 4 }}>
               Verifiable ZK Compliance Badge
             </h3>
-            <p style={{ color: 'var(--text-muted)', fontSize: 13, marginBottom: 20 }}>
-              Zero-Knowledge Proof verified on Midnight Preview Testnet
+            <p style={{ color: 'var(--text-secondary)', fontSize: 12, marginBottom: 16 }}>
+              Verified on Midnight Preview Testnet
             </p>
 
-            <div style={{ background: 'rgba(2, 4, 10, 0.6)', border: '1px solid var(--border-glass)', borderRadius: 14, padding: 16, textAlign: 'left', marginBottom: 20, fontSize: 13 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+            <div style={{ background: 'rgba(0, 0, 0, 0.4)', border: '1px solid var(--border-subtle)', borderRadius: 8, padding: 14, textAlign: 'left', marginBottom: 16, fontSize: 12 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
                 <span style={{ color: 'var(--text-muted)' }}>Status:</span>
-                <span style={{ color: 'var(--emerald-pass)', fontWeight: 800 }}>PASSED (Threshold &gt;= {complianceThreshold})</span>
+                <span style={{ color: 'var(--emerald-pass)', fontWeight: 700 }}>PASSED (Threshold &gt;= {stats.complianceThreshold})</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-                <span style={{ color: 'var(--text-muted)' }}>Numerical Raw Score:</span>
-                <span style={{ color: 'var(--violet-bright)', fontWeight: 700 }}>[100% CONFIDENTIAL]</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
+                <span style={{ color: 'var(--text-muted)' }}>Numerical Score:</span>
+                <span style={{ color: 'var(--purple-zk)', fontWeight: 600 }}>[100% CONFIDENTIAL]</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
                 <span style={{ color: 'var(--text-muted)' }}>Standard:</span>
-                <span style={{ color: '#ffffff', fontWeight: 600 }}>{selectedPreset.name}</span>
+                <span style={{ color: '#ffffff' }}>{selectedPreset.name}</span>
               </div>
-              <div style={{ borderTop: '1px solid var(--border-glass)', paddingTop: 8, marginTop: 8 }}>
-                <span style={{ color: 'var(--text-muted)', display: 'block', marginBottom: 4 }}>Proof Hash Commitment:</span>
-                <span className="font-mono-code" style={{ fontSize: 10, color: 'var(--cyan-bright)', wordBreak: 'break-all' }}>{lastCertHash}</span>
+              <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: 6, marginTop: 6 }}>
+                <span style={{ color: 'var(--text-muted)', display: 'block', marginBottom: 2 }}>Proof Hash Commitment:</span>
+                <span className="font-mono" style={{ fontSize: 10, color: 'var(--primary-cyan)', wordBreak: 'break-all' }}>{lastCertHash}</span>
               </div>
             </div>
 
-            <div style={{ display: 'flex', gap: 12 }}>
+            <div style={{ display: 'flex', gap: 10 }}>
               <button 
                 onClick={() => setShowCertModal(false)}
-                className="btn-cyan"
-                style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
+                className="btn-primary"
+                style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
               >
-                <Download size={16} /> Download Badge (PNG)
+                <Download size={14} /> Download Badge
               </button>
               <button 
                 onClick={() => copyToClipboard(lastCertHash)}
-                className="btn-outline"
+                className="btn-secondary"
                 style={{ flex: 1 }}
               >
-                Copy Proof Hash
+                Copy Hash
               </button>
             </div>
 
@@ -679,8 +571,8 @@ export default function MidnightSupplyChainApp() {
       )}
 
       {/* Footer */}
-      <footer style={{ borderTop: '1px solid var(--border-glass)', padding: '24px 28px', textAlign: 'center', fontSize: 13, color: 'var(--text-muted)' }}>
-        Confidential Supply Chain Compliance Platform - Powered by <span style={{ color: 'var(--violet-bright)', fontWeight: 600 }}>Midnight Network Compact ZK Circuits</span> - August Release
+      <footer style={{ borderTop: '1px solid var(--border-subtle)', padding: '20px 24px', textAlign: 'center', fontSize: 12, color: 'var(--text-muted)' }}>
+        Confidential Supply Chain Compliance Platform • Powered by <span style={{ color: 'var(--purple-zk)', fontWeight: 500 }}>Midnight Network Compact ZK Circuits</span>
       </footer>
 
     </div>
