@@ -73,6 +73,10 @@ export default function ConfidentialSupplyChainApp() {
     : 100;
 
   const runAttestCompliance = () => {
+    if (!walletConnected) {
+      handleConnectLaceWallet();
+      return;
+    }
     setProvingStage(1);
     setTimeout(() => {
       setProvingStage(2);
@@ -101,6 +105,10 @@ export default function ConfidentialSupplyChainApp() {
   };
 
   const runRegisterSupplier = () => {
+    if (!walletConnected) {
+      handleConnectLaceWallet();
+      return;
+    }
     setIsRegisteringSupplier(true);
     setTimeout(() => {
       setIsRegisteringSupplier(false);
@@ -111,6 +119,10 @@ export default function ConfidentialSupplyChainApp() {
   };
 
   const runUpdateThreshold = () => {
+    if (!walletConnected) {
+      handleConnectLaceWallet();
+      return;
+    }
     setIsUpdatingThreshold(true);
     setTimeout(() => {
       setIsUpdatingThreshold(false);
@@ -278,6 +290,30 @@ export default function ConfidentialSupplyChainApp() {
 
       {/* ─── Main Content Canvas ─────────────────────────────────────────── */}
       <main style={{ maxWidth: 1200, width: '100%', margin: '0 auto', padding: '36px 28px', flex: 1 }}>
+
+        {/* Lace Wallet Connection Prompt Banner */}
+        {!walletConnected && (
+          <div className="glass-card glass-card-cyan" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16, marginBottom: 28, padding: 20 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+              <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(56, 189, 248, 0.15)', border: '1px solid var(--cyan-bright)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Cpu size={22} color="var(--cyan-bright)" />
+              </div>
+              <div>
+                <div style={{ fontSize: 16, fontWeight: 800, color: '#ffffff' }}>Lace Wallet Disconnected</div>
+                <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>Connect your Midnight Lace Wallet to submit ZK proofs and interact with on-chain circuits.</div>
+              </div>
+            </div>
+            <button 
+              onClick={handleConnectLaceWallet}
+              disabled={isConnectingWallet}
+              className="btn-cyan"
+              style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 22px', fontSize: 14 }}
+            >
+              <Cpu size={16} />
+              {isConnectingWallet ? 'Connecting to Lace Wallet...' : 'Connect Lace Wallet'}
+            </button>
+          </div>
+        )}
 
         {/* WORKSPACE 1: AUDITOR ATTESTATION STUDIO */}
         {activeTab === 'auditor' && (
