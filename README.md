@@ -10,6 +10,8 @@
 
 A production-grade full-stack Midnight dApp enabling manufacturers, auditors, and logistics partners to privately attest supply chain compliance credentials without revealing sensitive business data on-chain. Features full Next.js App Router architecture, 5 Compact ZK circuits, dynamic threshold governance, and Lace wallet integration on the Midnight Preview Testnet.
 
+![CipherChain Confidential Supply Chain Platform UI](./docs/cipherchain_preview.png)
+
 ---
 
 ## 🚀 Live Demo & Quick Links
