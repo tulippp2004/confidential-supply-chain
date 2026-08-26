@@ -20,10 +20,9 @@ import {
   Leaf,
   Pill,
   Package,
-  LayoutDashboard,
   ArrowRight,
-  ShieldAlert,
-  FileCheck
+  FileCheck,
+  Globe
 } from 'lucide-react';
 
 const PRESETS = [
@@ -208,11 +207,11 @@ export default function ConfidentialSupplyChainApp() {
         
         {/* Brand Header */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 32, padding: '0 8px' }}>
-          <div style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(225, 29, 72, 0.15)', border: '1px solid rgba(225, 29, 72, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(225, 29, 72, 0.2)', border: '1px solid rgba(225, 29, 72, 0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <ShieldCheck size={20} color="#f43f5e" />
           </div>
           <div>
-            <div style={{ fontSize: 16, fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em' }}>
+            <div style={{ fontSize: 18, fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em' }}>
               CipherChain
             </div>
             <div style={{ fontSize: 11, color: 'var(--text-dim)' }}>
@@ -256,9 +255,9 @@ export default function ConfidentialSupplyChainApp() {
           </button>
         </div>
 
-        {/* Sidebar Footer info */}
-        <div style={{ borderTop: '1px solid #2d1c36', paddingTop: 16, paddingLeft: 8 }}>
-          <div style={{ fontSize: 11, color: 'var(--text-dim)', marginBottom: 4 }}>NETWORK STATUS</div>
+        {/* Sidebar Footer Info */}
+        <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)', paddingTop: 16, paddingLeft: 8 }}>
+          <div style={{ fontSize: 11, color: 'var(--text-dim)', marginBottom: 4, letterSpacing: '0.05em' }}>NETWORK</div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: 'var(--emerald-pass)', fontWeight: 600 }}>
             <span className="pulse-dot" style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--emerald-pass)' }}></span>
             Preview Testnet
@@ -270,22 +269,21 @@ export default function ConfidentialSupplyChainApp() {
       {/* ─── MAIN CONTENT AREA ────────────────────────────────────────────── */}
       <div className="main-content">
         
-        {/* Top Bar Header */}
-        <header style={{ borderBottom: '1px solid #2d1c36', background: '#140b17', padding: '16px 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
+        {/* Top Header Bar (Matching CipherID Picture 2) */}
+        <header style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)', background: 'rgba(16, 5, 10, 0.75)', backdropFilter: 'blur(16px)', padding: '16px 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16, position: 'sticky', top: 0, zIndex: 100 }}>
           
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <span className="badge-crimson">Midnight ZK</span>
-            <span style={{ fontSize: 13, color: 'var(--text-muted)' }}>Confidential Supply Chain Compliance</span>
+          <div style={{ fontSize: 20, fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em' }}>
+            CipherChain
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
             <div 
               onClick={() => copyToClipboard(CONTRACT_ADDR)}
-              style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, background: 'rgba(255, 255, 255, 0.04)', border: '1px solid #2d1c36', padding: '6px 14px', borderRadius: 20, cursor: 'pointer' }}
-              title="Click to copy deployed contract address"
+              style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.12)', padding: '6px 14px', borderRadius: 20, cursor: 'pointer' }}
+              title="Click to copy contract address"
             >
               <Lock size={13} color="var(--purple-zk)" />
-              <span className="font-mono-code" style={{ color: 'var(--text-muted)' }}>
+              <span className="font-mono-code" style={{ color: 'var(--text-dim)' }}>
                 {CONTRACT_ADDR.substring(0, 8)}...{CONTRACT_ADDR.substring(CONTRACT_ADDR.length - 6)}
               </span>
               <Copy size={13} color="var(--text-dim)" />
@@ -296,11 +294,11 @@ export default function ConfidentialSupplyChainApp() {
               <button 
                 onClick={handleConnectLaceWallet}
                 disabled={isConnectingWallet}
-                className="btn-crimson"
-                style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 18px', fontSize: 13 }}
+                className="btn-white"
+                style={{ fontSize: 13, padding: '8px 18px' }}
               >
-                <Cpu size={16} />
-                {isConnectingWallet ? 'Connecting to Lace Wallet...' : 'Connect Lace Wallet'}
+                <Cpu size={15} />
+                {isConnectingWallet ? 'Connecting...' : 'Connect Lace Wallet'}
               </button>
             ) : (
               <button 
@@ -319,12 +317,12 @@ export default function ConfidentialSupplyChainApp() {
 
         </header>
 
-        {/* Main Workspace Body */}
-        <main style={{ padding: '36px 32px', flex: 1, width: '100%', maxWidth: 1100, margin: '0 auto' }}>
+        {/* Main Body Canvas */}
+        <main style={{ padding: '40px 36px', flex: 1, width: '100%', maxWidth: 1180, margin: '0 auto' }}>
 
           {/* Lace Wallet Disconnected Banner */}
           {!walletConnected && (
-            <div className="cipher-card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16, marginBottom: 28, padding: 20, borderColor: 'rgba(225, 29, 72, 0.3)' }}>
+            <div className="cipher-card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16, marginBottom: 32, padding: 20, borderColor: 'rgba(225, 29, 72, 0.3)' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
                 <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(225, 29, 72, 0.15)', border: '1px solid #e11d48', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <Cpu size={22} color="#f43f5e" />
@@ -337,33 +335,87 @@ export default function ConfidentialSupplyChainApp() {
               <button 
                 onClick={handleConnectLaceWallet}
                 disabled={isConnectingWallet}
-                className="btn-crimson"
-                style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 22px', fontSize: 14 }}
+                className="btn-white"
+                style={{ padding: '10px 22px', fontSize: 14 }}
               >
                 <Cpu size={16} />
-                {isConnectingWallet ? 'Connecting to Lace Wallet...' : 'Connect Lace Wallet'}
+                {isConnectingWallet ? 'Connecting...' : 'Connect Lace Wallet'}
               </button>
             </div>
           )}
 
           {/* WORKSPACE 1: AUDITOR ATTESTATION STUDIO */}
           {activeTab === 'auditor' && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 36 }}>
               
-              {/* CipherID Hero Banner */}
-              <div style={{ marginBottom: 8 }}>
-                <h1 style={{ fontSize: 36, fontWeight: 800, color: '#ffffff', marginBottom: 12, letterSpacing: '-0.03em' }}>
-                  Attestation Studio
-                </h1>
-                <p style={{ fontSize: 15, color: 'var(--text-muted)', maxWidth: 750, lineHeight: 1.6 }}>
-                  Prove enterprise supplier compliance scores without revealing confidential audit data — or the secret score itself.
-                </p>
+              {/* CIPHERID HERO LANDING BANNER (Exact Match to Picture 2) */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 32, alignItems: 'center' }}>
+                
+                {/* Hero Left Content */}
+                <div>
+                  <h1 style={{ fontSize: 64, fontWeight: 800, color: '#ffffff', marginBottom: 16, letterSpacing: '-0.04em', lineHeight: 1.05 }}>
+                    CipherChain
+                  </h1>
+                  <p style={{ fontSize: 18, color: '#d1d5db', marginBottom: 24, lineHeight: 1.5, maxWidth: 540 }}>
+                    Prove enterprise compliance credentials without revealing confidential audit scores — or the secret itself.
+                  </p>
+                  
+                  <div style={{ display: 'flex', gap: 14, alignItems: 'center', marginBottom: 20 }}>
+                    <button 
+                      onClick={() => runAttestCompliance()}
+                      className="btn-white"
+                      style={{ fontSize: 15, padding: '14px 28px' }}
+                    >
+                      Verify compliance <ArrowRight size={18} />
+                    </button>
+                    <button 
+                      onClick={() => setActiveTab('observer')}
+                      className="btn-dark-outline"
+                      style={{ fontSize: 15, padding: '14px 28px' }}
+                    >
+                      Dashboard
+                    </button>
+                  </div>
+
+                  <div style={{ fontSize: 11, color: 'var(--text-dim)', letterSpacing: '0.1em', fontWeight: 700 }}>
+                    PREVIEW TESTNET · {walletConnected ? 'LACE CONNECTED' : 'LACE DISCONNECTED'}
+                  </div>
+                </div>
+
+                {/* Hero Right Card: PUBLIC LEDGER PREVIEW (Exact Match to Picture 2) */}
+                <div className="cipher-card" style={{ padding: 28 }}>
+                  <div style={{ fontSize: 11, color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, marginBottom: 16 }}>
+                    PUBLIC LEDGER PREVIEW
+                  </div>
+                  
+                  <div style={{ marginBottom: 20 }}>
+                    <div style={{ fontSize: 11, color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4 }}>CREDENTIAL</div>
+                    <div style={{ fontSize: 26, fontWeight: 800, color: '#ffffff' }}>
+                      {selectedPreset.name}
+                    </div>
+                  </div>
+
+                  <div style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)', marginBottom: 20 }}></div>
+
+                  <div>
+                    <div style={{ fontSize: 11, color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4 }}>VERIFICATIONS</div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                      <div className="font-mono-code" style={{ fontSize: 52, fontWeight: 800, color: '#ffffff', lineHeight: 1 }}>
+                        {stats.passCount}
+                      </div>
+                      <div style={{ fontSize: 12, color: 'var(--text-dim)', maxWidth: 160, textAlign: 'right', lineHeight: 1.4 }}>
+                        Secret & audit score never appear here.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
               </div>
 
-              {/* 1-Click Industry Presets (Vector Icons Only - NO EMOJIS) */}
+              {/* 1-Click Industry Presets (Lucide Vector Icons - NO EMOJIS) */}
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-                  <div style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--text-dim)', fontWeight: 700 }}>
+                  <div style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-dim)', fontWeight: 700 }}>
                     Select Industry Standard Preset
                   </div>
                   
@@ -386,7 +438,7 @@ export default function ConfidentialSupplyChainApp() {
                   </div>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 14 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16 }}>
                   {PRESETS.map((preset) => {
                     const PresetIcon = preset.IconComponent;
                     const isSelected = selectedPreset.id === preset.id;
@@ -401,12 +453,12 @@ export default function ConfidentialSupplyChainApp() {
                         style={{ 
                           padding: 20, 
                           cursor: 'pointer', 
-                          borderColor: isSelected ? '#f43f5e' : '#2d1c36',
-                          background: isSelected ? 'rgba(225, 29, 72, 0.08)' : '#1c1122',
+                          borderColor: isSelected ? '#f43f5e' : 'rgba(255, 255, 255, 0.1)',
+                          background: isSelected ? 'rgba(225, 29, 72, 0.12)' : 'rgba(20, 7, 13, 0.75)',
                         }}
                       >
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                          <PresetIcon size={24} color={isSelected ? '#f43f5e' : 'var(--text-muted)'} />
+                          <PresetIcon size={24} color={isSelected ? '#f43f5e' : 'var(--text-dim)'} />
                           <span className="font-mono-code" style={{ fontSize: 11, color: 'var(--text-dim)' }}>Req: &gt;={preset.minScore}</span>
                         </div>
                         <div style={{ fontSize: 15, fontWeight: 700, color: '#ffffff', marginBottom: 2 }}>{preset.name}</div>
@@ -417,9 +469,9 @@ export default function ConfidentialSupplyChainApp() {
                 </div>
               </div>
 
-              {/* Form Input & ZK Masking */}
+              {/* Form Input & Secret Masking */}
               <div className="cipher-card">
-                <div style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--text-dim)', marginBottom: 20, fontWeight: 700 }}>
+                <div style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-dim)', marginBottom: 20, fontWeight: 700 }}>
                   Private Witness Input & Secret Masking
                 </div>
 
@@ -427,7 +479,7 @@ export default function ConfidentialSupplyChainApp() {
                   
                   <div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                      <label style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-main)' }}>
+                      <label style={{ fontSize: 14, fontWeight: 600, color: '#ffffff' }}>
                         Numerical Audit Score:
                       </label>
                       <button 
@@ -449,7 +501,7 @@ export default function ConfidentialSupplyChainApp() {
                         onChange={(e) => setAuditScore(parseInt(e.target.value))}
                         style={{ flex: 1, accentColor: '#e11d48', cursor: 'pointer', height: 6 }}
                       />
-                      <div className="font-mono-code" style={{ fontSize: 24, fontWeight: 800, width: 80, textAlign: 'center', background: '#0c080e', padding: '6px 12px', borderRadius: 10, border: '1px solid #2d1c36', color: auditScore >= stats.complianceThreshold ? 'var(--emerald-pass)' : 'var(--rose-fail)' }}>
+                      <div className="font-mono-code" style={{ fontSize: 24, fontWeight: 800, width: 80, textAlign: 'center', background: '#060407', padding: '6px 12px', borderRadius: 10, border: '1px solid rgba(255, 255, 255, 0.1)', color: auditScore >= stats.complianceThreshold ? 'var(--emerald-pass)' : 'var(--rose-fail)' }}>
                         {maskScore ? '***' : auditScore}
                       </div>
                     </div>
@@ -462,7 +514,7 @@ export default function ConfidentialSupplyChainApp() {
                     </div>
                   </div>
 
-                  <div style={{ background: '#0c080e', border: '1px solid #2d1c36', padding: 24, borderRadius: 14, textAlign: 'center' }}>
+                  <div style={{ background: '#060407', border: '1px solid rgba(255, 255, 255, 0.1)', padding: 24, borderRadius: 14, textAlign: 'center' }}>
                     <div style={{ fontSize: 12, color: 'var(--text-dim)', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Circuit Evaluation Outcome</div>
                     
                     {auditScore >= stats.complianceThreshold ? (
@@ -478,8 +530,8 @@ export default function ConfidentialSupplyChainApp() {
                     <button 
                       onClick={() => runAttestCompliance()}
                       disabled={provingStage > 0 && provingStage < 4}
-                      className="btn-crimson"
-                      style={{ width: '100%', opacity: (provingStage > 0 && provingStage < 4) ? 0.6 : 1, fontSize: 15 }}
+                      className="btn-white"
+                      style={{ width: '100%', justifyContent: 'center', opacity: (provingStage > 0 && provingStage < 4) ? 0.6 : 1, fontSize: 15 }}
                     >
                       {provingStage > 0 && provingStage < 4 ? 'Generating Zero-Knowledge Proof...' : 'Attest Compliance via ZK Circuit'}
                     </button>
@@ -490,30 +542,30 @@ export default function ConfidentialSupplyChainApp() {
 
               {/* 4-Stage ZK Pipeline */}
               <div className="cipher-card">
-                <div style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--text-dim)', marginBottom: 18, fontWeight: 700 }}>
+                <div style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-dim)', marginBottom: 18, fontWeight: 700 }}>
                   Compact ZK Circuit Execution Pipeline
                 </div>
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14, marginBottom: 20 }}>
-                  <div style={{ background: provingStage >= 1 ? 'rgba(56, 189, 248, 0.12)' : '#0c080e', border: provingStage >= 1 ? '1px solid var(--cyan-bright)' : '1px solid #2d1c36', padding: 16, borderRadius: 10 }}>
+                  <div style={{ background: provingStage >= 1 ? 'rgba(56, 189, 248, 0.12)' : '#060407', border: provingStage >= 1 ? '1px solid var(--cyan-bright)' : '1px solid rgba(255, 255, 255, 0.1)', padding: 16, borderRadius: 10 }}>
                     <div style={{ fontSize: 10, color: 'var(--text-dim)', marginBottom: 4, fontWeight: 700 }}>STAGE 1</div>
                     <div style={{ fontSize: 14, fontWeight: 700, color: '#ffffff', marginBottom: 4 }}>Private Witness</div>
                     <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>Score {maskScore ? '***' : auditScore} loaded into prover</div>
                   </div>
 
-                  <div style={{ background: provingStage >= 2 ? 'rgba(192, 132, 252, 0.12)' : '#0c080e', border: provingStage >= 2 ? '1px solid var(--purple-zk)' : '1px solid #2d1c36', padding: 16, borderRadius: 10 }}>
+                  <div style={{ background: provingStage >= 2 ? 'rgba(192, 132, 252, 0.12)' : '#060407', border: provingStage >= 2 ? '1px solid var(--purple-zk)' : '1px solid rgba(255, 255, 255, 0.1)', padding: 16, borderRadius: 10 }}>
                     <div style={{ fontSize: 10, color: 'var(--text-dim)', marginBottom: 4, fontWeight: 700 }}>STAGE 2</div>
                     <div style={{ fontSize: 14, fontWeight: 700, color: '#ffffff', marginBottom: 4 }}>SNARK Proof</div>
                     <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>Executing Compact ZK circuit</div>
                   </div>
 
-                  <div style={{ background: provingStage >= 3 ? 'rgba(251, 191, 36, 0.12)' : '#0c080e', border: provingStage >= 3 ? '1px solid var(--amber-warn)' : '1px solid #2d1c36', padding: 16, borderRadius: 10 }}>
+                  <div style={{ background: provingStage >= 3 ? 'rgba(251, 191, 36, 0.12)' : '#060407', border: provingStage >= 3 ? '1px solid var(--amber-warn)' : '1px solid rgba(255, 255, 255, 0.1)', padding: 16, borderRadius: 10 }}>
                     <div style={{ fontSize: 10, color: 'var(--text-dim)', marginBottom: 4, fontWeight: 700 }}>STAGE 3</div>
                     <div style={{ fontSize: 14, fontWeight: 700, color: '#ffffff', marginBottom: 4 }}>Disclose Outcome</div>
                     <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>disclose(passesThreshold)</div>
                   </div>
 
-                  <div style={{ background: provingStage >= 4 ? 'rgba(16, 185, 129, 0.12)' : '#0c080e', border: provingStage >= 4 ? '1px solid var(--emerald-pass)' : '1px solid #2d1c36', padding: 16, borderRadius: 10 }}>
+                  <div style={{ background: provingStage >= 4 ? 'rgba(16, 185, 129, 0.12)' : '#060407', border: provingStage >= 4 ? '1px solid var(--emerald-pass)' : '1px solid rgba(255, 255, 255, 0.1)', padding: 16, borderRadius: 10 }}>
                     <div style={{ fontSize: 10, color: 'var(--text-dim)', marginBottom: 4, fontWeight: 700 }}>STAGE 4</div>
                     <div style={{ fontSize: 14, fontWeight: 700, color: '#ffffff', marginBottom: 4 }}>Ledger Sync</div>
                     <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>passCount incremented</div>
@@ -541,10 +593,10 @@ export default function ConfidentialSupplyChainApp() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
               
               <div>
-                <h1 style={{ fontSize: 36, fontWeight: 800, color: '#ffffff', marginBottom: 12, letterSpacing: '-0.03em' }}>
+                <h1 style={{ fontSize: 44, fontWeight: 800, color: '#ffffff', marginBottom: 12, letterSpacing: '-0.03em' }}>
                   Supplier Credential Vault
                 </h1>
-                <p style={{ fontSize: 15, color: 'var(--text-muted)', maxWidth: 750, lineHeight: 1.6 }}>
+                <p style={{ fontSize: 16, color: 'var(--text-muted)', maxWidth: 750, lineHeight: 1.6 }}>
                   Register enterprise supplier credentials into Midnight ledger using <span className="font-mono-code" style={{ color: 'var(--purple-zk)', fontWeight: 600 }}>Opaque&lt;"string"&gt;</span> private witness commitments.
                 </p>
               </div>
@@ -560,15 +612,15 @@ export default function ConfidentialSupplyChainApp() {
                       value={supplierDID} 
                       onChange={(e) => setSupplierDID(e.target.value)}
                       className="font-mono-code"
-                      style={{ flex: 1, background: '#0c080e', border: '1px solid #2d1c36', color: '#ffffff', padding: '12px 16px', borderRadius: 10, fontSize: 13 }}
+                      style={{ flex: 1, background: '#060407', border: '1px solid rgba(255, 255, 255, 0.1)', color: '#ffffff', padding: '12px 16px', borderRadius: 10, fontSize: 13 }}
                     />
                     <button 
                       onClick={runRegisterSupplier}
                       disabled={isRegisteringSupplier}
-                      className="btn-crimson"
+                      className="btn-white"
                       style={{ fontSize: 14 }}
                     >
-                      {isRegisteringSupplier ? 'Registering Privately...' : 'Register Supplier Privately'}
+                      {isRegisteringSupplier ? 'Registering...' : 'Register Supplier Privately'}
                     </button>
                   </div>
 
@@ -588,10 +640,10 @@ export default function ConfidentialSupplyChainApp() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
               
               <div>
-                <h1 style={{ fontSize: 36, fontWeight: 800, color: '#ffffff', marginBottom: 12, letterSpacing: '-0.03em' }}>
+                <h1 style={{ fontSize: 44, fontWeight: 800, color: '#ffffff', marginBottom: 12, letterSpacing: '-0.03em' }}>
                   Governance Controls
                 </h1>
-                <p style={{ fontSize: 15, color: 'var(--text-muted)', maxWidth: 750, lineHeight: 1.6 }}>
+                <p style={{ fontSize: 16, color: 'var(--text-muted)', maxWidth: 750, lineHeight: 1.6 }}>
                   Authorized compliance officers can adjust the minimum passing score dynamically using the <span className="font-mono-code" style={{ color: 'var(--amber-warn)', fontWeight: 600 }}>updateComplianceThreshold</span> circuit.
                 </p>
               </div>
@@ -611,7 +663,7 @@ export default function ConfidentialSupplyChainApp() {
                       onChange={(e) => setNewThresholdInput(parseInt(e.target.value))}
                       style={{ flex: 1, accentColor: '#fbbf24', cursor: 'pointer', height: 6 }}
                     />
-                    <div className="font-mono-code" style={{ fontSize: 26, fontWeight: 800, width: 80, textAlign: 'center', background: '#0c080e', padding: '6px 14px', borderRadius: 10, border: '1px solid #2d1c36', color: 'var(--amber-warn)' }}>
+                    <div className="font-mono-code" style={{ fontSize: 26, fontWeight: 800, width: 80, textAlign: 'center', background: '#060407', padding: '6px 14px', borderRadius: 10, border: '1px solid rgba(255, 255, 255, 0.1)', color: 'var(--amber-warn)' }}>
                       {newThresholdInput}
                     </div>
                   </div>
@@ -619,7 +671,7 @@ export default function ConfidentialSupplyChainApp() {
                   <button 
                     onClick={runUpdateThreshold}
                     disabled={isUpdatingThreshold}
-                    className="btn-crimson"
+                    className="btn-white"
                     style={{ fontSize: 15 }}
                   >
                     {isUpdatingThreshold ? 'Updating On-Chain Threshold...' : 'Update On-Chain Threshold'}
@@ -641,10 +693,10 @@ export default function ConfidentialSupplyChainApp() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
               
               <div>
-                <h1 style={{ fontSize: 36, fontWeight: 800, color: '#ffffff', marginBottom: 12, letterSpacing: '-0.03em' }}>
+                <h1 style={{ fontSize: 44, fontWeight: 800, color: '#ffffff', marginBottom: 12, letterSpacing: '-0.03em' }}>
                   Public Observer Ledger
                 </h1>
-                <p style={{ fontSize: 15, color: 'var(--text-muted)', maxWidth: 750, lineHeight: 1.6 }}>
+                <p style={{ fontSize: 16, color: 'var(--text-muted)', maxWidth: 750, lineHeight: 1.6 }}>
                   Live overview for confidential credential verification on Midnight Network.
                 </p>
               </div>
@@ -652,26 +704,26 @@ export default function ConfidentialSupplyChainApp() {
               {/* 4 Stat Cards */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 18 }}>
                 <div className="cipher-card">
-                  <div style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 6 }}>Total Attestations</div>
-                  <div className="font-mono-code" style={{ fontSize: 32, fontWeight: 800, color: '#f43f5e' }}>{stats.totalCertifications}</div>
+                  <div style={{ fontSize: 13, color: 'var(--text-dim)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.05em' }}>TOTAL ATTESTATIONS</div>
+                  <div className="font-mono-code" style={{ fontSize: 36, fontWeight: 800, color: '#ffffff' }}>{stats.totalCertifications}</div>
                   <div style={{ fontSize: 12, color: 'var(--text-dim)', marginTop: 4 }}>Public Ledger Counter</div>
                 </div>
 
                 <div className="cipher-card">
-                  <div style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 6 }}>Passing Attestations</div>
-                  <div className="font-mono-code" style={{ fontSize: 32, fontWeight: 800, color: 'var(--emerald-pass)' }}>{stats.passCount}</div>
+                  <div style={{ fontSize: 13, color: 'var(--text-dim)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.05em' }}>PASSING ATTESTATIONS</div>
+                  <div className="font-mono-code" style={{ fontSize: 36, fontWeight: 800, color: 'var(--emerald-pass)' }}>{stats.passCount}</div>
                   <div style={{ fontSize: 12, color: 'var(--text-dim)', marginTop: 4 }}>Pass Rate: {passRate}%</div>
                 </div>
 
                 <div className="cipher-card">
-                  <div style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 6 }}>Verified Top Tier (&gt;=90)</div>
-                  <div className="font-mono-code" style={{ fontSize: 32, fontWeight: 800, color: 'var(--purple-zk)' }}>{stats.verifiedTierCount}</div>
+                  <div style={{ fontSize: 13, color: 'var(--text-dim)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.05em' }}>VERIFIED TOP TIER</div>
+                  <div className="font-mono-code" style={{ fontSize: 36, fontWeight: 800, color: 'var(--purple-zk)' }}>{stats.verifiedTierCount}</div>
                   <div style={{ fontSize: 12, color: 'var(--text-dim)', marginTop: 4 }}>Enterprise Gold Tier</div>
                 </div>
 
                 <div className="cipher-card">
-                  <div style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 6 }}>Registered Suppliers</div>
-                  <div className="font-mono-code" style={{ fontSize: 32, fontWeight: 800, color: 'var(--amber-warn)' }}>{stats.supplierCount}</div>
+                  <div style={{ fontSize: 13, color: 'var(--text-dim)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.05em' }}>REGISTERED SUPPLIERS</div>
+                  <div className="font-mono-code" style={{ fontSize: 36, fontWeight: 800, color: 'var(--amber-warn)' }}>{stats.supplierCount}</div>
                   <div style={{ fontSize: 12, color: 'var(--text-dim)', marginTop: 4 }}>Confidential Identities</div>
                 </div>
               </div>
@@ -685,7 +737,7 @@ export default function ConfidentialSupplyChainApp() {
                 <div style={{ overflowX: 'auto' }}>
                   <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13, textAlign: 'left' }}>
                     <thead>
-                      <tr style={{ borderBottom: '1px solid #2d1c36', color: 'var(--text-dim)' }}>
+                      <tr style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)', color: 'var(--text-dim)' }}>
                         <th style={{ padding: 12 }}>Data Point</th>
                         <th style={{ padding: 12 }}>Storage Layer</th>
                         <th style={{ padding: 12 }}>Disclosed To</th>
@@ -693,19 +745,19 @@ export default function ConfidentialSupplyChainApp() {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr style={{ borderBottom: '1px solid #2d1c36' }}>
+                      <tr style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
                         <td className="font-mono-code" style={{ padding: 12, fontWeight: 700, color: '#f43f5e' }}>totalCertifications</td>
                         <td style={{ padding: 12 }}>Public Ledger</td>
                         <td style={{ padding: 12 }}>Everyone</td>
                         <td style={{ padding: 12, color: 'var(--text-muted)' }}>Macro compliance tracking</td>
                       </tr>
-                      <tr style={{ borderBottom: '1px solid #2d1c36' }}>
+                      <tr style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
                         <td className="font-mono-code" style={{ padding: 12, fontWeight: 700, color: 'var(--emerald-pass)' }}>passCount</td>
                         <td style={{ padding: 12 }}>Public Ledger</td>
                         <td style={{ padding: 12 }}>Everyone</td>
                         <td style={{ padding: 12, color: 'var(--text-muted)' }}>Aggregate pass rate metric</td>
                       </tr>
-                      <tr style={{ borderBottom: '1px solid #2d1c36' }}>
+                      <tr style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
                         <td className="font-mono-code" style={{ padding: 12, fontWeight: 700, color: 'var(--purple-zk)' }}>privateAuditScore</td>
                         <td style={{ padding: 12, color: 'var(--purple-zk)', fontWeight: 600 }}>Private Witness</td>
                         <td style={{ padding: 12, color: 'var(--rose-fail)', fontWeight: 700 }}>NO ONE (HIDDEN)</td>
@@ -728,7 +780,7 @@ export default function ConfidentialSupplyChainApp() {
         </main>
 
         {/* Footer */}
-        <footer style={{ borderTop: '1px solid #2d1c36', padding: '24px 32px', textAlign: 'center', fontSize: 13, color: 'var(--text-dim)', marginTop: 'auto' }}>
+        <footer style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)', padding: '24px 36px', textAlign: 'center', fontSize: 13, color: 'var(--text-dim)', marginTop: 'auto' }}>
           CipherChain Platform • Powered by <span style={{ color: '#f43f5e', fontWeight: 600 }}>Midnight Network Compact ZK Circuits</span>
         </footer>
 
@@ -757,7 +809,7 @@ export default function ConfidentialSupplyChainApp() {
               Verified on Midnight Preview Testnet
             </p>
 
-            <div style={{ background: '#0c080e', border: '1px solid #2d1c36', borderRadius: 10, padding: 16, textAlign: 'left', marginBottom: 20, fontSize: 13 }}>
+            <div style={{ background: '#060407', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: 10, padding: 16, textAlign: 'left', marginBottom: 20, fontSize: 13 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
                 <span style={{ color: 'var(--text-dim)' }}>Status:</span>
                 <span style={{ color: 'var(--emerald-pass)', fontWeight: 700 }}>PASSED (Threshold &gt;= {stats.complianceThreshold})</span>
@@ -770,7 +822,7 @@ export default function ConfidentialSupplyChainApp() {
                 <span style={{ color: 'var(--text-dim)' }}>Standard:</span>
                 <span style={{ color: '#ffffff', fontWeight: 600 }}>{selectedPreset.name}</span>
               </div>
-              <div style={{ borderTop: '1px solid #2d1c36', paddingTop: 8, marginTop: 8 }}>
+              <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)', paddingTop: 8, marginTop: 8 }}>
                 <span style={{ color: 'var(--text-dim)', display: 'block', marginBottom: 4 }}>Proof Hash Commitment:</span>
                 <span className="font-mono-code" style={{ fontSize: 11, color: '#f43f5e', wordBreak: 'break-all' }}>{lastCertHash}</span>
               </div>
@@ -779,8 +831,8 @@ export default function ConfidentialSupplyChainApp() {
             <div style={{ display: 'flex', gap: 12 }}>
               <button 
                 onClick={downloadCertJson}
-                className="btn-crimson"
-                style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
+                className="btn-white"
+                style={{ flex: 1, justifyContent: 'center', padding: '12px' }}
               >
                 <Download size={16} /> Download (.json)
               </button>

@@ -1,17 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 :root {
-  --bg-main: #0c080e;
-  --bg-sidebar: #140b17;
-  --bg-card: #1c1122;
-  --bg-card-hover: #26172e;
+  --bg-main: #060407;
+  --bg-sidebar: #10050a;
+  --bg-card: #14070d;
+  --bg-card-hover: #1c0a13;
   
-  --border-subtle: #2d1c36;
-  --border-accent: #e11d48;
+  --border-subtle: rgba(255, 255, 255, 0.1);
+  --border-hover: rgba(255, 255, 255, 0.2);
   
   --crimson-primary: #e11d48;
   --crimson-hover: #f43f5e;
-  --crimson-soft: rgba(225, 29, 72, 0.12);
   
   --cyan-bright: #38bdf8;
   --purple-zk: #c084fc;
@@ -20,8 +19,8 @@
   --rose-fail: #f87171;
   
   --text-main: #ffffff;
-  --text-muted: #94a3b8;
-  --text-dim: #64748b;
+  --text-muted: #d1d5db;
+  --text-dim: #9ca3af;
 }
 
 * {
@@ -31,7 +30,12 @@
 }
 
 body {
-  background-color: #0c080e;
+  background-color: #060407;
+  background-image: 
+    radial-gradient(circle at 85% 25%, #3b0d1e 0%, #1a060d 45%, #060407 100%),
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 100% 100%, 40px 40px, 40px 40px;
   color: #ffffff;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   min-height: 100vh;
@@ -43,7 +47,7 @@ body {
   font-family: 'JetBrains Mono', monospace;
 }
 
-/* CipherID Left Sidebar Layout */
+/* CipherID Layout */
 .app-layout {
   display: flex;
   min-height: 100vh;
@@ -51,8 +55,9 @@ body {
 
 .sidebar {
   width: 260px;
-  background: #140b17;
-  border-right: 1px solid #2d1c36;
+  background: rgba(16, 5, 10, 0.85);
+  backdrop-filter: blur(16px);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   flex-direction: column;
   padding: 24px 16px;
@@ -72,7 +77,7 @@ body {
   border-radius: 10px;
   font-size: 14px;
   font-weight: 600;
-  color: #94a3b8;
+  color: #9ca3af;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -83,7 +88,7 @@ body {
 }
 
 .sidebar-nav-item:hover {
-  background: rgba(225, 29, 72, 0.08);
+  background: rgba(255, 255, 255, 0.06);
   color: #ffffff;
 }
 
@@ -101,22 +106,61 @@ body {
   min-height: 100vh;
 }
 
-/* CipherID Matte Flat Cards */
+/* CipherID Matte Wine-Red Cards */
 .cipher-card {
-  background: #1c1122;
-  border: 1px solid #2d1c36;
+  background: rgba(20, 7, 13, 0.75);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 14px;
   padding: 24px;
-  box-shadow: none;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   transition: border-color 0.2s ease, background 0.2s ease;
 }
 
 .cipher-card:hover {
-  border-color: #442a52;
-  background: #23162b;
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(28, 10, 19, 0.85);
 }
 
-/* Buttons */
+/* Solid White Pill Buttons (CipherID Style) */
+.btn-white {
+  background: #ffffff;
+  color: #000000;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 24px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.btn-white:hover {
+  background: #f3f4f6;
+  transform: translateY(-1px);
+}
+
+.btn-dark-outline {
+  background: rgba(20, 7, 13, 0.8);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 12px 24px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.btn-dark-outline:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
 .btn-crimson {
   background: #e11d48;
   color: #ffffff;
@@ -126,7 +170,6 @@ body {
   padding: 12px 24px;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: none;
 }
 
 .btn-crimson:hover {
@@ -134,26 +177,10 @@ body {
   transform: translateY(-1px);
 }
 
-.btn-cyan {
-  background: #38bdf8;
-  color: #0c080e;
-  font-weight: 700;
-  border: none;
-  border-radius: 10px;
-  padding: 12px 24px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.btn-cyan:hover {
-  background: #7dd3fc;
-  transform: translateY(-1px);
-}
-
 .btn-ghost {
   background: rgba(255, 255, 255, 0.04);
   color: #ffffff;
-  border: 1px solid #2d1c36;
+  border: 1px solid rgba(255, 255, 255, 0.12);
   font-weight: 600;
   border-radius: 10px;
   padding: 8px 16px;
@@ -163,24 +190,7 @@ body {
 
 .btn-ghost:hover {
   background: rgba(255, 255, 255, 0.08);
-  border-color: #442a52;
-}
-
-/* Action Links with Arrow (CipherID Style) */
-.action-link {
-  color: #f43f5e;
-  font-size: 13px;
-  font-weight: 700;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  cursor: pointer;
-  transition: color 0.2s ease;
-}
-
-.action-link:hover {
-  color: #fb7185;
+  border-color: rgba(255, 255, 255, 0.25);
 }
 
 /* Badges */
@@ -236,8 +246,8 @@ body {
 
 /* Terminal Log Console */
 .terminal-console {
-  background: #060408;
-  border: 1px solid #2d1c36;
+  background: #060205;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   padding: 14px 18px;
   font-family: 'JetBrains Mono', monospace;
@@ -248,13 +258,26 @@ body {
   line-height: 1.6;
 }
 
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #060407;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+}
+
 /* Responsive Sidebar */
 @media (max-width: 900px) {
   .sidebar {
     position: relative;
     width: 100%;
     border-right: none;
-    border-bottom: 1px solid #2d1c36;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
   .main-content {
     margin-left: 0;
