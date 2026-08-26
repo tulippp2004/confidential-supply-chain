@@ -1,21 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 :root {
-  --bg-matte-dark: #05070e;
-  --bg-card: #0d121d;
-  --bg-card-hover: #131926;
+  --bg-matte-dark: #07090e;
+  --bg-card: #0e131d;
+  --bg-card-hover: #141b29;
   
   --border-subtle: #1e293b;
-  --border-cyan-glow: #0284c7;
-  --border-purple-glow: #7e22ce;
-  --border-amber-glow: #d97706;
+  --border-cyan-glow: #38bdf8;
+  --border-purple-glow: #c084fc;
+  --border-amber-glow: #fbbf24;
   
   --cyan-bright: #38bdf8;
-  --cyan-glow: rgba(56, 189, 248, 0.15);
   --purple-zk: #c084fc;
-  --purple-glow: rgba(192, 132, 252, 0.15);
   --emerald-pass: #10b981;
-  --emerald-glow: rgba(16, 185, 129, 0.15);
   --amber-warn: #fbbf24;
   --rose-fail: #f87171;
   
@@ -31,7 +28,7 @@
 }
 
 body {
-  background-color: #05070e;
+  background-color: #07090e;
   color: var(--text-main);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   min-height: 100vh;
@@ -43,12 +40,13 @@ body {
   font-family: 'JetBrains Mono', monospace;
 }
 
-/* Matte Flat Charcoal Cards */
+/* Matte Flat Charcoal Cards - NO BLUE GLOW SHADOWS */
 .matte-card {
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: 12px;
   padding: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
   transition: all 0.2s ease-in-out;
 }
 
@@ -58,73 +56,67 @@ body {
 }
 
 .matte-card-cyan {
-  border: 1px solid var(--border-cyan-glow);
-  box-shadow: 0 0 20px var(--cyan-glow);
+  border: 1px solid var(--border-subtle);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
 .matte-card-purple {
-  border: 1px solid var(--border-purple-glow);
-  box-shadow: 0 0 20px var(--purple-glow);
+  border: 1px solid var(--border-subtle);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
 .matte-card-amber {
-  border: 1px solid var(--border-amber-glow);
-  box-shadow: 0 0 20px rgba(245, 158, 11, 0.15);
+  border: 1px solid var(--border-subtle);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
-/* Crisp Action Buttons */
+/* Crisp Solid Action Buttons */
 .btn-cyan {
   background: #38bdf8;
-  color: #05070e;
+  color: #07090e;
   font-weight: 700;
   border: none;
   border-radius: 10px;
   padding: 12px 24px;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
 }
 
 .btn-cyan:hover {
   background: #7dd3fc;
-  transform: translateY(-2px);
-  box-shadow: 0 0 25px rgba(56, 189, 248, 0.4);
+  transform: translateY(-1px);
 }
 
 .btn-purple {
   background: #c084fc;
-  color: #05070e;
+  color: #07090e;
   font-weight: 700;
   border: none;
   border-radius: 10px;
   padding: 12px 24px;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 0 15px rgba(192, 132, 252, 0.2);
 }
 
 .btn-purple:hover {
   background: #e9d5ff;
-  transform: translateY(-2px);
-  box-shadow: 0 0 25px rgba(192, 132, 252, 0.4);
+  transform: translateY(-1px);
 }
 
 .btn-amber {
   background: #fbbf24;
-  color: #05070e;
+  color: #07090e;
   font-weight: 700;
   border: none;
   border-radius: 10px;
   padding: 12px 24px;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 0 15px rgba(251, 191, 36, 0.2);
 }
 
 .btn-amber:hover {
   background: #fde047;
-  transform: translateY(-2px);
-  box-shadow: 0 0 25px rgba(251, 191, 36, 0.4);
+  transform: translateY(-1px);
 }
 
 .btn-ghost {
@@ -186,7 +178,7 @@ body {
 
 /* Terminal Log Console */
 .terminal-console {
-  background: #020408;
+  background: #030509;
   border: 1px solid #1e293b;
   border-radius: 10px;
   padding: 14px 18px;
@@ -204,7 +196,7 @@ body {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #05070e;
+  background: #07090e;
 }
 ::-webkit-scrollbar-thumb {
   background: #1e293b;
