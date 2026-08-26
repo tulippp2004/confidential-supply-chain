@@ -1,15 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 :root {
-  --bg-matte-dark: #07090e;
-  --bg-card: #0e131d;
-  --bg-card-hover: #141b29;
+  --bg-matte-dark: #05070c;
+  --bg-card: #0c1019;
+  --bg-card-hover: #121824;
   
-  --border-subtle: #1e293b;
-  --border-cyan-glow: #38bdf8;
-  --border-purple-glow: #c084fc;
-  --border-amber-glow: #fbbf24;
-  
+  --border-subtle: #1c2536;
   --cyan-bright: #38bdf8;
   --purple-zk: #c084fc;
   --emerald-pass: #10b981;
@@ -28,7 +24,7 @@
 }
 
 body {
-  background-color: #07090e;
+  background-color: #05070c;
   color: var(--text-main);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   min-height: 100vh;
@@ -40,40 +36,25 @@ body {
   font-family: 'JetBrains Mono', monospace;
 }
 
-/* Matte Flat Charcoal Cards - NO BLUE GLOW SHADOWS */
+/* Pure Flat Charcoal Cards - Zero Glow */
 .matte-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
+  background: #0c1019;
+  border: 1px solid #1c2536;
   border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-  transition: all 0.2s ease-in-out;
+  box-shadow: none;
+  transition: border-color 0.2s ease, background 0.2s ease;
 }
 
 .matte-card:hover {
-  border-color: rgba(255, 255, 255, 0.2);
-  background: var(--bg-card-hover);
-}
-
-.matte-card-cyan {
-  border: 1px solid var(--border-subtle);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-}
-
-.matte-card-purple {
-  border: 1px solid var(--border-subtle);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-}
-
-.matte-card-amber {
-  border: 1px solid var(--border-subtle);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  border-color: #2e3d54;
+  background: #121824;
 }
 
 /* Crisp Solid Action Buttons */
 .btn-cyan {
   background: #38bdf8;
-  color: #07090e;
+  color: #05070c;
   font-weight: 700;
   border: none;
   border-radius: 10px;
@@ -89,7 +70,7 @@ body {
 
 .btn-purple {
   background: #c084fc;
-  color: #07090e;
+  color: #05070c;
   font-weight: 700;
   border: none;
   border-radius: 10px;
@@ -105,7 +86,7 @@ body {
 
 .btn-amber {
   background: #fbbf24;
-  color: #07090e;
+  color: #05070c;
   font-weight: 700;
   border: none;
   border-radius: 10px;
@@ -122,7 +103,7 @@ body {
 .btn-ghost {
   background: rgba(255, 255, 255, 0.04);
   color: var(--text-main);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid #1c2536;
   font-weight: 600;
   border-radius: 10px;
   padding: 8px 16px;
@@ -132,7 +113,7 @@ body {
 
 .btn-ghost:hover {
   background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.25);
+  border-color: #2e3d54;
 }
 
 /* Badges */
@@ -178,8 +159,8 @@ body {
 
 /* Terminal Log Console */
 .terminal-console {
-  background: #030509;
-  border: 1px solid #1e293b;
+  background: #020408;
+  border: 1px solid #1c2536;
   border-radius: 10px;
   padding: 14px 18px;
   font-family: 'JetBrains Mono', monospace;
@@ -196,9 +177,9 @@ body {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #07090e;
+  background: #05070c;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: #1c2536;
   border-radius: 3px;
 }

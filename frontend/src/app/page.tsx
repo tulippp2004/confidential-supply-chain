@@ -350,7 +350,7 @@ export default function ConfidentialSupplyChainApp() {
 
         {/* Lace Wallet Connection Prompt Banner */}
         {!walletConnected && (
-          <div className="matte-card matte-card-cyan" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16, marginBottom: 28, padding: 20 }}>
+          <div className="matte-card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16, marginBottom: 28, padding: 20 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
               <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(56, 189, 248, 0.15)', border: '1px solid var(--cyan-bright)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Cpu size={22} color="var(--cyan-bright)" />
@@ -377,7 +377,7 @@ export default function ConfidentialSupplyChainApp() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
             
             {/* Header Info Panel */}
-            <div className="matte-card matte-card-cyan">
+            <div className="matte-card">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 20 }}>
                 <div>
                   <h2 style={{ fontSize: 22, fontWeight: 800, color: '#ffffff', marginBottom: 8, letterSpacing: '-0.01em' }}>
@@ -522,7 +522,7 @@ export default function ConfidentialSupplyChainApp() {
             </div>
 
             {/* 4-Stage Animated ZK Proving Pipeline */}
-            <div className="matte-card matte-card-purple">
+            <div className="matte-card">
               <div style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--text-dim)', marginBottom: 18, fontWeight: 700 }}>
                 Compact ZK Circuit Execution Pipeline
               </div>
@@ -575,7 +575,7 @@ export default function ConfidentialSupplyChainApp() {
         {activeTab === 'supplier' && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
             
-            <div className="matte-card matte-card-purple">
+            <div className="matte-card">
               <h2 style={{ fontSize: 22, fontWeight: 800, color: '#ffffff', marginBottom: 8 }}>
                 Confidential Supplier Credential Vault
               </h2>
@@ -622,7 +622,7 @@ export default function ConfidentialSupplyChainApp() {
         {activeTab === 'governance' && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
             
-            <div className="matte-card matte-card-amber">
+            <div className="matte-card">
               <h2 style={{ fontSize: 22, fontWeight: 800, color: '#ffffff', marginBottom: 8 }}>
                 On-Chain Governance Controls
               </h2>
