@@ -28,9 +28,18 @@ const PRESETS = [
 export default function ConfidentialSupplyChainApp() {
   const [activeTab, setActiveTab] = useState<'auditor' | 'supplier' | 'governance' | 'observer'>('auditor');
   
-  const [walletConnected, setWalletConnected] = useState(true);
+  const [walletConnected, setWalletConnected] = useState(false);
+  const [isConnectingWallet, setIsConnectingWallet] = useState(false);
   const [walletAddress] = useState('mn_addr_preview1q8c3h7j9k2l4m5n6p7r8s9t0u1v2w3x4y5z6a7b8c9d0e1f2g3h4j5k6l7m8n9p');
   const [walletBalance] = useState('245.50');
+
+  const handleConnectLaceWallet = () => {
+    setIsConnectingWallet(true);
+    setTimeout(() => {
+      setIsConnectingWallet(false);
+      setWalletConnected(true);
+    }, 1000);
+  };
 
   const [selectedPreset, setSelectedPreset] = useState(PRESETS[0]);
   const [auditScore, setAuditScore] = useState<number>(88);
@@ -160,16 +169,29 @@ export default function ConfidentialSupplyChainApp() {
               {copiedContract && <span style={{ fontSize: 10, color: 'var(--emerald-pass)', fontWeight: 700 }}>COPIED!</span>}
             </div>
 
-            <button 
-              onClick={() => setWalletConnected(!walletConnected)}
-              className="btn-ghost"
-              style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 14px' }}
-            >
-              <Cpu size={15} color="var(--cyan-bright)" />
-              <span className="font-mono-code" style={{ fontSize: 12 }}>
-                {walletAddress.substring(0, 10)}... <span style={{ color: 'var(--cyan-bright)', marginLeft: 4, fontWeight: 700 }}>({walletBalance} tNIGHT)</span>
-              </span>
-            </button>
+            {!walletConnected ? (
+              <button 
+                onClick={handleConnectLaceWallet}
+                disabled={isConnectingWallet}
+                className="btn-cyan"
+                style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 18px', fontSize: 13 }}
+              >
+                <Cpu size={16} />
+                {isConnectingWallet ? 'Connecting to Lace Wallet...' : 'Connect Lace Wallet'}
+              </button>
+            ) : (
+              <button 
+                onClick={() => setWalletConnected(false)}
+                className="btn-ghost"
+                style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 14px', borderColor: 'rgba(56, 189, 248, 0.4)' }}
+                title="Click to disconnect"
+              >
+                <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--emerald-pass)' }}></span>
+                <span className="font-mono-code" style={{ fontSize: 12 }}>
+                  {walletAddress.substring(0, 10)}... <span style={{ color: 'var(--cyan-bright)', marginLeft: 4, fontWeight: 700 }}>({walletBalance} tNIGHT)</span>
+                </span>
+              </button>
+            )}
           </div>
 
         </div>
