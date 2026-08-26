@@ -199,7 +199,7 @@ export default function ConfidentialSupplyChainApp() {
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       
       {/* ─── Header ────────────────────────────────────────────────────────── */}
-      <header style={{ borderBottom: '1px solid var(--border-subtle)', background: 'rgba(13, 17, 26, 0.85)', backdropFilter: 'blur(16px)', padding: '16px 28px', position: 'sticky', top: 0, zIndex: 100 }}>
+      <header style={{ borderBottom: '1px solid var(--border-subtle)', background: '#0d121d', backdropFilter: 'blur(16px)', padding: '16px 28px', position: 'sticky', top: 0, zIndex: 100 }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
           
           {/* Logo & Brand */}
@@ -267,7 +267,7 @@ export default function ConfidentialSupplyChainApp() {
       </header>
 
       {/* ─── 4 WORKSPACE NAV SWITCHER ─────────────────────────────────────── */}
-      <div style={{ borderBottom: '1px solid var(--border-subtle)', background: '#080b11', padding: '12px 28px' }}>
+      <div style={{ borderBottom: '1px solid var(--border-subtle)', background: '#05070e', padding: '12px 28px' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, flexWrap: 'wrap' }}>
           
           <button 

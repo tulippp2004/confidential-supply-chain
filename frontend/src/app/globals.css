@@ -1,26 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 :root {
-  --bg-matte-dark: #080b11;
-  --bg-matte-surface: #0d111a;
-  --bg-card: #111827;
-  --bg-card-hover: #1f2937;
+  --bg-matte-dark: #05070e;
+  --bg-card: #0d121d;
+  --bg-card-hover: #131926;
   
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-cyan-glow: rgba(56, 189, 248, 0.35);
-  --border-purple-glow: rgba(168, 85, 247, 0.35);
-  --border-amber-glow: rgba(245, 158, 11, 0.35);
+  --border-subtle: #1e293b;
+  --border-cyan-glow: #0284c7;
+  --border-purple-glow: #7e22ce;
+  --border-amber-glow: #d97706;
   
   --cyan-bright: #38bdf8;
-  --cyan-glow: rgba(56, 189, 248, 0.2);
-  --purple-zk: #a855f7;
-  --purple-glow: rgba(168, 85, 247, 0.2);
+  --cyan-glow: rgba(56, 189, 248, 0.15);
+  --purple-zk: #c084fc;
+  --purple-glow: rgba(192, 132, 252, 0.15);
   --emerald-pass: #10b981;
-  --emerald-glow: rgba(16, 185, 129, 0.2);
-  --amber-warn: #f59e0b;
-  --rose-fail: #ef4444;
+  --emerald-glow: rgba(16, 185, 129, 0.15);
+  --amber-warn: #fbbf24;
+  --rose-fail: #f87171;
   
-  --text-main: #f8fafc;
+  --text-main: #ffffff;
   --text-muted: #94a3b8;
   --text-dim: #64748b;
 }
@@ -32,8 +31,7 @@
 }
 
 body {
-  background-color: var(--bg-matte-dark);
-  background-image: radial-gradient(circle at 50% 0%, #0f172a 0%, #080b11 75%, #030712 100%);
+  background-color: #05070e;
   color: var(--text-main);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   min-height: 100vh;
@@ -45,7 +43,7 @@ body {
   font-family: 'JetBrains Mono', monospace;
 }
 
-/* Matte Charcoal Cards */
+/* Matte Flat Charcoal Cards */
 .matte-card {
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
@@ -55,7 +53,8 @@ body {
 }
 
 .matte-card:hover {
-  border-color: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.2);
+  background: var(--bg-card-hover);
 }
 
 .matte-card-cyan {
@@ -73,56 +72,59 @@ body {
   box-shadow: 0 0 20px rgba(245, 158, 11, 0.15);
 }
 
-/* Action Buttons */
+/* Crisp Action Buttons */
 .btn-cyan {
-  background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
-  color: #080b11;
+  background: #38bdf8;
+  color: #05070e;
   font-weight: 700;
   border: none;
   border-radius: 10px;
   padding: 12px 24px;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 0 20px rgba(56, 189, 248, 0.25);
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
 }
 
 .btn-cyan:hover {
+  background: #7dd3fc;
   transform: translateY(-2px);
-  box-shadow: 0 0 28px rgba(56, 189, 248, 0.45);
+  box-shadow: 0 0 25px rgba(56, 189, 248, 0.4);
 }
 
 .btn-purple {
-  background: linear-gradient(135deg, #c084fc 0%, #9333ea 100%);
-  color: #ffffff;
+  background: #c084fc;
+  color: #05070e;
   font-weight: 700;
   border: none;
   border-radius: 10px;
   padding: 12px 24px;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 0 20px rgba(168, 85, 247, 0.25);
+  box-shadow: 0 0 15px rgba(192, 132, 252, 0.2);
 }
 
 .btn-purple:hover {
+  background: #e9d5ff;
   transform: translateY(-2px);
-  box-shadow: 0 0 28px rgba(168, 85, 247, 0.45);
+  box-shadow: 0 0 25px rgba(192, 132, 252, 0.4);
 }
 
 .btn-amber {
-  background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
-  color: #080b11;
+  background: #fbbf24;
+  color: #05070e;
   font-weight: 700;
   border: none;
   border-radius: 10px;
   padding: 12px 24px;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 0 20px rgba(245, 158, 11, 0.25);
+  box-shadow: 0 0 15px rgba(251, 191, 36, 0.2);
 }
 
 .btn-amber:hover {
+  background: #fde047;
   transform: translateY(-2px);
-  box-shadow: 0 0 28px rgba(245, 158, 11, 0.45);
+  box-shadow: 0 0 25px rgba(251, 191, 36, 0.4);
 }
 
 .btn-ghost {
@@ -138,7 +140,7 @@ body {
 
 .btn-ghost:hover {
   background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.25);
 }
 
 /* Badges */
@@ -153,9 +155,9 @@ body {
 }
 
 .badge-purple {
-  background: rgba(168, 85, 247, 0.12);
+  background: rgba(192, 132, 252, 0.12);
   color: var(--purple-zk);
-  border: 1px solid rgba(168, 85, 247, 0.3);
+  border: 1px solid rgba(192, 132, 252, 0.3);
   padding: 4px 12px;
   border-radius: 20px;
   font-size: 12px;
@@ -184,8 +186,8 @@ body {
 
 /* Terminal Log Console */
 .terminal-console {
-  background: #030712;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #020408;
+  border: 1px solid #1e293b;
   border-radius: 10px;
   padding: 14px 18px;
   font-family: 'JetBrains Mono', monospace;
@@ -202,9 +204,9 @@ body {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg-matte-dark);
+  background: #05070e;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
+  background: #1e293b;
   border-radius: 3px;
 }
