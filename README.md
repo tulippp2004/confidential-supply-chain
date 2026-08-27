@@ -17,7 +17,7 @@ A production-grade full-stack Midnight dApp enabling manufacturers, auditors, an
 ## 🚀 Live Demo & Quick Links
 
 - 🌐 **Live Web Application (Vercel)**: **[confidential-supply-chain.vercel.app](https://confidential-supply-chain.vercel.app)**
-- 🎥 **YouTube Video Demo**: **[Watch Project Demo on YouTube](https://youtu.be/X7WaalKypP0)**
+- 🎥 **YouTube Video Demo**: **[Watch Project Demo on YouTube](https://youtu.be/Wxxk9Twhajo?feature=shared)**
 - 📄 **Level 3 Product Proposal**: **[Read PROPOSAL.md](./PROPOSAL.md)**
 - 🐙 **GitHub Repository**: **[github.com/tulippp2004/confidential-supply-chain](https://github.com/tulippp2004/confidential-supply-chain)**
 - 📍 **Preview Testnet Deployed Contract Address**: `0x8f2d6c1b4a3e567890abcdef1234567890abcdef1234567890abcdef12345678`
@@ -434,7 +434,7 @@ GitHub: [https://github.com/tulippp2004/confidential-supply-chain](https://githu
 ## 🎬 Video Demo & Screenshots
 
 ### Video Demonstration
-> 🎥 **YouTube Demo Link**: [Watch 1-Minute Project Demo on YouTube](https://youtu.be/X7WaalKypP0)
+> 🎥 **YouTube Demo Link**: [Watch 1-Minute Project Demo on YouTube](https://youtu.be/Wxxk9Twhajo?feature=shared)
 
 ---
 
